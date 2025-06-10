@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "ob-sync-with-mdb",
+	"name": "Sync with MDB",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "Sync with MDB",
+	"author": "Johnny",
+	"authorUrl": "https://github.com/johnny-dev",
+	"fundingUrl": "https://github.com/sponsors/johnny-dev",
 	"isDesktopOnly": false
 }
