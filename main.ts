@@ -26,6 +26,11 @@ interface OBSyncWithMDBSettings {
 	updateTables: NocoDBTable[];
 	templaterScriptsFolder: string;
 	demoFolder: string;
+  userAPIKey: string;
+  userBaseID: string;
+  userTableID: string;
+  userSyncScriptsFolder: string;
+  userViewID: string;
 }
 
 const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
@@ -35,6 +40,11 @@ const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 	updateTables: [],
 	templaterScriptsFolder: "",
 	demoFolder: "",
+  userAPIKey: "",
+  userBaseID: "",
+  userTableID: "",
+  userViewID: "",
+  userSyncScriptsFolder: "",
 }
 
 export default class OBSyncWithMDB extends Plugin {
@@ -50,14 +60,20 @@ export default class OBSyncWithMDB extends Plugin {
 			id: string,
 			name: string,
 			tableConfig: { viewID: string; targetFolderPath: string; baseID?: string; tableID?: string },
-			reloadOB: boolean = false
+      iotoUpdate: boolean = false,
+			reloadOB: boolean = false,
+      apiKey: string = this.settings.updateAPIKey
 		) => {
 			this.addCommand({
 				id,
 				name,
 				callback: async () => {
+          if(!apiKey) {
+            new Notice("你必须提供一个API Key才能运行此命令");
+            return;
+          }
 					const nocoDBSettings = {
-						apiKey: this.settings.updateAPIKey,
+						apiKey: apiKey,
 						defaultBaseID: this.settings.updateBaseID,
 						defaultTableID: this.settings.updateTableID,
 						tables: [tableConfig]
@@ -65,7 +81,7 @@ export default class OBSyncWithMDB extends Plugin {
 					const myNocoDB = new MyNocoDB(nocoDBSettings);
 					const nocoDBSync = new NocoDBSync(myNocoDB, this.app);
 					const myObsidian = new MyObsidian(this.app, nocoDBSync);
-					await myObsidian.onlyFetchFromNocoDB(nocoDBSettings.tables[0]);
+					await myObsidian.onlyFetchFromNocoDB(nocoDBSettings.tables[0], iotoUpdate);
 					if(reloadOB){
 						this.app.commands.executeCommandById("app:reload");
 					}
@@ -79,7 +95,8 @@ export default class OBSyncWithMDB extends Plugin {
 			{
 				viewID: "viwNvo7C3f8dkeBTh",
 				targetFolderPath: this.settings.templaterScriptsFolder
-			}
+			},
+      true
 		);
 
 		createNocoDBCommand(
@@ -91,6 +108,20 @@ export default class OBSyncWithMDB extends Plugin {
 				viewID: "viwHmwOykcXBZq175",
 				targetFolderPath: this.settings.demoFolder
 			}
+		);
+
+
+    createNocoDBCommand(
+			'ob-sync-with-mdb-update-user-sync-scripts',
+			'Update User Sync Scripts',
+			{
+				baseID: this.settings.userBaseID,
+				tableID: this.settings.userTableID,
+				viewID: this.settings.userViewID,
+				targetFolderPath: this.settings.userSyncScriptsFolder
+			},
+      false,false,
+      this.settings.userAPIKey
 		);
 
 
@@ -125,6 +156,11 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
+    containerEl.createEl("h2", {
+      text: "Main Setting",
+      cls: "my-plugin-title" // 添加自定义CSS类
+    });
+
 		new Setting(containerEl)
 			.setName('Update API Key')
 			.setDesc('Please enter your update API Key')
@@ -157,6 +193,67 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					this.plugin.settings.demoFolder = value;
 					await this.plugin.saveSettings();
 				}));
+
+    containerEl.createEl("h2", {
+      text: "User Setting",
+      cls: "my-plugin-title" // 添加自定义CSS类
+    });
+
+    new Setting(containerEl)
+			.setName('User API Key')
+			.setDesc('Please enter the API Key of the User')
+			.addText(text => text
+				.setPlaceholder('Enter the API Key of the User')
+				.setValue(this.plugin.settings.userAPIKey)
+				.onChange(async (value) => {
+					this.plugin.settings.userAPIKey = value;
+					await this.plugin.saveSettings();
+				}));
+          
+    new Setting(containerEl)
+			.setName('User Base ID')
+			.setDesc('Please enter the Base ID of the User')
+			.addText(text => text
+				.setPlaceholder('Enter the Base ID of the User')
+				.setValue(this.plugin.settings.userBaseID)
+				.onChange(async (value) => {
+					this.plugin.settings.userBaseID = value;
+					await this.plugin.saveSettings();
+				}));
+          
+    new Setting(containerEl)
+			.setName('User Table ID')
+			.setDesc('Please enter the Table ID of the User') 
+			.addText(text => text
+				.setPlaceholder('Enter the Table ID of the User')
+				.setValue(this.plugin.settings.userTableID)
+				.onChange(async (value) => {
+					this.plugin.settings.userTableID = value;
+					await this.plugin.saveSettings();
+				}));
+
+    new Setting(containerEl)
+			.setName('User View ID')
+			.setDesc('Please enter the View ID of the User')
+			.addText(text => text
+				.setPlaceholder('Enter the View ID of the User')
+				.setValue(this.plugin.settings.userViewID)
+				.onChange(async (value) => {
+					this.plugin.settings.userViewID = value;
+					await this.plugin.saveSettings();
+				}));
+
+    new Setting(containerEl)
+			.setName('User Sync Scripts Folder')
+			.setDesc('Please enter the path to the User Sync Scripts Folder')
+			.addText(text => text
+				.setPlaceholder('Enter the path to the User Sync Scripts Folder')
+				.setValue(this.plugin.settings.userSyncScriptsFolder)
+				.onChange(async (value) => {
+					this.plugin.settings.userSyncScriptsFolder = value;
+					await this.plugin.saveSettings();
+				}));
+
 	}
 }
 
@@ -211,25 +308,26 @@ class MyObsidian {
     this.nocoDBSyncer = nocoDBSyncer;
   }
 
-  async onlyFetchFromNocoDB(sourceTable: NocoDBTable): Promise<string | undefined> {
+  async onlyFetchFromNocoDB(sourceTable: NocoDBTable, iotoUpdate: Boolean = false): Promise<string | undefined> {
 
-    
-	const updateNotice = new Notice(
-	this.buildFragment("更新准备中，请稍后……", "#00ff00"),
-	0
-	);
-	const apiKeyValid = await this.nocoDBSyncer.checkApiKey();
-	updateNotice.hide();
-	if (!apiKeyValid) {
-	new Notice(
-		this.buildFragment(
-		"您的更新API Key已过期，请获取新的API Key。",
-		"#ff0000"
-		),
-		4000
-	);
-	return;
-	}
+    if(iotoUpdate){
+      const updateNotice = new Notice(
+        this.buildFragment("更新准备中，请稍后……", "#00ff00"),
+        0
+        );
+        const apiKeyValid = await this.nocoDBSyncer.checkApiKey();
+        updateNotice.hide();
+        if (!apiKeyValid) {
+          new Notice(
+            this.buildFragment(
+            "您的更新API Key已过期，请获取新的API Key。",
+            "#ff0000"
+            ),
+            4000
+          );
+          return;
+        }
+    }
     
     await this.nocoDBSyncer.createOrUpdateNotesInOBFromSourceTable(sourceTable);
 
