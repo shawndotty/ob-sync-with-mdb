@@ -91,7 +91,7 @@ export default class OBSyncWithMDB extends Plugin {
 
 		createNocoDBCommand(
 			'ob-sync-with-mdb-update-core',
-			t('Update Core'),
+			t('Get The Latest Version Of Sync Scripts'),
 			{
 				viewID: "viwNvo7C3f8dkeBTh",
 				targetFolderPath: this.settings.templaterScriptsFolder
@@ -101,7 +101,7 @@ export default class OBSyncWithMDB extends Plugin {
 
 		createNocoDBCommand(
 			'ob-sync-with-mdb-update-demo',
-			t("Update Demo"),
+			t("Get The Latest Version Of Demo Sync Templates"),
 			{
 				baseID: "app84J6QgVNsTUdPQ",
 				tableID: "tblEMVvufLd8cqsx4",
@@ -113,7 +113,7 @@ export default class OBSyncWithMDB extends Plugin {
 
     createNocoDBCommand(
 			'ob-sync-with-mdb-update-user-sync-scripts',
-			t("Update User Sync Scripts"),
+			t("Get Your Personal Sync Templates"),
 			{
 				baseID: this.settings.userBaseID,
 				tableID: this.settings.userTableID,
@@ -162,10 +162,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
     });
 
 		new Setting(containerEl)
-			.setName(t("Update API Key"))
-			.setDesc(t("Please enter your update API Key"))
+			.setName(t("Sync Scripts Update API Key"))
+			.setDesc(t("Please enter a valid update API Key"))
 			.addText(text => text
-				.setPlaceholder(t('Enter your update API Key'))
+				.setPlaceholder(t('Enter the API Key'))
 				.setValue(this.plugin.settings.updateAPIKey)
 				.onChange(async (value) => {
 					this.plugin.settings.updateAPIKey = value;
@@ -173,10 +173,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName(t('Templater Scripts Folder'))
+			.setName(t('Sync Scripts Folder'))
 			.setDesc(t('Please enter the path to the Templater Scripts Folder'))
 			.addText(text => text
-				.setPlaceholder(t('Enter the path to the Templater Scripts Folder'))
+				.setPlaceholder(t('Enter the full path to the Templater Scripts folder'))
 				.setValue(this.plugin.settings.templaterScriptsFolder)
 				.onChange(async (value) => {
 					this.plugin.settings.templaterScriptsFolder = value;
@@ -184,10 +184,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName(t('Demo Folder'))
-			.setDesc(t('Please enter the path to the Demo Folder'))
+			.setName(t('Demo Sync templates Folder'))
+			.setDesc(t('Please enter the path to the demo sync templates folder'))
 			.addText(text => text
-				.setPlaceholder(t('Enter the path to the Demo Folder'))
+				.setPlaceholder(t('Enter the path to the demo sync templates folder'))
 				.setValue(this.plugin.settings.demoFolder)
 				.onChange(async (value) => {	
 					this.plugin.settings.demoFolder = value;
@@ -200,10 +200,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
     });
 
     new Setting(containerEl)
-			.setName(t('User API Key'))
-			.setDesc(t('Please enter the API Key of the User'))
+			.setName(t('Your Airtable Personal Token'))
+			.setDesc(t('Please enter your personal Aritable token for your sync setting base'))
 			.addText(text => text
-				.setPlaceholder(t('Enter the API Key of the User'))
+				.setPlaceholder(t('Enter your personal Airtble token'))
 				.setValue(this.plugin.settings.userAPIKey)
 				.onChange(async (value) => {
 					this.plugin.settings.userAPIKey = value;
@@ -211,10 +211,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
           
     new Setting(containerEl)
-			.setName(t('User Base ID'))
-			.setDesc(t('Please enter the Base ID of the User'))
+			.setName(t('Your Sync Setting Base ID'))
+			.setDesc(t('Please enter the base id of your sync setting base'))
 			.addText(text => text
-				.setPlaceholder(t('Enter the Base ID of the User'))
+				.setPlaceholder(t('Enter the base id'))
 				.setValue(this.plugin.settings.userBaseID)
 				.onChange(async (value) => {
 					this.plugin.settings.userBaseID = value;
@@ -222,10 +222,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
           
     new Setting(containerEl)
-			.setName(t('User Table ID'))
-			.setDesc(t('Please enter the Table ID of the User')) 
+			.setName(t('Your Sync Setting Table ID'))
+			.setDesc(t('Please enter the table id of your sync setting table')) 
 			.addText(text => text
-				.setPlaceholder(t('Enter the Table ID of the User'))
+				.setPlaceholder(t('Enter the table id'))
 				.setValue(this.plugin.settings.userTableID)
 				.onChange(async (value) => {
 					this.plugin.settings.userTableID = value;
@@ -233,10 +233,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
 
     new Setting(containerEl)
-			.setName(t('User View ID'))
-			.setDesc(t('Please enter the View ID of the User'))
+			.setName(t('Your Sync Setting view ID'))
+			.setDesc(t('Please enter the view id of your sync setting table'))
 			.addText(text => text
-				.setPlaceholder(t('Enter the View ID of the User'))
+				.setPlaceholder(t('Enter the view id'))
 				.setValue(this.plugin.settings.userViewID)
 				.onChange(async (value) => {
 					this.plugin.settings.userViewID = value;
@@ -244,10 +244,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
 
     new Setting(containerEl)
-			.setName(t('User Sync Scripts Folder'))
-			.setDesc(t('Please enter the path to the User Sync Scripts Folder'))
+			.setName(t('Your Sync Templates Folder'))
+			.setDesc(t('Please enter the path to your sync templates folder'))
 			.addText(text => text
-				.setPlaceholder(t('Enter the path to the User Sync Scripts Folder'))
+				.setPlaceholder(t('Enter the path to your sync templates folder'))
 				.setValue(this.plugin.settings.userSyncScriptsFolder)
 				.onChange(async (value) => {
 					this.plugin.settings.userSyncScriptsFolder = value;
@@ -464,7 +464,7 @@ class NocoDBSync {
 
         const data = responseObj.json;
         records = records.concat(data.records);
-        new Notice(`已获取${records.length}条数据记录`);
+        new Notice(`${t("Got")} ${records.length} ${t("records")}`);
 
         offset = data.offset || "";
       } catch (error) {
@@ -539,7 +539,7 @@ class NocoDBSync {
     );
 
     new Notice(
-      `${t("There are")}${notesToCreateOrUpdate.length}${t("files needed to be updated or created.")}`
+      `${t("There are")} ${notesToCreateOrUpdate.length} ${t("files needed to be updated or created.")}`
     );
 
     let configDirModified = 0;
@@ -558,7 +558,7 @@ class NocoDBSync {
           await vault.create(notePath, note.MD ? note.MD : "");
         } else if (noteExists && notePath.startsWith(".")) {
           await vault.adapter.write(notePath, note.MD).catch((r: any) => {
-            new Notice(t("Failed to write file:") + r);
+            new Notice(t("Failed to write file: ") + r);
           });
           configDirModified++;
         } else {
@@ -571,7 +571,7 @@ class NocoDBSync {
       notesToCreateOrUpdate = notesToCreateOrUpdate.slice(10);
       if (notesToCreateOrUpdate.length) {
         new Notice(
-          `${t("There are")}${notesToCreateOrUpdate.length}${t("files needed to be processed.")}`
+          `${t("There are")} ${notesToCreateOrUpdate.length} ${t("files needed to be processed.")}`
         );
       } else {
         new Notice(t("All Finished."));
