@@ -40,7 +40,7 @@ export default {
     "There are": "还有",
     "files needed to be processed.": "需要处理的文件。",
     "All Finished.": "全部完成。",
-    "Your Sync Setting URL": "Your Sync Setting URL",
-    "Please enter the url of your sync setting table": "Please enter the url of your sync setting table",
-    "Enter the url": "Enter the url",
+    "Your Sync Setting URL": "你的同步设置表的Airtable连接",
+    "Please enter the url of your sync setting table": "请输入你的同步设置表的Airtable链接",
+    "Enter the url": "请输入链接",
 }
