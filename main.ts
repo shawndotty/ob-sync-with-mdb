@@ -553,7 +553,7 @@ class NocoDBSync {
       for (let note of toDealNotes) {
         let validFileName = this.convertToValidFileName(note.Title || "");
         let folderPath =
-          directoryRootPath + "/" + (note.SubFolder ? note.SubFolder : "");
+          directoryRootPath + (note.SubFolder ? `/${note.SubFolder}` : "");
         await this.createPathIfNeeded(folderPath);
         const noteExtension = "Extension" in note ? note.Extension : "md";
         const notePath = `${folderPath}/${validFileName}.${noteExtension}`;
