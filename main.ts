@@ -25,6 +25,7 @@ interface OBSyncWithMDBSettings {
 	updateTableID: string;
 	updateTables: NocoDBTable[];
 	templaterScriptsFolder: string;
+	demoFolder: string;
 }
 
 const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
@@ -33,6 +34,7 @@ const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 	updateTableID: 'tbl4GESFGwmmC3b0X',
 	updateTables: [],
 	templaterScriptsFolder: "",
+	demoFolder: "",
 }
 
 export default class OBSyncWithMDB extends Plugin {
@@ -80,7 +82,17 @@ export default class OBSyncWithMDB extends Plugin {
 			}
 		);
 
-		
+		createNocoDBCommand(
+			'ob-sync-with-mdb-update-demo',
+			'Update Demo',
+			{
+				baseID: "app84J6QgVNsTUdPQ",
+				tableID: "tblEMVvufLd8cqsx4",
+				viewID: "viwHmwOykcXBZq175",
+				targetFolderPath: this.settings.demoFolder
+			}
+		);
+
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new OBSyncWithMDBSettingTab(this.app, this));
@@ -134,6 +146,17 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					this.plugin.settings.templaterScriptsFolder = value;
 					await this.plugin.saveSettings();
 				}));
+
+		new Setting(containerEl)
+			.setName('Demo Folder')
+			.setDesc('Please enter the path to the Demo Folder')
+			.addText(text => text
+				.setPlaceholder('Enter the path to the Demo Folder')
+				.setValue(this.plugin.settings.demoFolder)
+				.onChange(async (value) => {	
+					this.plugin.settings.demoFolder = value;
+					await this.plugin.saveSettings();
+				}));
 	}
 }
 
@@ -180,15 +203,11 @@ declare function requestUrl(options: any): Promise<any>;
 class MyObsidian {
   app: any;
   vault: any;
-  activeFile: any;
-  folder: string;
   nocoDBSyncer: NocoDBSync;
 
   constructor(app: any, nocoDBSyncer: NocoDBSync) {
     this.app = app;
     this.vault = app.vault;
-    this.activeFile = app.workspace.getActiveFile();
-    this.folder = this.activeFile.parent.path;
     this.nocoDBSyncer = nocoDBSyncer;
   }
 
