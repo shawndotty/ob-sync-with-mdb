@@ -40,4 +40,7 @@ export default {
     "There are": "还有",
     "files needed to be processed.": "需要处理的文件。",
     "All Finished.": "全部完成。",
+    "Your Sync Setting URL": "Your Sync Setting URL",
+    "Please enter the url of your sync setting table": "Please enter the url of your sync setting table",
+    "Enter the url": "Enter the url",
 }

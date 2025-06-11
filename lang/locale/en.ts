@@ -40,5 +40,8 @@ export default {
     "files needed to be updated or created.": "files needed to be updated or created.",
     "Failed to write file: ": "Failed to write file: ",
     "files needed to be processed.": "files needed to be processed.",
-    "All Finished.": "All Finished."
+    "All Finished.": "All Finished.",
+    "Your Sync Setting URL": "Your Sync Setting URL",
+    "Please enter the url of your sync setting table": "Please enter the url of your sync setting table",
+    "Enter the url": "Enter the url",
 }

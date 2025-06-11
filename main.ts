@@ -26,11 +26,12 @@ interface OBSyncWithMDBSettings {
 	updateTables: NocoDBTable[];
 	templaterScriptsFolder: string;
 	demoFolder: string;
-  userAPIKey: string;
-  userBaseID: string;
-  userTableID: string;
-  userSyncScriptsFolder: string;
-  userViewID: string;
+	userAPIKey: string;
+	userSyncSettingUrl: string;
+	userBaseID: string;
+	userTableID: string;
+	userSyncScriptsFolder: string;
+	userViewID: string;
 }
 
 const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
@@ -40,38 +41,46 @@ const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 	updateTables: [],
 	templaterScriptsFolder: "",
 	demoFolder: "",
-  userAPIKey: "",
-  userBaseID: "",
-  userTableID: "",
-  userViewID: "",
-  userSyncScriptsFolder: "",
+	userAPIKey: "",
+	userSyncSettingUrl: "",
+	userBaseID: "",
+	userTableID: "",
+	userViewID: "",
+	userSyncScriptsFolder: "",
+}
+
+interface AirtableIds {
+	baseId: string;
+	tableId: string;
+	viewId: string;
 }
 
 export default class OBSyncWithMDB extends Plugin {
 	settings: OBSyncWithMDBSettings;
 	iotoFrameworkPath: string;
+	userSyncSettingAirtableIds : AirtableIds | null;
 
 	async onload() {
 		await this.loadSettings();
 		this.iotoFrameworkPath = this.app.plugins.plugins["ioto-settings"]?.settings?.IOTOFrameworkPath || "";
-
+		this.userSyncSettingAirtableIds = this.extractAirtableIds(this.settings.userSyncSettingUrl);
 		// 优化后的 addCommand 方法，减少重复代码，提升可维护性
 		const createNocoDBCommand = (
 			id: string,
 			name: string,
 			tableConfig: { viewID: string; targetFolderPath: string; baseID?: string; tableID?: string },
-      iotoUpdate: boolean = false,
+      		iotoUpdate: boolean = false,
 			reloadOB: boolean = false,
-      apiKey: string = this.settings.updateAPIKey
+      		apiKey: string = this.settings.updateAPIKey
 		) => {
 			this.addCommand({
 				id,
 				name,
 				callback: async () => {
-          if(!apiKey) {
-            new Notice(t("You must provide an API Key to run this command"));
-            return;
-          }
+					if(!apiKey) {
+						new Notice(t("You must provide an API Key to run this command"));
+						return;
+					}
 					const nocoDBSettings = {
 						apiKey: apiKey,
 						defaultBaseID: this.settings.updateBaseID,
@@ -111,18 +120,18 @@ export default class OBSyncWithMDB extends Plugin {
 		);
 
 
-    createNocoDBCommand(
+    	createNocoDBCommand(
 			'ob-sync-with-mdb-update-user-sync-scripts',
 			t("Get Your Personal Sync Templates"),
 			{
-				baseID: this.settings.userBaseID,
-				tableID: this.settings.userTableID,
-				viewID: this.settings.userViewID,
+				baseID: this.userSyncSettingAirtableIds?.baseId || "",
+				tableID: this.userSyncSettingAirtableIds?.tableId || "",
+				viewID: this.userSyncSettingAirtableIds?.viewId || "",
 				targetFolderPath: this.settings.userSyncScriptsFolder
 			},
-      false,false,
-      this.settings.userAPIKey
-		);
+			false,false,
+			this.settings.userAPIKey
+			);
 
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
@@ -141,6 +150,22 @@ export default class OBSyncWithMDB extends Plugin {
 	async saveSettings() {
 		await this.saveData(this.settings);
 	}
+
+	extractAirtableIds(url: string): AirtableIds | null {
+		// Regular expression to match Airtable URL pattern
+		const regex = /https?:\/\/airtable\.com\/(app[^\/]+)\/(tbl[^\/]+)(?:\/(viw[^\/?]+))?/;
+		const match = url.match(regex);
+	  
+		if (!match) {
+		  return null;
+		}
+	  
+		return {
+		  baseId: match[1] || "",
+		  tableId: match[2] || "",
+		  viewId: match[3] || ""
+		};
+	  }
 }
 
 class OBSyncWithMDBSettingTab extends PluginSettingTab {
@@ -161,38 +186,38 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
       cls: "my-plugin-title" // 添加自定义CSS类
     });
 
-		new Setting(containerEl)
-			.setName(t("Sync Scripts Update API Key"))
-			.setDesc(t("Please enter a valid update API Key"))
-			.addText(text => text
-				.setPlaceholder(t('Enter the API Key'))
-				.setValue(this.plugin.settings.updateAPIKey)
-				.onChange(async (value) => {
-					this.plugin.settings.updateAPIKey = value;
-					await this.plugin.saveSettings();
-				}));
+	new Setting(containerEl)
+		.setName(t("Sync Scripts Update API Key"))
+		.setDesc(t("Please enter a valid update API Key"))
+		.addText(text => text
+			.setPlaceholder(t('Enter the API Key'))
+			.setValue(this.plugin.settings.updateAPIKey)
+			.onChange(async (value) => {
+				this.plugin.settings.updateAPIKey = value;
+				await this.plugin.saveSettings();
+			}));
 
-		new Setting(containerEl)
-			.setName(t('Sync Scripts Folder'))
-			.setDesc(t('Please enter the path to the Templater Scripts Folder'))
-			.addText(text => text
-				.setPlaceholder(t('Enter the full path to the Templater Scripts folder'))
-				.setValue(this.plugin.settings.templaterScriptsFolder)
-				.onChange(async (value) => {
-					this.plugin.settings.templaterScriptsFolder = value;
-					await this.plugin.saveSettings();
-				}));
+	new Setting(containerEl)
+		.setName(t('Sync Scripts Folder'))
+		.setDesc(t('Please enter the path to the Templater Scripts Folder'))
+		.addText(text => text
+			.setPlaceholder(t('Enter the full path to the Templater Scripts folder'))
+			.setValue(this.plugin.settings.templaterScriptsFolder)
+			.onChange(async (value) => {
+				this.plugin.settings.templaterScriptsFolder = value;
+				await this.plugin.saveSettings();
+			}));
 
-		new Setting(containerEl)
-			.setName(t('Demo Sync templates Folder'))
-			.setDesc(t('Please enter the path to the demo sync templates folder'))
-			.addText(text => text
-				.setPlaceholder(t('Enter the path to the demo sync templates folder'))
-				.setValue(this.plugin.settings.demoFolder)
-				.onChange(async (value) => {	
-					this.plugin.settings.demoFolder = value;
-					await this.plugin.saveSettings();
-				}));
+	new Setting(containerEl)
+		.setName(t('Demo Sync templates Folder'))
+		.setDesc(t('Please enter the path to the demo sync templates folder'))
+		.addText(text => text
+			.setPlaceholder(t('Enter the path to the demo sync templates folder'))
+			.setValue(this.plugin.settings.demoFolder)
+			.onChange(async (value) => {	
+				this.plugin.settings.demoFolder = value;
+				await this.plugin.saveSettings();
+			}));
 
     containerEl.createEl("h2", {
       text: t("User Setting"),
@@ -211,37 +236,16 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
           
     new Setting(containerEl)
-			.setName(t('Your Sync Setting Base ID'))
-			.setDesc(t('Please enter the base id of your sync setting base'))
+			.setName(t('Your Sync Setting URL'))
+			.setDesc(t('Please enter the url of your sync setting table'))
 			.addText(text => text
-				.setPlaceholder(t('Enter the base id'))
-				.setValue(this.plugin.settings.userBaseID)
+				.setPlaceholder(t('Enter the url'))
+				.setValue(this.plugin.settings.userSyncSettingUrl)
 				.onChange(async (value) => {
-					this.plugin.settings.userBaseID = value;
-					await this.plugin.saveSettings();
-				}));
-          
-    new Setting(containerEl)
-			.setName(t('Your Sync Setting Table ID'))
-			.setDesc(t('Please enter the table id of your sync setting table')) 
-			.addText(text => text
-				.setPlaceholder(t('Enter the table id'))
-				.setValue(this.plugin.settings.userTableID)
-				.onChange(async (value) => {
-					this.plugin.settings.userTableID = value;
+					this.plugin.settings.userSyncSettingUrl = value;
 					await this.plugin.saveSettings();
 				}));
 
-    new Setting(containerEl)
-			.setName(t('Your Sync Setting view ID'))
-			.setDesc(t('Please enter the view id of your sync setting table'))
-			.addText(text => text
-				.setPlaceholder(t('Enter the view id'))
-				.setValue(this.plugin.settings.userViewID)
-				.onChange(async (value) => {
-					this.plugin.settings.userViewID = value;
-					await this.plugin.saveSettings();
-				}));
 
     new Setting(containerEl)
 			.setName(t('Your Sync Templates Folder'))
