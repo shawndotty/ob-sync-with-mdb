@@ -1,5 +1,5 @@
 import { App, Notice, normalizePath, Plugin, PluginSettingTab, Setting } from 'obsidian';
-
+import { t } from "./lang/helpers";
 declare module 'obsidian' {
 	interface App {
 		plugins: {
@@ -69,7 +69,7 @@ export default class OBSyncWithMDB extends Plugin {
 				name,
 				callback: async () => {
           if(!apiKey) {
-            new Notice("你必须提供一个API Key才能运行此命令");
+            new Notice(t("You must provide an API Key to run this command"));
             return;
           }
 					const nocoDBSettings = {
@@ -91,7 +91,7 @@ export default class OBSyncWithMDB extends Plugin {
 
 		createNocoDBCommand(
 			'ob-sync-with-mdb-update-core',
-			'Update Core',
+			t('Update Core'),
 			{
 				viewID: "viwNvo7C3f8dkeBTh",
 				targetFolderPath: this.settings.templaterScriptsFolder
@@ -101,7 +101,7 @@ export default class OBSyncWithMDB extends Plugin {
 
 		createNocoDBCommand(
 			'ob-sync-with-mdb-update-demo',
-			'Update Demo',
+			t("Update Demo"),
 			{
 				baseID: "app84J6QgVNsTUdPQ",
 				tableID: "tblEMVvufLd8cqsx4",
@@ -113,7 +113,7 @@ export default class OBSyncWithMDB extends Plugin {
 
     createNocoDBCommand(
 			'ob-sync-with-mdb-update-user-sync-scripts',
-			'Update User Sync Scripts',
+			t("Update User Sync Scripts"),
 			{
 				baseID: this.settings.userBaseID,
 				tableID: this.settings.userTableID,
@@ -157,15 +157,15 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
     containerEl.createEl("h2", {
-      text: "Main Setting",
+      text: t("Main Setting"),
       cls: "my-plugin-title" // 添加自定义CSS类
     });
 
 		new Setting(containerEl)
-			.setName('Update API Key')
-			.setDesc('Please enter your update API Key')
+			.setName(t("Update API Key"))
+			.setDesc(t("Please enter your update API Key"))
 			.addText(text => text
-				.setPlaceholder('Enter your update API Key')
+				.setPlaceholder(t('Enter your update API Key'))
 				.setValue(this.plugin.settings.updateAPIKey)
 				.onChange(async (value) => {
 					this.plugin.settings.updateAPIKey = value;
@@ -173,10 +173,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName('Templater Scripts Folder')
-			.setDesc('Please enter the path to the Templater Scripts Folder')
+			.setName(t('Templater Scripts Folder'))
+			.setDesc(t('Please enter the path to the Templater Scripts Folder'))
 			.addText(text => text
-				.setPlaceholder('Enter the path to the Templater Scripts Folder')
+				.setPlaceholder(t('Enter the path to the Templater Scripts Folder'))
 				.setValue(this.plugin.settings.templaterScriptsFolder)
 				.onChange(async (value) => {
 					this.plugin.settings.templaterScriptsFolder = value;
@@ -184,10 +184,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName('Demo Folder')
-			.setDesc('Please enter the path to the Demo Folder')
+			.setName(t('Demo Folder'))
+			.setDesc(t('Please enter the path to the Demo Folder'))
 			.addText(text => text
-				.setPlaceholder('Enter the path to the Demo Folder')
+				.setPlaceholder(t('Enter the path to the Demo Folder'))
 				.setValue(this.plugin.settings.demoFolder)
 				.onChange(async (value) => {	
 					this.plugin.settings.demoFolder = value;
@@ -195,15 +195,15 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
 
     containerEl.createEl("h2", {
-      text: "User Setting",
+      text: t("User Setting"),
       cls: "my-plugin-title" // 添加自定义CSS类
     });
 
     new Setting(containerEl)
-			.setName('User API Key')
-			.setDesc('Please enter the API Key of the User')
+			.setName(t('User API Key'))
+			.setDesc(t('Please enter the API Key of the User'))
 			.addText(text => text
-				.setPlaceholder('Enter the API Key of the User')
+				.setPlaceholder(t('Enter the API Key of the User'))
 				.setValue(this.plugin.settings.userAPIKey)
 				.onChange(async (value) => {
 					this.plugin.settings.userAPIKey = value;
@@ -211,10 +211,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
           
     new Setting(containerEl)
-			.setName('User Base ID')
-			.setDesc('Please enter the Base ID of the User')
+			.setName(t('User Base ID'))
+			.setDesc(t('Please enter the Base ID of the User'))
 			.addText(text => text
-				.setPlaceholder('Enter the Base ID of the User')
+				.setPlaceholder(t('Enter the Base ID of the User'))
 				.setValue(this.plugin.settings.userBaseID)
 				.onChange(async (value) => {
 					this.plugin.settings.userBaseID = value;
@@ -222,10 +222,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
           
     new Setting(containerEl)
-			.setName('User Table ID')
-			.setDesc('Please enter the Table ID of the User') 
+			.setName(t('User Table ID'))
+			.setDesc(t('Please enter the Table ID of the User')) 
 			.addText(text => text
-				.setPlaceholder('Enter the Table ID of the User')
+				.setPlaceholder(t('Enter the Table ID of the User'))
 				.setValue(this.plugin.settings.userTableID)
 				.onChange(async (value) => {
 					this.plugin.settings.userTableID = value;
@@ -233,10 +233,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
 
     new Setting(containerEl)
-			.setName('User View ID')
-			.setDesc('Please enter the View ID of the User')
+			.setName(t('User View ID'))
+			.setDesc(t('Please enter the View ID of the User'))
 			.addText(text => text
-				.setPlaceholder('Enter the View ID of the User')
+				.setPlaceholder(t('Enter the View ID of the User'))
 				.setValue(this.plugin.settings.userViewID)
 				.onChange(async (value) => {
 					this.plugin.settings.userViewID = value;
@@ -244,10 +244,10 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				}));
 
     new Setting(containerEl)
-			.setName('User Sync Scripts Folder')
-			.setDesc('Please enter the path to the User Sync Scripts Folder')
+			.setName(t('User Sync Scripts Folder'))
+			.setDesc(t('Please enter the path to the User Sync Scripts Folder'))
 			.addText(text => text
-				.setPlaceholder('Enter the path to the User Sync Scripts Folder')
+				.setPlaceholder(t('Enter the path to the User Sync Scripts Folder'))
 				.setValue(this.plugin.settings.userSyncScriptsFolder)
 				.onChange(async (value) => {
 					this.plugin.settings.userSyncScriptsFolder = value;
@@ -312,7 +312,7 @@ class MyObsidian {
 
     if(iotoUpdate){
       const updateNotice = new Notice(
-        this.buildFragment("更新准备中，请稍后……", "#00ff00"),
+        this.buildFragment(t("Updating, plese wait for a moment"), "#00ff00"),
         0
         );
         const apiKeyValid = await this.nocoDBSyncer.checkApiKey();
@@ -320,7 +320,7 @@ class MyObsidian {
         if (!apiKeyValid) {
           new Notice(
             this.buildFragment(
-            "您的更新API Key已过期，请获取新的API Key。",
+            t("Your API Key was expired. Please get a new one."),
             "#ff0000"
             ),
             4000
@@ -528,7 +528,7 @@ class NocoDBSync {
   }
 
   async createOrUpdateNotesInOBFromSourceTable(sourceTable: NocoDBTable): Promise<void> {
-    new Notice("数据获取中……");
+    new Notice(t("Getting Data ……"));
 
     const { vault } = this.app;
 
@@ -539,7 +539,7 @@ class NocoDBSync {
     );
 
     new Notice(
-      `一共有${notesToCreateOrUpdate.length}个文件需要更新或创建`
+      `${t("There are")}${notesToCreateOrUpdate.length}${t("files needed to be updated or created.")}`
     );
 
     let configDirModified = 0;
@@ -558,7 +558,7 @@ class NocoDBSync {
           await vault.create(notePath, note.MD ? note.MD : "");
         } else if (noteExists && notePath.startsWith(".")) {
           await vault.adapter.write(notePath, note.MD).catch((r: any) => {
-            new Notice("文件写入失败: " + r);
+            new Notice(t("Failed to write file:") + r);
           });
           configDirModified++;
         } else {
@@ -571,10 +571,10 @@ class NocoDBSync {
       notesToCreateOrUpdate = notesToCreateOrUpdate.slice(10);
       if (notesToCreateOrUpdate.length) {
         new Notice(
-          `还有${notesToCreateOrUpdate.length}个文件需要处理`
+          `${t("There are")}${notesToCreateOrUpdate.length}${t("files needed to be processed.")}`
         );
       } else {
-        new Notice("全部处理完成");
+        new Notice(t("All Finished."));
       }
     }
   }
