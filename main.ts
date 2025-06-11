@@ -324,8 +324,8 @@ class MyObsidian {
         if (!apiKeyValid) {
           new Notice(
             this.buildFragment(
-            t("Your API Key was expired. Please get a new one."),
-            "#ff0000"
+              t("Your API Key was expired. Please get a new one."),
+              "#ff0000"
             ),
             4000
           );
