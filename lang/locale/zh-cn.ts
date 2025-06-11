@@ -1,7 +1,7 @@
 // Extract English https://regex101.com/r/e7htWd/1
 export default {
     "You must provide an API Key to run this command": "You must provide an API Key to run this command",
-    "Update Core": "Update Core",
+    "Update Core": "更新同步脚本",
     "Update Demo": "Update Demo",
     "Update User Sync Scripts": "Update User Sync Scripts",
     "Main Setting": "Main Setting",
