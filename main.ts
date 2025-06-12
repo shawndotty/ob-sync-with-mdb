@@ -30,16 +30,13 @@ interface AirtableIds {
 }
 interface OBSyncWithMDBSettings {
 	updateAPIKey: string;
-	updateTables: NocoDBTable[];
 	templaterScriptsFolder: string;
 	demoFolder: string;
 	userEmail: string;
+	userChecked: boolean;
 	userAPIKey: string;
 	userSyncSettingUrl: string;
-	userBaseID: string;
-	userTableID: string;
 	userSyncScriptsFolder: string;
-	userViewID: string;
 	updateIDs: {
 		obSyncCore: {
 			baseID: string;
@@ -56,15 +53,12 @@ interface OBSyncWithMDBSettings {
 
 const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 	updateAPIKey: "",
-	updateTables: [],
 	templaterScriptsFolder: "",
 	demoFolder: "",
 	userEmail: "",
+	userChecked: false,
 	userAPIKey: "",
 	userSyncSettingUrl: "",
-	userBaseID: "",
-	userTableID: "",
-	userViewID: "",
 	userSyncScriptsFolder: "",
 	updateIDs: {
 		obSyncCore: {
@@ -193,16 +187,17 @@ export default class OBSyncWithMDB extends Plugin {
 			DEFAULT_SETTINGS,
 			await this.loadData()
 		);
-	}
-
-	async saveSettings() {
-		await this.saveData(this.settings);
 		if (
+			!this.settings.userChecked &&
 			this.settings.userEmail &&
 			this.isValidEmail(this.settings.userEmail)
 		) {
 			await this.getUpdateIDs();
 		}
+	}
+
+	async saveSettings() {
+		await this.saveData(this.settings);
 	}
 
 	isValidEmail(email: string): boolean {
@@ -236,9 +231,15 @@ export default class OBSyncWithMDB extends Plugin {
 			headers: { Authorization: "Bearer " + getUpdateIDsToken },
 		});
 
-		this.settings.updateIDs = JSON.parse(
-			response.json.records[0].fields.ObSyncUpdateIDs.first()
-		);
+		if (response.json.records.length) {
+			this.settings.updateIDs = JSON.parse(
+				response.json.records[0].fields.ObSyncUpdateIDs.first()
+			);
+			this.settings.userChecked = true;
+		} else {
+			this.settings.updateIDs = DEFAULT_SETTINGS.updateIDs;
+			this.settings.userChecked = DEFAULT_SETTINGS.userChecked;
+		}
 	}
 
 	extractAirtableIds(url: string): AirtableIds | null {
