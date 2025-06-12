@@ -7,22 +7,6 @@ import {
 	Setting,
 } from "obsidian";
 import { t } from "./lang/helpers";
-declare module "obsidian" {
-	interface App {
-		plugins: {
-			plugins: {
-				[key: string]: {
-					settings: {
-						IOTOFrameworkPath: string;
-					};
-				};
-			};
-		};
-		commands: {
-			executeCommandById: (id: string) => void;
-		};
-	}
-}
 interface AirtableIds {
 	baseId: string;
 	tableId: string;
@@ -76,15 +60,11 @@ const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 
 export default class OBSyncWithMDB extends Plugin {
 	settings: OBSyncWithMDBSettings;
-	iotoFrameworkPath: string;
 	userSyncSettingAirtableIds: AirtableIds | null;
 
 	async onload() {
 		await this.loadSettings();
 
-		this.iotoFrameworkPath =
-			this.app.plugins.plugins["ioto-settings"]?.settings
-				?.IOTOFrameworkPath || "";
 		this.userSyncSettingAirtableIds = this.extractAirtableIds(
 			this.settings.userSyncSettingUrl
 		);
