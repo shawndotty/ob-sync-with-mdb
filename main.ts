@@ -87,7 +87,7 @@ export default class OBSyncWithMDB extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
-		await this.getUpdateIDs();
+
 		this.iotoFrameworkPath =
 			this.app.plugins.plugins["ioto-settings"]?.settings
 				?.IOTOFrameworkPath || "";
@@ -197,6 +197,26 @@ export default class OBSyncWithMDB extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+		if (this.isValidEmail(this.settings.userEmail)) {
+			await this.getUpdateIDs();
+		}
+	}
+
+	isValidEmail(email: string): boolean {
+		// 基础格式检查：非空、包含@符号、@后包含点号
+		if (
+			!email ||
+			email.indexOf("@") === -1 ||
+			email.indexOf(".", email.indexOf("@")) === -1
+		) {
+			return false;
+		}
+
+		// 正则表达式验证（符合RFC 5322标准）
+		const emailRegex =
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+		return emailRegex.test(email);
 	}
 
 	async getUpdateIDs() {
