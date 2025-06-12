@@ -197,7 +197,10 @@ export default class OBSyncWithMDB extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
-		if (this.isValidEmail(this.settings.userEmail)) {
+		if (
+			this.settings.userEmail &&
+			this.isValidEmail(this.settings.userEmail)
+		) {
 			await this.getUpdateIDs();
 		}
 	}
