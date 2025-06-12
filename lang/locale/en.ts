@@ -1,50 +1,70 @@
 // Extract English https://regex101.com/r/e7htWd/1
 export default {
-    "You must provide an API Key to run this command": "You must provide an API Key to run this command",
-    "Get The Latest Version Of Sync Scripts": "Get The Latest Version Of Sync Scripts",
-    "Get The Latest Version Of Demo Sync Templates": "Get The Latest Version Of Demo Sync Templates",
-    "Get Your Personal Sync Templates": "Get Your Personal Sync Templates",
-    "Main Setting": "Main Setting",
-    "Sync Scripts Update API Key": "Sync Scripts Update API Key",
-    "Please enter a valid update API Key": "Please enter a valid update API Key",
-    "Enter the API Key": "Enter the API Key",
-    "Sync Scripts Folder": "Sync Scripts Folder",
-    "Please enter the path to the Templater Scripts Folder": "Please enter the path to the Templater Scripts Folder",
-    "Enter the full path to the Templater Scripts folder": "Enter the full path to the Templater Scripts folder",
-    "Demo Sync templates Folder": "Demo Sync templates Folder",
-    "Please enter the path to the demo sync templates folder": "Please enter the path to the demo sync templates folder",
-    "Enter the path to the demo sync templates folder": "Enter the path to the demo sync templates folder",
-    "User Setting": "User Setting",
-    "Your Airtable Personal Token": "Your Airtable Personal Token",
-    "Please enter your personal Aritable token for your sync setting base": "Please enter your personal Aritable token for your sync setting base",
-    "Enter your personal Airtble token": "Enter your personal Airtble token",
-    "Your Sync Setting Base ID": "Your Sync Setting Base ID",
-    "Please enter the base id of your sync setting base": "Please enter the base id of your sync setting base",
-    "Enter the base id": "Enter the base id",
-    "Your Sync Setting Table ID": "Your Sync Setting Table ID",
-    "Please enter the table id of your sync setting table": "Please enter the table id of your sync setting table",
-    "Enter the table id": "Enter the table id",
-    "Your Sync Setting view ID": "Your Sync Setting view ID",
-    "Please enter the view id of your sync setting table": "Please enter the view id of your sync setting table",
-    "Enter the view id": "Enter the view id",
-    "Your Sync Templates Folder": "Your Sync Templates Folder",
-    "Please enter the path to your sync templates folder": "Please enter the path to your sync templates folder",
-    "Enter the path to your sync templates folder": "Enter the path to your sync templates folder",
-    "Updating, plese wait for a moment": "Updating, plese wait for a moment",
-    "Your API Key was expired. Please get a new one.": "Your API Key was expired. Please get a new one.",
-    "div": "div",
-    "Got": "Got",
-    "records": "records",
-    "Getting Data ……": "Getting Data ……",
-    "There are": "There are",
-    "files needed to be updated or created.": "files needed to be updated or created.",
-    "Failed to write file: ": "Failed to write file: ",
-    "files needed to be processed.": "files needed to be processed.",
-    "All Finished.": "All Finished.",
-    "Your Sync Setting URL": "Your Sync Setting URL",
-    "Please enter the url of your sync setting table": "Please enter the url of your sync setting table",
-    "Enter the url": "Enter the url",
-    "Your Email Address": "Your Email Address",
-    "Please enter your Email when you purchase this product": "Please enter your Email when you purchase this product",
-    "Enter your email": "Enter your email"
-}
+	"You must provide an API Key to run this command":
+		"You must provide an API Key to run this command",
+	"You need to provide the email for your account to run this command":
+		"You need to provide the email for your account to run this command",
+	"Get The Latest Version Of Sync Scripts":
+		"Get The Latest Version Of Sync Scripts",
+	"Get The Latest Version Of Demo Sync Templates":
+		"Get The Latest Version Of Demo Sync Templates",
+	"Get Your Personal Sync Templates": "Get Your Personal Sync Templates",
+	"Main Setting": "Main Setting",
+	"Sync Scripts Update API Key": "Sync Scripts Update API Key",
+	"Please enter a valid update API Key":
+		"Please enter a valid update API Key",
+	"Enter the API Key": "Enter the API Key",
+	"Sync Scripts Folder": "Sync Scripts Folder",
+	"Please enter the path to the Templater Scripts Folder":
+		"Please enter the path to the Templater Scripts Folder",
+	"Enter the full path to the Templater Scripts folder":
+		"Enter the full path to the Templater Scripts folder",
+	"Demo Sync templates Folder": "Demo Sync templates Folder",
+	"Please enter the path to the demo sync templates folder":
+		"Please enter the path to the demo sync templates folder",
+	"Enter the path to the demo sync templates folder":
+		"Enter the path to the demo sync templates folder",
+	"User Setting": "User Setting",
+	"Your Airtable Personal Token": "Your Airtable Personal Token",
+	"Please enter your personal Aritable token for your sync setting base":
+		"Please enter your personal Aritable token for your sync setting base",
+	"Enter your personal Airtble token": "Enter your personal Airtble token",
+	"Your Sync Setting Base ID": "Your Sync Setting Base ID",
+	"Please enter the base id of your sync setting base":
+		"Please enter the base id of your sync setting base",
+	"Enter the base id": "Enter the base id",
+	"Your Sync Setting Table ID": "Your Sync Setting Table ID",
+	"Please enter the table id of your sync setting table":
+		"Please enter the table id of your sync setting table",
+	"Enter the table id": "Enter the table id",
+	"Your Sync Setting view ID": "Your Sync Setting view ID",
+	"Please enter the view id of your sync setting table":
+		"Please enter the view id of your sync setting table",
+	"Enter the view id": "Enter the view id",
+	"Your Sync Templates Folder": "Your Sync Templates Folder",
+	"Please enter the path to your sync templates folder":
+		"Please enter the path to your sync templates folder",
+	"Enter the path to your sync templates folder":
+		"Enter the path to your sync templates folder",
+	"Updating, plese wait for a moment": "Updating, plese wait for a moment",
+	"Your API Key was expired. Please get a new one.":
+		"Your API Key was expired. Please get a new one.",
+	div: "div",
+	Got: "Got",
+	records: "records",
+	"Getting Data ……": "Getting Data ……",
+	"There are": "There are",
+	"files needed to be updated or created.":
+		"files needed to be updated or created.",
+	"Failed to write file: ": "Failed to write file: ",
+	"files needed to be processed.": "files needed to be processed.",
+	"All Finished.": "All Finished.",
+	"Your Sync Setting URL": "Your Sync Setting URL",
+	"Please enter the url of your sync setting table":
+		"Please enter the url of your sync setting table",
+	"Enter the url": "Enter the url",
+	"Your Email Address": "Your Email Address",
+	"Please enter your Email when you purchase this product":
+		"Please enter your Email when you purchase this product",
+	"Enter your email": "Enter your email",
+};

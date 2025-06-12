@@ -118,6 +118,14 @@ export default class OBSyncWithMDB extends Plugin {
 						);
 						return;
 					}
+					if (!this.settings.userEmail) {
+						new Notice(
+							t(
+								"You need to provide the email for your account to run this command"
+							)
+						);
+						return;
+					}
 					const nocoDBSettings = {
 						apiKey: apiKey,
 						tables: [tableConfig],
