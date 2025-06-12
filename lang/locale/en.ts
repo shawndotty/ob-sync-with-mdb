@@ -44,4 +44,7 @@ export default {
     "Your Sync Setting URL": "Your Sync Setting URL",
     "Please enter the url of your sync setting table": "Please enter the url of your sync setting table",
     "Enter the url": "Enter the url",
+    "Your Email Address": "Your Email Address",
+    "Please enter your Email when you purchase this product": "Please enter your Email when you purchase this product",
+    "Enter your email": "Enter your email"
 }
