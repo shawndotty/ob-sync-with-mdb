@@ -25,6 +25,7 @@ interface AirtableIds {
 }
 interface OBSyncWithMDBSettings {
 	updateAPIKey: string;
+	updateAPIKeyIsValid: boolean;
 	templaterScriptsFolder: string;
 	demoFolder: string;
 	userEmail: string;
@@ -48,6 +49,7 @@ interface OBSyncWithMDBSettings {
 
 const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 	updateAPIKey: "",
+	updateAPIKeyIsValid: false,
 	templaterScriptsFolder: "",
 	demoFolder: "",
 	userEmail: "",
@@ -120,7 +122,8 @@ export default class OBSyncWithMDB extends Plugin {
 					const myObsidian = new MyObsidian(this.app, nocoDBSync);
 					await myObsidian.onlyFetchFromNocoDB(
 						nocoDBSettings.tables[0],
-						iotoUpdate
+						iotoUpdate,
+						this.settings.updateAPIKeyIsValid
 					);
 					if (reloadOB) {
 						this.app.commands.executeCommandById("app:reload");
@@ -178,17 +181,19 @@ export default class OBSyncWithMDB extends Plugin {
 			DEFAULT_SETTINGS,
 			await this.loadData()
 		);
-		if (
-			!this.settings.userChecked &&
-			this.settings.userEmail &&
-			this.isValidEmail(this.settings.userEmail)
-		) {
-			await this.getUpdateIDs();
-		}
 	}
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+	isValidApiKey(apiKey: string): boolean {
+		return Boolean(
+			apiKey &&
+				apiKey.length >= 82 &&
+				apiKey.includes("pat") &&
+				apiKey.includes(".")
+		);
 	}
 
 	isValidEmail(email: string): boolean {
@@ -222,7 +227,11 @@ export default class OBSyncWithMDB extends Plugin {
 			headers: { Authorization: "Bearer " + getUpdateIDsToken },
 		});
 
-		if (response.json.records.length) {
+		if (
+			response.json.records.length &&
+			response.json.records[0].fields.ObSyncUpdateIDs
+		) {
+			console.log("done");
 			this.settings.updateIDs = JSON.parse(
 				response.json.records[0].fields.ObSyncUpdateIDs.first()
 			);
@@ -231,6 +240,54 @@ export default class OBSyncWithMDB extends Plugin {
 			this.settings.updateIDs = DEFAULT_SETTINGS.updateIDs;
 			this.settings.userChecked = DEFAULT_SETTINGS.userChecked;
 		}
+		await this.saveSettings();
+	}
+
+	async checkApiKey() {
+		const updateUUID = crypto.randomUUID();
+		const checkApiWebHookUrl =
+			"https://hooks.airtable.com/workflows/v1/genericWebhook/appq9k6KwHV3lEIJZ/wfl2uT25IPEljno9w/wtrFUIEC8SXlDsdIu";
+		const checkApiValidUrl = `https://api.airtable.com/v0/appq9k6KwHV3lEIJZ/UpdateLogs?maxRecords=1&view=viweTQ2YarquoqZUT&filterByFormula=${encodeURI(
+			"{UUID} = '" + updateUUID + "'"
+		)}&fields%5B%5D=Match`;
+		const checkApiValidToken =
+			"patCw7AoXaktNgHNM.bf8eb50a33da820fde56b1f5d4cf5899bc8c508096baf36b700e94cd13570000";
+		let validKey = 0;
+		try {
+			await requestUrl({
+				url: checkApiWebHookUrl,
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					uuid: updateUUID,
+					userApiKey: this.settings.updateAPIKey,
+				}),
+			});
+
+			await new Promise((r) => setTimeout(r, 1500));
+
+			try {
+				const matchRes = await requestUrl({
+					url: checkApiValidUrl,
+					method: "GET",
+					headers: { Authorization: "Bearer " + checkApiValidToken },
+				});
+				validKey = matchRes.json.records[0].fields.Match;
+			} catch (error) {
+				console.log(error);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+
+		if (validKey) {
+			console.log("validKey", validKey);
+			this.settings.updateAPIKeyIsValid = true;
+		} else {
+			this.settings.updateAPIKeyIsValid = false;
+		}
+
+		await this.saveSettings();
 	}
 
 	extractAirtableIds(url: string): AirtableIds | null {
@@ -278,6 +335,13 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.updateAPIKey)
 					.onChange(async (value) => {
 						this.plugin.settings.updateAPIKey = value;
+						if (
+							this.plugin.isValidApiKey(
+								this.plugin.settings.updateAPIKey
+							)
+						) {
+							await this.plugin.checkApiKey();
+						}
 						await this.plugin.saveSettings();
 					})
 			);
@@ -293,6 +357,13 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.userEmail)
 					.onChange(async (value) => {
 						this.plugin.settings.userEmail = value;
+						if (
+							this.plugin.isValidEmail(
+								this.plugin.settings.userEmail
+							)
+						) {
+							await this.plugin.getUpdateIDs();
+						}
 						await this.plugin.saveSettings();
 					})
 			);
@@ -430,19 +501,11 @@ class MyObsidian {
 
 	async onlyFetchFromNocoDB(
 		sourceTable: NocoDBTable,
-		iotoUpdate: boolean = false
+		iotoUpdate: boolean = false,
+		updateAPIKeyIsValid: boolean = false
 	): Promise<string | undefined> {
 		if (iotoUpdate) {
-			const updateNotice = new Notice(
-				this.buildFragment(
-					t("Updating, plese wait for a moment"),
-					"#00ff00"
-				),
-				0
-			);
-			const apiKeyValid = await this.nocoDBSyncer.checkApiKey();
-			updateNotice.hide();
-			if (!apiKeyValid) {
+			if (!updateAPIKeyIsValid) {
 				new Notice(
 					this.buildFragment(
 						t("Your API Key was expired. Please get a new one."),
