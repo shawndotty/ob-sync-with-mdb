@@ -15,6 +15,11 @@ declare module "obsidian" {
 		commands: {
 			executeCommandById(id: string): void;
 		};
+		plugins: {
+			plugins: {
+				[key: string]: any;
+			};
+		};
 	}
 }
 
@@ -181,6 +186,16 @@ export default class OBSyncWithMDB extends Plugin {
 			DEFAULT_SETTINGS,
 			await this.loadData()
 		);
+		const templaterSettings =
+			this.app.plugins.plugins["templater-obsidian"];
+		if (templaterSettings) {
+			this.settings.templaterScriptsFolder =
+				templaterSettings.settings.user_scripts_folder;
+			this.settings.userSyncScriptsFolder =
+				templaterSettings.settings.templates_folder;
+			this.settings.demoFolder =
+				templaterSettings.settings.templates_folder;
+		}
 	}
 
 	async saveSettings() {
@@ -201,7 +216,8 @@ export default class OBSyncWithMDB extends Plugin {
 		if (
 			!email ||
 			email.indexOf("@") === -1 ||
-			email.indexOf(".", email.indexOf("@")) === -1
+			email.indexOf(".", email.indexOf("@")) === -1 ||
+			email.length < 10
 		) {
 			return false;
 		}
@@ -237,6 +253,7 @@ export default class OBSyncWithMDB extends Plugin {
 			);
 			this.settings.userChecked = true;
 		} else {
+			console.log("back to default");
 			this.settings.updateIDs = DEFAULT_SETTINGS.updateIDs;
 			this.settings.userChecked = DEFAULT_SETTINGS.userChecked;
 		}
@@ -349,7 +366,9 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName(t("Your Email Address"))
 			.setDesc(
-				t("Please enter your Email when you purchase this product")
+				t(
+					"Please enter the email you provided when you purchase this product"
+				)
 			)
 			.addText((text) =>
 				text
@@ -449,6 +468,43 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					})
 			);
+
+		containerEl.createEl("hr");
+
+		const infoContainer = containerEl.createDiv();
+
+		infoContainer.createEl("p", {
+			text: t(
+				"When you use the sync with online database feature of IOTO, the sync configration generater I built could help you a lot."
+			),
+		});
+
+		infoContainer.createEl("p", {
+			text: t(
+				"You can use the following link to open the shared base and save it to your own Airtable workspace."
+			),
+		});
+
+		const baseLink = infoContainer.createEl("a", {
+			text: t("Sync Configration Generator"),
+			href: "https://airtable.com/appekNvvdLY7J8zsq/shrpqtEGVjz8bgw9N",
+		});
+		baseLink.setAttr("target", "_blank");
+		baseLink.setAttr("rel", "noopener noreferrer");
+
+		infoContainer.createEl("p", {
+			text: t(
+				"You can watch the follow video to find out how to use this sync configration base."
+			),
+		});
+
+		const deomLink = infoContainer.createEl("a", {
+			text: t("How to use the sync configration generator"),
+			href: "",
+		});
+
+		deomLink.setAttr("target", "_blank");
+		deomLink.setAttr("rel", "noopener noreferrer");
 	}
 }
 

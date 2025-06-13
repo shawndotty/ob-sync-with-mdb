@@ -64,7 +64,16 @@ export default {
 		"Please enter the url of your sync setting table",
 	"Enter the url": "Enter the url",
 	"Your Email Address": "Your Email Address",
-	"Please enter your Email when you purchase this product":
-		"Please enter your Email when you purchase this product",
+	"Please enter the email you provided when you purchase this product":
+		"Please enter the email you provided when you purchase this product",
 	"Enter your email": "Enter your email",
+	"When you use the sync with online database feature of IOTO, the sync configration generater I built could help you a lot.":
+		"When you use the sync with online database feature of IOTO, the sync configration generater I built could help you a lot.",
+	"You can use the following link to open the shared base and save it to your own Airtable workspace.":
+		"You can use the following link to open the shared base and save it to your own Airtable workspace.",
+	"Sync Configration Generator": "Sync Configration Generator",
+	"You can watch the follow video to find out how to use this sync configration base.":
+		"You can watch the follow video to find out how to use this sync configration base.",
+	"How to use the sync configration generator":
+		"How to use the sync configration generator",
 };
