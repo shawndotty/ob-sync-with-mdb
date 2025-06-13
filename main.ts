@@ -5,8 +5,19 @@ import {
 	Plugin,
 	PluginSettingTab,
 	Setting,
+	MarkdownView,
 } from "obsidian";
 import { t } from "./lang/helpers";
+
+// 扩展 App 类型以包含 commands 属性
+declare module "obsidian" {
+	interface App {
+		commands: {
+			executeCommandById(id: string): void;
+		};
+	}
+}
+
 interface AirtableIds {
 	baseId: string;
 	tableId: string;
