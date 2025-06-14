@@ -181,21 +181,24 @@ export default class OBSyncWithMDB extends Plugin {
 	onunload() {}
 
 	async loadSettings() {
+		const templaterSettings =
+			this.app.plugins.plugins["templater-obsidian"];
+		let pathSettings = {};
+		if (templaterSettings) {
+			pathSettings = {
+				templaterScriptsFolder:
+					templaterSettings.settings.user_scripts_folder,
+				userSyncScriptsFolder:
+					templaterSettings.settings.templates_folder,
+				demoFolder: templaterSettings.settings.templates_folder,
+			};
+		}
 		this.settings = Object.assign(
 			{},
 			DEFAULT_SETTINGS,
+			pathSettings,
 			await this.loadData()
 		);
-		const templaterSettings =
-			this.app.plugins.plugins["templater-obsidian"];
-		if (templaterSettings) {
-			this.settings.templaterScriptsFolder =
-				templaterSettings.settings.user_scripts_folder;
-			this.settings.userSyncScriptsFolder =
-				templaterSettings.settings.templates_folder;
-			this.settings.demoFolder =
-				templaterSettings.settings.templates_folder;
-		}
 	}
 
 	async saveSettings() {
@@ -494,13 +497,13 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 
 		infoContainer.createEl("p", {
 			text: t(
-				"You can watch the follow video to find out how to use this sync configration base."
+				"In order to help you to learn how to use the sync with online database feature, I will keep posting instructions and videos to the following link."
 			),
 		});
 
 		const deomLink = infoContainer.createEl("a", {
-			text: t("How to use the sync configration generator"),
-			href: "",
+			text: t("OB Sync With MDB How To Guide"),
+			href: "https://airtable.com/appKL3zMp0cOYFdJk/shrzUryNakRvHerqD",
 		});
 
 		deomLink.setAttr("target", "_blank");

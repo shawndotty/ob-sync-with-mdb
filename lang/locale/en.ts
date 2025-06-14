@@ -76,4 +76,7 @@ export default {
 		"You can watch the follow video to find out how to use this sync configration base.",
 	"How to use the sync configration generator":
 		"How to use the sync configration generator",
+	"In order to help you to learn how to use the sync with online database feature, I will keep posting instructions and videos to the following link.":
+		"In order to help you to learn how to use the sync with online database feature, I will keep posting instructions and videos to the following link.",
+	"OB Sync With MDB How To Guide": "OB Sync With MDB How To Guide",
 };
