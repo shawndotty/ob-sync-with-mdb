@@ -250,7 +250,6 @@ export default class OBSyncWithMDB extends Plugin {
 			response.json.records.length &&
 			response.json.records[0].fields.ObSyncUpdateIDs
 		) {
-			console.log("done");
 			this.settings.updateIDs = JSON.parse(
 				response.json.records[0].fields.ObSyncUpdateIDs.first()
 			);
@@ -301,7 +300,6 @@ export default class OBSyncWithMDB extends Plugin {
 		}
 
 		if (validKey) {
-			console.log("validKey", validKey);
 			this.settings.updateAPIKeyIsValid = true;
 		} else {
 			this.settings.updateAPIKeyIsValid = false;
@@ -349,8 +347,56 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName(t("Sync Scripts Update API Key"))
 			.setDesc(t("Please enter a valid update API Key"))
-			.addText((text) =>
-				text
+			.addText((text) => {
+				const validSpan = createEl("span", {
+					text: t("Valid API Key"),
+					cls: "valid-text",
+				});
+				const loadingSpan = createEl("span", {
+					text: t("Validating..."),
+					cls: "loading-text",
+				});
+				validSpan.style.display = "none";
+				loadingSpan.style.display = "none";
+				text.inputEl.parentElement?.insertBefore(
+					validSpan,
+					text.inputEl
+				);
+				text.inputEl.parentElement?.insertBefore(
+					loadingSpan,
+					text.inputEl
+				);
+
+				const updateValidState = (
+					isValid: boolean,
+					isLoading: boolean = false
+				) => {
+					if (isLoading) {
+						text.inputEl.removeClass("valid-api-key");
+						text.inputEl.removeClass("invalid-api-key");
+						validSpan.style.display = "none";
+						loadingSpan.style.display = "inline";
+					} else {
+						loadingSpan.style.display = "none";
+						if (isValid) {
+							text.inputEl.removeClass("invalid-api-key");
+							text.inputEl.addClass("valid-api-key");
+							text.inputEl.style.borderColor = "#4CAF50";
+							text.inputEl.style.color = "#4CAF50";
+							validSpan.style.display = "inline";
+						} else {
+							text.inputEl.removeClass("valid-api-key");
+							text.inputEl.addClass("invalid-api-key");
+							text.inputEl.style.borderColor = "#FF5252";
+							text.inputEl.style.color = "#FF5252";
+							validSpan.style.display = "none";
+						}
+					}
+				};
+
+				// 初始状态设置
+				updateValidState(this.plugin.settings.updateAPIKeyIsValid);
+				return text
 					.setPlaceholder(t("Enter the API Key"))
 					.setValue(this.plugin.settings.updateAPIKey)
 					.onChange(async (value) => {
@@ -363,8 +409,8 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 							await this.plugin.checkApiKey();
 						}
 						await this.plugin.saveSettings();
-					})
-			);
+					});
+			});
 
 		new Setting(containerEl)
 			.setName(t("Your Email Address"))
@@ -373,8 +419,56 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					"Please enter the email you provided when you purchase this product"
 				)
 			)
-			.addText((text) =>
-				text
+			.addText((text) => {
+				const validSpan = createEl("span", {
+					text: t("Valid Email"),
+					cls: "valid-text",
+				});
+				const loadingSpan = createEl("span", {
+					text: t("Validating..."),
+					cls: "loading-text",
+				});
+				validSpan.style.display = "none";
+				loadingSpan.style.display = "none";
+				text.inputEl.parentElement?.insertBefore(
+					validSpan,
+					text.inputEl
+				);
+				text.inputEl.parentElement?.insertBefore(
+					loadingSpan,
+					text.inputEl
+				);
+
+				const updateValidState = (
+					isValid: boolean,
+					isLoading: boolean = false
+				) => {
+					if (isLoading) {
+						text.inputEl.removeClass("valid-email");
+						text.inputEl.removeClass("invalid-email");
+						validSpan.style.display = "none";
+						loadingSpan.style.display = "inline";
+					} else {
+						loadingSpan.style.display = "none";
+						if (isValid) {
+							text.inputEl.removeClass("invalid-email");
+							text.inputEl.addClass("valid-email");
+							text.inputEl.style.borderColor = "#4CAF50";
+							text.inputEl.style.color = "#4CAF50";
+							validSpan.style.display = "inline";
+						} else {
+							text.inputEl.removeClass("valid-email");
+							text.inputEl.addClass("invalid-email");
+							text.inputEl.style.borderColor = "#FF5252";
+							text.inputEl.style.color = "#FF5252";
+							validSpan.style.display = "none";
+						}
+					}
+				};
+
+				// 初始状态设置
+				updateValidState(this.plugin.settings.userChecked);
+				return text
 					.setPlaceholder(t("Enter your email"))
 					.setValue(this.plugin.settings.userEmail)
 					.onChange(async (value) => {
@@ -387,8 +481,8 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 							await this.plugin.getUpdateIDs();
 						}
 						await this.plugin.saveSettings();
-					})
-			);
+					});
+			});
 
 		new Setting(containerEl)
 			.setName(t("Sync Scripts Folder"))

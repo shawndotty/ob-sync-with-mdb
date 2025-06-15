@@ -70,4 +70,7 @@ export default {
 	"In order to help you to learn how to use the sync with online database feature, I will keep posting instructions and videos to the following link.":
 		"为了帮助你学习如何使用与在线数据库同步的功能，我将不断发布相关教程和视频到以下链接。",
 	"OB Sync With MDB How To Guide": "OB Sync With MDB 使用教程",
+	"Validating...": "正在验证...",
+	"Valid API Key": "有效API密钥",
+	"Valid Email": "有效电子邮件",
 };

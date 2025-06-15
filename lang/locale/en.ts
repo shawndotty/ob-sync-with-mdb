@@ -79,4 +79,7 @@ export default {
 	"In order to help you to learn how to use the sync with online database feature, I will keep posting instructions and videos to the following link.":
 		"In order to help you to learn how to use the sync with online database feature, I will keep posting instructions and videos to the following link.",
 	"OB Sync With MDB How To Guide": "OB Sync With MDB How To Guide",
+	"Validating...": "Validating...",
+	"Valid API Key": "Valid API Key",
+	"Valid Email": "Valid Email",
 };
