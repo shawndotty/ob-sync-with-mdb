@@ -3,9 +3,9 @@
 	"name": "Sync with MDB",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Sync with MDB",
+	"description": "Sync Obsidian with Airtable, Vika and Feishu",
 	"author": "Johnny",
-	"authorUrl": "https://github.com/johnny-dev",
-	"fundingUrl": "https://github.com/sponsors/johnny-dev",
+	"authorUrl": "https://github.com/shawndotty/ob-sync-with-mdb",
+	"fundingUrl": "https://space.bilibili.com/432408734",
 	"isDesktopOnly": false
 }
