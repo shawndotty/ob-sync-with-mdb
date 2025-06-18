@@ -401,12 +401,14 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.updateAPIKey)
 					.onChange(async (value) => {
 						this.plugin.settings.updateAPIKey = value;
-						if (
-							this.plugin.isValidApiKey(
-								this.plugin.settings.updateAPIKey
-							)
-						) {
+						if (this.plugin.isValidApiKey(value)) {
+							updateValidState(false, true); // 显示加载状态
 							await this.plugin.checkApiKey();
+							updateValidState(
+								this.plugin.settings.updateAPIKeyIsValid
+							);
+						} else {
+							updateValidState(false);
 						}
 						await this.plugin.saveSettings();
 					});
@@ -478,7 +480,11 @@ class OBSyncWithMDBSettingTab extends PluginSettingTab {
 								this.plugin.settings.userEmail
 							)
 						) {
+							updateValidState(false, true);
 							await this.plugin.getUpdateIDs();
+							updateValidState(this.plugin.settings.userChecked);
+						} else {
+							updateValidState(false);
 						}
 						await this.plugin.saveSettings();
 					});
