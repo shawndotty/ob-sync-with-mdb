@@ -32,24 +32,54 @@ export default class OBSyncWithMDB extends Plugin {
 			this.settings.userSyncSettingUrl
 		);
 		// 优化后的 addCommand 方法，减少重复代码，提升可维护性
-		const createNocoDBCommand = (
-			id: string,
-			name: string,
-			tableConfig: {
-				viewID: string;
-				targetFolderPath: string;
-				baseID?: string;
-				tableID?: string;
+		const commands = [
+			{
+				id: "ob-sync-with-mdb-update-core",
+				name: t("Get The Latest Version Of Sync Scripts"),
+				tableConfig: {
+					baseID: this.settings.updateIDs.obSyncCore.baseID,
+					tableID: this.settings.updateIDs.obSyncCore.tableID,
+					viewID: this.settings.updateIDs.obSyncCore.viewID,
+					targetFolderPath: this.settings.templaterScriptsFolder,
+				},
+				iotoUpdate: true,
+				reloadOB: false,
+				apiKey: this.settings.updateAPIKey,
 			},
-			iotoUpdate: boolean = false,
-			reloadOB: boolean = false,
-			apiKey: string = this.settings.updateAPIKey
-		) => {
+			{
+				id: "ob-sync-with-mdb-update-demo",
+				name: t("Get The Latest Version Of Demo Sync Templates"),
+				tableConfig: {
+					baseID: this.settings.updateIDs.demoTemplates.baseID,
+					tableID: this.settings.updateIDs.demoTemplates.tableID,
+					viewID: this.settings.updateIDs.demoTemplates.viewID,
+					targetFolderPath: this.settings.demoFolder,
+				},
+				iotoUpdate: false,
+				reloadOB: false,
+				apiKey: this.settings.updateAPIKey,
+			},
+			{
+				id: "ob-sync-with-mdb-update-user-sync-scripts",
+				name: t("Get Your Personal Sync Templates"),
+				tableConfig: {
+					baseID: this.userSyncSettingAirtableIds?.baseId || "",
+					tableID: this.userSyncSettingAirtableIds?.tableId || "",
+					viewID: this.userSyncSettingAirtableIds?.viewId || "",
+					targetFolderPath: this.settings.userSyncScriptsFolder,
+				},
+				iotoUpdate: false,
+				reloadOB: false,
+				apiKey: this.settings.userAPIKey,
+			},
+		];
+
+		commands.forEach((cmd) => {
 			this.addCommand({
-				id,
-				name,
+				id: cmd.id,
+				name: cmd.name,
 				callback: async () => {
-					if (!apiKey) {
+					if (!cmd.apiKey) {
 						new Notice(
 							t("You must provide an API Key to run this command")
 						);
@@ -64,60 +94,23 @@ export default class OBSyncWithMDB extends Plugin {
 						return;
 					}
 					const nocoDBSettings = {
-						apiKey: apiKey,
-						tables: [tableConfig],
+						apiKey: cmd.apiKey,
+						tables: [cmd.tableConfig],
 					};
 					const myNocoDB = new MyNocoDB(nocoDBSettings);
 					const nocoDBSync = new NocoDBSync(myNocoDB, this.app);
 					const myObsidian = new MyObsidian(this.app, nocoDBSync);
 					await myObsidian.onlyFetchFromNocoDB(
 						nocoDBSettings.tables[0],
-						iotoUpdate,
+						cmd.iotoUpdate,
 						this.settings.updateAPIKeyIsValid
 					);
-					if (reloadOB) {
+					if (cmd.reloadOB) {
 						this.app.commands.executeCommandById("app:reload");
 					}
 				},
 			});
-		};
-
-		createNocoDBCommand(
-			"ob-sync-with-mdb-update-core",
-			t("Get The Latest Version Of Sync Scripts"),
-			{
-				baseID: this.settings.updateIDs.obSyncCore.baseID,
-				tableID: this.settings.updateIDs.obSyncCore.tableID,
-				viewID: this.settings.updateIDs.obSyncCore.viewID,
-				targetFolderPath: this.settings.templaterScriptsFolder,
-			},
-			true
-		);
-
-		createNocoDBCommand(
-			"ob-sync-with-mdb-update-demo",
-			t("Get The Latest Version Of Demo Sync Templates"),
-			{
-				baseID: this.settings.updateIDs.demoTemplates.baseID,
-				tableID: this.settings.updateIDs.demoTemplates.tableID,
-				viewID: this.settings.updateIDs.demoTemplates.viewID,
-				targetFolderPath: this.settings.demoFolder,
-			}
-		);
-
-		createNocoDBCommand(
-			"ob-sync-with-mdb-update-user-sync-scripts",
-			t("Get Your Personal Sync Templates"),
-			{
-				baseID: this.userSyncSettingAirtableIds?.baseId || "",
-				tableID: this.userSyncSettingAirtableIds?.tableId || "",
-				viewID: this.userSyncSettingAirtableIds?.viewId || "",
-				targetFolderPath: this.settings.userSyncScriptsFolder,
-			},
-			false,
-			false,
-			this.settings.userAPIKey
-		);
+		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new OBSyncWithMDBSettingTab(this.app, this));
