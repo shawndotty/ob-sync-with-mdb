@@ -5,7 +5,7 @@ import {
 	normalizePath,
 	Notice,
 } from "obsidian";
-import { t } from "./lang/helpers";
+import { t } from "../lang/helpers";
 import { OBSyncWithMDBSettings } from "./types";
 import { ApiService } from "./api";
 import { isValidApiKey, isValidEmail } from "./utils";

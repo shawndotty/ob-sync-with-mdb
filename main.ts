@@ -1,11 +1,11 @@
 import { Notice, Plugin } from "obsidian";
 import { t } from "./lang/helpers";
-import { AirtableIds, OBSyncWithMDBSettings } from "./types";
-import { DEFAULT_SETTINGS, OBSyncWithMDBSettingTab } from "./settings";
-import { MyNocoDB } from "./MyNocoDB";
-import { MyObsidian } from "./MyObsidian";
-import { NocoDBSync } from "./NocoDBSync";
-import { isValidApiKey, isValidEmail, extractAirtableIds } from "./utils";
+import { AirtableIds, OBSyncWithMDBSettings } from "./src/types";
+import { DEFAULT_SETTINGS, OBSyncWithMDBSettingTab } from "./src/settings";
+import { MyNocoDB } from "./src/MyNocoDB";
+import { MyObsidian } from "./src/MyObsidian";
+import { NocoDBSync } from "./src/NocoDBSync";
+import { isValidApiKey, isValidEmail, extractAirtableIds } from "./src/utils";
 
 // 扩展 App 类型以包含 commands 属性
 declare module "obsidian" {

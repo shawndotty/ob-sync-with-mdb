@@ -1,5 +1,3 @@
-// 类型声明从 main.ts 移动而来
-
 // 扩展 App 类型以包含 commands 属性
 declare module "obsidian" {
 	interface App {
