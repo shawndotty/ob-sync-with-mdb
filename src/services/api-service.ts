@@ -1,5 +1,5 @@
-import { OBSyncWithMDBSettings } from "./types";
-import { AIRTABLE_CONFIG, DEFAULT_UPDATE_IDS } from "./constants";
+import { OBSyncWithMDBSettings } from "../types";
+import { AIRTABLE_CONFIG, DEFAULT_UPDATE_IDS } from "../constants";
 
 declare function requestUrl(options: any): Promise<any>;
 

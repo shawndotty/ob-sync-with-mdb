@@ -1,39 +1,9 @@
-import {
-	PluginSettingTab,
-	Setting,
-	App,
-	normalizePath,
-	Notice,
-} from "obsidian";
-import { t } from "./lang/helpers";
-import { OBSyncWithMDBSettings } from "./types";
-import { ApiService } from "./api";
-import { isValidApiKey, isValidEmail } from "./utils";
+import { PluginSettingTab, Setting, App } from "obsidian";
+import { t } from "../lang/helpers";
+import { ApiService } from "../services/api-service";
+import { isValidApiKey, isValidEmail } from "../utils";
 
 // 默认设置
-export const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
-	updateAPIKey: "",
-	updateAPIKeyIsValid: false,
-	templaterScriptsFolder: "",
-	demoFolder: "",
-	userEmail: "",
-	userChecked: false,
-	userAPIKey: "",
-	userSyncSettingUrl: "",
-	userSyncScriptsFolder: "",
-	updateIDs: {
-		obSyncCore: {
-			baseID: "",
-			tableID: "",
-			viewID: "",
-		},
-		demoTemplates: {
-			baseID: "",
-			tableID: "",
-			viewID: "",
-		},
-	},
-};
 
 export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 	plugin: any;

@@ -1,10 +1,10 @@
 import { Notice, normalizePath } from "obsidian";
-import { t } from "./lang/helpers";
-import { NocoDBTable, RecordFields, MDBRecord } from "./types";
-import { MyNocoDB } from "./MyNocoDB";
+import { t } from "src/lang/helpers";
+import { NocoDBTable, RecordFields, MDBRecord } from "src/types";
+import { NocoDB } from "./nocodb";
 
 export class NocoDBSync {
-	nocodb: MyNocoDB;
+	nocodb: NocoDB;
 	app: any;
 	vault: any;
 	notesToCreate: any[];
@@ -14,7 +14,7 @@ export class NocoDBSync {
 	subFolder: string;
 	extension: string;
 
-	constructor(nocodb: MyNocoDB, app: any) {
+	constructor(nocodb: NocoDB, app: any) {
 		this.nocodb = nocodb;
 		this.app = app;
 		this.vault = app.vault;
