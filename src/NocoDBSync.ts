@@ -1,5 +1,5 @@
 import { Notice, normalizePath } from "obsidian";
-import { t } from "../lang/helpers";
+import { t } from "./lang/helpers";
 import { NocoDBTable, RecordFields, MDBRecord } from "./types";
 import { MyNocoDB } from "./MyNocoDB";
 

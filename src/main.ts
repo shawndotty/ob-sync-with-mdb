@@ -1,5 +1,5 @@
 import { Notice, Plugin } from "obsidian";
-import { t } from "./lang/helpers";
+import { t } from "./src/lang/helpers";
 import { AirtableIds, OBSyncWithMDBSettings } from "./src/types";
 import { DEFAULT_SETTINGS, OBSyncWithMDBSettingTab } from "./src/settings";
 import { MyNocoDB } from "./src/MyNocoDB";
