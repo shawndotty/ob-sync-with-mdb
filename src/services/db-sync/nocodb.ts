@@ -21,8 +21,8 @@ export class NocoDB {
 		this.recordFieldsNames = {
 			...{
 				title: "Title",
-				content: "MD",
-				subFolder: "SubFolder",
+				content: "MDForOBSync",
+				subFolder: "SubFolderForOBSync",
 				extension: "Extension",
 			},
 			...(nocoDBSettings.syncSettings?.recordFieldsNames || {}),

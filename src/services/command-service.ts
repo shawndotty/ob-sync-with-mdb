@@ -145,16 +145,20 @@ export class CommandService {
 		const commandConfigs = this.getCommandConfigs();
 
 		commandConfigs.forEach((config) => {
-			this.createNocoDBCommand(
-				config.id,
-				config.name,
-				config.tableConfig(),
-				config.reloadOB,
-				config.iotoUpdate,
-				config.filterRecordsByDate,
-				config.apiKey ? config.apiKey() : this.settings.updateAPIKey,
-				config.forceEnSyncFields
-			);
+			if (config.tableConfig().viewID) {
+				this.createNocoDBCommand(
+					config.id,
+					config.name,
+					config.tableConfig(),
+					config.reloadOB,
+					config.iotoUpdate,
+					config.filterRecordsByDate,
+					config.apiKey
+						? config.apiKey()
+						: this.settings.updateAPIKey,
+					config.forceEnSyncFields
+				);
+			}
 		});
 
 		this.createRunAllUpdatesCommand(commandConfigs);
@@ -258,7 +262,11 @@ export class CommandService {
 			name: t("Deploy OBSync With One Click"),
 			callback: async () => {
 				const updateTasks = commandConfigs
-					.filter((config) => config.isPartOfAllUpdates)
+					.filter(
+						(config) =>
+							config.isPartOfAllUpdates &&
+							config.tableConfig().viewID
+					)
 					.map((config) => ({
 						id: config.id,
 						name: config.name,

@@ -102,12 +102,12 @@ export interface RecordFields {
 	Title?: string;
 	TitleEN?: string;
 	TitleTW?: string;
-	MD?: string;
-	MDEN?: string;
-	MDTW?: string;
-	SubFolder?: string;
-	SubFolderEN?: string;
-	SubFolderTW?: string;
+	MDForOBSync?: string;
+	MDForOBSyncEN?: string;
+	MDForOBSyncTW?: string;
+	SubFolderForOBSync?: string;
+	SubFolderForOBSyncEN?: string;
+	SubFolderForOBSyncTW?: string;
 	Extension?: string;
 	UpdatedIn?: number;
 }

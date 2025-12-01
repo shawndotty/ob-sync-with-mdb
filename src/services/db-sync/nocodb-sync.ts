@@ -97,10 +97,10 @@ export class NocoDBSync {
 			for (const key in fields) {
 				if (key.includes("Title")) {
 					mappedFields.Title = fields[key];
-				} else if (key.includes("SubFolder")) {
-					mappedFields.SubFolder = fields[key];
-				} else if (key.includes("MD")) {
-					mappedFields.MD = fields[key];
+				} else if (key.includes("SubFolderForOBSync")) {
+					mappedFields.SubFolderForOBSync = fields[key];
+				} else if (key.includes("MDForOBSync")) {
+					mappedFields.MDForOBSync = fields[key];
 				} else {
 					mappedFields[key] = fields[key];
 				}
@@ -169,12 +169,17 @@ export class NocoDBSync {
 			await this.fetchRecordsFromSource(sourceTable, filterRecordsByDate)
 		).map((note: Record) => note.fields);
 
+		console.dir(notesToCreateOrUpdate);
+
 		if (sourceTable.intialSetup) {
 			// 处理 SubFolder 中的 MyIOTO 格式
 			notesToCreateOrUpdate = notesToCreateOrUpdate.map((note) => {
-				if (note.SubFolder && note.SubFolder.includes("MyIOTO")) {
+				if (
+					note.SubFolderForOBSync &&
+					note.SubFolderForOBSync.includes("MyIOTO")
+				) {
 					// 使用正则表达式匹配 MyIOTO-数字-数字-数字 的格式并替换为 MyIOTO
-					note.SubFolder = note.SubFolder.replace(
+					note.SubFolderForOBSync = note.SubFolderForOBSync.replace(
 						/MyIOTO-\d{1,2}-\d-\d/g,
 						"MyIOTO"
 					);
@@ -199,13 +204,15 @@ export class NocoDBSync {
 				);
 				let folderPath =
 					directoryRootPath +
-					(note.SubFolder ? `/${note.SubFolder}` : "");
+					(note.SubFolderForOBSync
+						? `/${note.SubFolderForOBSync}`
+						: "");
 				await this.createPathIfNeeded(folderPath);
 				const noteExtension =
 					"Extension" in note ? note.Extension : "md";
 				const notePath = `${folderPath}/${validFileName}.${noteExtension}`;
 				const noteExists = await vault.exists(notePath);
-				let noteContent = note.MD ? note.MD : "";
+				let noteContent = note.MDForOBSync ? note.MDForOBSync : "";
 				if (!noteExists) {
 					await vault.create(notePath, noteContent);
 				} else if (noteExists && notePath.startsWith(".")) {

@@ -61,8 +61,8 @@ export class Utils {
 		if (forceDefaultFetchFields) {
 			return {
 				title: "Title",
-				subFolder: "SubFolder",
-				content: "MD",
+				subFolder: "SubFolderForOBSync",
+				content: "MDForOBSync",
 			};
 		}
 
@@ -74,12 +74,20 @@ export class Utils {
 				content: string;
 			};
 		} = {
-			"zh-cn": { title: "Title", subFolder: "SubFolder", content: "MD" },
-			en: { title: "TitleEN", subFolder: "SubFolderEN", content: "MDEN" },
+			"zh-cn": {
+				title: "Title",
+				subFolder: "SubFolderForOBSync",
+				content: "MDForOBSync",
+			},
+			en: {
+				title: "TitleEN",
+				subFolder: "SubFolderForOBSync",
+				content: "MDForOBSync",
+			},
 			"zh-tw": {
 				title: "TitleTW",
-				subFolder: "SubFolderTW",
-				content: "MDTW",
+				subFolder: "SubFolderForOBSync",
+				content: "MDForOBSync",
 			},
 		};
 

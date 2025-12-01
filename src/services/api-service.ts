@@ -28,7 +28,7 @@ export class ApiService {
 			response.json.records[0].fields[config.FIELD_NAME]
 		) {
 			this.settings.updateIDs = JSON.parse(
-				response.json.records[0].fields[config.FIELD_NAME].first()
+				response.json.records[0].fields[config.FIELD_NAME]
 			);
 			this.settings.userChecked = true;
 		} else {
