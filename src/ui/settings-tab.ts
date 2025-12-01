@@ -1,7 +1,7 @@
 import { PluginSettingTab, Setting, App } from "obsidian";
 import { t } from "../lang/helpers";
 import { ApiService } from "../services/api-service";
-import { isValidApiKey, isValidEmail } from "../utils";
+import { Utils } from "../utils";
 
 // 默认设置
 
@@ -36,7 +36,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			getIsValid: () => this.plugin.settings.updateAPIKeyIsValid,
 			setIsValid: (isValid) =>
 				(this.plugin.settings.updateAPIKeyIsValid = isValid),
-			localValidator: isValidApiKey,
+			localValidator: Utils.isValidApiKey,
 			remoteValidator: () => this.apiService.checkApiKey(),
 		});
 
@@ -53,7 +53,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			getIsValid: () => this.plugin.settings.userChecked,
 			setIsValid: (isValid) =>
 				(this.plugin.settings.userChecked = isValid),
-			localValidator: isValidEmail,
+			localValidator: Utils.isValidEmail,
 			remoteValidator: () => this.apiService.getUpdateIDs(),
 		});
 

@@ -3,15 +3,29 @@ import { OBSyncWithMDBSettings } from "./types";
 import { OBSyncWithMDBSettingTab } from "./ui/settings-tab";
 import { DEFAULT_SETTINGS } from "./models/default-settings";
 import { CommandService } from "./services/command-service";
+import { TemplaterService } from "./services/templater-service";
+import { ApiService } from "./services/api-service";
+import { SettingsManager } from "./models/settings";
+import { ServiceContainer } from "./services/service-container";
 
 export default class OBSyncWithMDB extends Plugin {
 	settings: OBSyncWithMDBSettings;
+	private settingsManager: SettingsManager;
+	private templaterService: TemplaterService;
+	private apiService: ApiService;
+	private commandService: CommandService;
+	private services: ServiceContainer;
 	async onload() {
+		this.services = new ServiceContainer(this);
+		this.settingsManager = this.services.settingsManager;
+
 		await this.loadSettings();
 
-		// 使用 CommandService 注册命令
-		const commandService = new CommandService(this, this.settings);
-		commandService.registerCommands();
+		this.apiService = this.services.apiService;
+		this.templaterService = this.services.templaterService;
+		this.commandService = this.services.commandService;
+
+		this.commandService.registerCommands();
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new OBSyncWithMDBSettingTab(this.app, this));
@@ -20,28 +34,12 @@ export default class OBSyncWithMDB extends Plugin {
 	onunload() {}
 
 	async loadSettings() {
-		const templaterSettings =
-			this.app.plugins.plugins["templater-obsidian"];
-		let pathSettings = {};
-		if (templaterSettings) {
-			pathSettings = {
-				templaterScriptsFolder:
-					templaterSettings.settings.user_scripts_folder,
-				userSyncScriptsFolder:
-					templaterSettings.settings.templates_folder,
-				demoFolder: templaterSettings.settings.templates_folder,
-			};
-		}
-		this.settings = Object.assign(
-			{},
-			DEFAULT_SETTINGS,
-			pathSettings,
-			await this.loadData()
-		);
+		this.settings = await this.settingsManager.load();
 	}
 
 	async saveSettings() {
-		await this.saveData(this.settings);
+		this.settingsManager.update(this.settings);
+		await this.settingsManager.save();
 	}
 }
 
