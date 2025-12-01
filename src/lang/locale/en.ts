@@ -104,4 +104,12 @@ export default {
 	Executing: "Executing",
 	completed: "completed",
 	failed: "failed",
+	OBSyncWithMDBSetting: "Settings",
+	"Main Settings": "Main Settings",
+	"Airtable Settings": "Airtable",
+	"Feishu Settings": "Feishu",
+	"Lark Settings": "Lark",
+	"DingTalk Settings": "DingTalk",
+	"WPS Settings": "WPS",
+	"Vika Settings": "Vika",
 };

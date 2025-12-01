@@ -2,6 +2,7 @@ import { PluginSettingTab, Setting, App } from "obsidian";
 import { t } from "../lang/helpers";
 import { ApiService } from "../services/api-service";
 import { Utils } from "../utils";
+import { TabbedSettings } from "./tabbed-settings";
 
 // 默认设置
 
@@ -21,10 +22,61 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		containerEl.createEl("h2", {
-			text: t("Main Setting"),
-			cls: "my-plugin-title", // 添加自定义CSS类
+			text: t("OBSyncWithMDBSetting"),
+			cls: "obsyncwithmdb-title", // 添加自定义CSS类
 		});
 
+		const tabbedSettings = new TabbedSettings(containerEl);
+
+		const tabConfigs = [
+			{
+				title: "Main Setting",
+				renderMethod: (content: HTMLElement) =>
+					this.renderMainSettings(content),
+			},
+			{
+				title: "User Setting",
+				renderMethod: (content: HTMLElement) =>
+					this.renderUserSettings(content),
+			},
+			{
+				title: "Airtable Settings",
+				renderMethod: (content: HTMLElement) =>
+					this.renderAirtableSettings(content),
+			},
+			{
+				title: "Vika Settings",
+				renderMethod: (content: HTMLElement) =>
+					this.renderVikaSettings(content),
+			},
+			{
+				title: "Feishu Settings",
+				renderMethod: (content: HTMLElement) =>
+					this.renderFeishuSettings(content),
+			},
+			{
+				title: "Lark Settings",
+				renderMethod: (content: HTMLElement) =>
+					this.renderLarkSettings(content),
+			},
+			{
+				title: "DingTalk Settings",
+				renderMethod: (content: HTMLElement) =>
+					this.renderDingSettings(content),
+			},
+			{
+				title: "WPS Settings",
+				renderMethod: (content: HTMLElement) =>
+					this.renderWPSettings(content),
+			},
+		];
+
+		tabConfigs.forEach((config) => {
+			tabbedSettings.addTab(t(config.title as any), config.renderMethod);
+		});
+	}
+
+	private renderMainSettings(containerEl: HTMLElement): void {
 		this.createValidatedInput({
 			containerEl,
 			name: t("Sync Scripts Update API Key"),
@@ -88,12 +140,9 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					})
 			);
+	}
 
-		containerEl.createEl("h2", {
-			text: t("User Setting"),
-			cls: "my-plugin-title", // 添加自定义CSS类
-		});
-
+	private renderUserSettings(containerEl: HTMLElement): void {
 		new Setting(containerEl)
 			.setName(t("Your Airtable Personal Token"))
 			.setDesc(
@@ -175,6 +224,30 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 
 		deomLink.setAttr("target", "_blank");
 		deomLink.setAttr("rel", "noopener noreferrer");
+	}
+
+	private renderAirtableSettings(containerEl: HTMLElement): void {
+		// 渲染Airtable设置内容
+	}
+
+	private renderFeishuSettings(containerEl: HTMLElement): void {
+		// 渲染Feishu设置内容
+	}
+
+	private renderLarkSettings(containerEl: HTMLElement): void {
+		// 渲染Lark设置内容
+	}
+
+	private renderDingSettings(containerEl: HTMLElement): void {
+		// 渲染DingTalk设置内容
+	}
+
+	private renderWPSettings(containerEl: HTMLElement): void {
+		// 渲染WPS设置内容
+	}
+
+	private renderVikaSettings(containerEl: HTMLElement): void {
+		// 渲染Vika设置内容
 	}
 
 	private createValidatedInput(options: {
