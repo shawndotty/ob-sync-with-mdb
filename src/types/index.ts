@@ -22,6 +22,8 @@ export interface OBSyncWithMDBSettings {
 	updateAPIKey: string;
 	updateAPIKeyIsValid: boolean;
 	templaterScriptsFolder: string;
+	userSyncHelpDocsFolder: string;
+	obSyncRunningLanguage: string;
 	demoFolder: string;
 	userEmail: string;
 	userChecked: boolean;
@@ -34,7 +36,37 @@ export interface OBSyncWithMDBSettings {
 			tableID: string;
 			viewID: string;
 		};
-		demoTemplates: {
+		obSyncAirtable: {
+			baseID: string;
+			tableID: string;
+			viewID: string;
+		};
+		obSyncVika: {
+			baseID: string;
+			tableID: string;
+			viewID: string;
+		};
+		obSyncFeishu: {
+			baseID: string;
+			tableID: string;
+			viewID: string;
+		};
+		obSyncLark: {
+			baseID: string;
+			tableID: string;
+			viewID: string;
+		};
+		obSyncWPS: {
+			baseID: string;
+			tableID: string;
+			viewID: string;
+		};
+		obSyncDing: {
+			baseID: string;
+			tableID: string;
+			viewID: string;
+		};
+		obSyncHelpDocs: {
 			baseID: string;
 			tableID: string;
 			viewID: string;
@@ -47,6 +79,7 @@ export interface NocoDBTable {
 	baseID?: string;
 	tableID?: string;
 	targetFolderPath: string;
+	intialSetup?: boolean;
 }
 
 export interface NocoDBSettings {
@@ -59,6 +92,7 @@ export interface NocoDBSettings {
 			content?: string;
 			subFolder?: string;
 			extension?: string;
+			updatedIn?: string;
 		};
 	};
 }
@@ -66,25 +100,25 @@ export interface NocoDBSettings {
 export interface RecordFields {
 	[key: string]: any;
 	Title?: string;
+	TitleEN?: string;
+	TitleTW?: string;
 	MD?: string;
+	MDEN?: string;
+	MDTW?: string;
 	SubFolder?: string;
+	SubFolderEN?: string;
+	SubFolderTW?: string;
 	Extension?: string;
+	UpdatedIn?: number;
 }
 
 // 为避免与全局 Record 冲突，重命名为 MDBRecord
-export interface MDBRecord {
+export interface Record {
 	fields: RecordFields;
 }
 
-export const DEFAULT_UPDATE_IDS = {
-	obSyncCore: {
-		baseID: "",
-		tableID: "",
-		viewID: "",
-	},
-	demoTemplates: {
-		baseID: "",
-		tableID: "",
-		viewID: "",
-	},
-};
+export interface DateFilterOption {
+	id: string;
+	name: string;
+	value: number;
+}

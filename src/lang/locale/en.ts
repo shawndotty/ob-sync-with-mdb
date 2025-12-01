@@ -84,4 +84,24 @@ export default {
 	"Valid Email": "Valid Email",
 	Valid: "Valid",
 	"Reload OB": "Reload OB",
+	"Update Core Files": "Update Core Files",
+	"Update Help Docs": "Update Help Docs",
+	"Update Airtable Sync Scripts": "Update Airtable Sync Scripts",
+	"Update Vika Sync Scripts": "Update Vika Sync Scripts",
+	"Update Feishu Sync Scripts": "Update Feishu Sync Scripts",
+	"Update Lark Sync Scripts": "Update Lark Sync Scripts",
+	"Update WPS Sync Scripts": "Update WPS Sync Scripts",
+	"Update DingTalk Sync Scripts": "Update DingTalk Sync Scripts",
+	"Help documents updated today": "Help documents updated today",
+	"Help documents updated in the past week":
+		"Help documents updated in the past week",
+	"Help documents updated in the past two weeks":
+		"Help documents updated in the past two weeks",
+	"Help documents updated in the past month":
+		"Help documents updated in the past month",
+	"All help documents": "All help documents",
+	"Deploy OBSync With One Click": "Deploy OBSync With One Click",
+	Executing: "Executing",
+	completed: "completed",
+	failed: "failed",
 };

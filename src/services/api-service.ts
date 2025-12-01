@@ -1,4 +1,4 @@
-import { OBSyncWithMDBSettings, DEFAULT_UPDATE_IDS } from "../types";
+import { OBSyncWithMDBSettings } from "../types";
 import { AIRTABLE_CONFIG } from "src/airtable-config";
 import { requestUrl } from "obsidian";
 import { DEFAULT_SETTINGS } from "src/models/default-settings";

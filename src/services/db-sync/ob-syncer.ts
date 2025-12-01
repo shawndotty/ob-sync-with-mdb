@@ -1,9 +1,9 @@
 import { Notice } from "obsidian";
-import { t } from "src/lang/helpers";
-import { NocoDBTable } from "src/types";
+import { t } from "../../lang/helpers";
+import { NocoDBTable } from "../../types";
 import { NocoDBSync } from "./nocodb-sync";
 
-export class ObSyncer {
+export class ObsidianSyncer {
 	app: any;
 	vault: any;
 	nocoDBSyncer: NocoDBSync;
@@ -16,8 +16,9 @@ export class ObSyncer {
 
 	async onlyFetchFromNocoDB(
 		sourceTable: NocoDBTable,
-		iotoUpdate: boolean = false,
-		updateAPIKeyIsValid: boolean = false
+		iotoUpdate: boolean = true,
+		updateAPIKeyIsValid: boolean = false,
+		filterRecordsByDate: boolean = false
 	): Promise<string | undefined> {
 		if (iotoUpdate) {
 			if (!updateAPIKeyIsValid) {
@@ -31,11 +32,19 @@ export class ObSyncer {
 				return;
 			}
 		}
+
 		await this.nocoDBSyncer.createOrUpdateNotesInOBFromSourceTable(
-			sourceTable
+			sourceTable,
+			filterRecordsByDate
 		);
 	}
 
+	/**
+	 * 创建一个带有指定文本内容和颜色的文档片段
+	 * @param {string} content - 要显示的文本内容
+	 * @param {string} color - 文本颜色，支持CSS颜色值（如'#ff0000'、'red'等）
+	 * @returns {DocumentFragment} 返回包含样式化文本的文档片段
+	 */
 	buildFragment(content: string, color: string): DocumentFragment {
 		const fragment = document.createDocumentFragment();
 		const div = document.createElement("div");
