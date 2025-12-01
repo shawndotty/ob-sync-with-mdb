@@ -33,46 +33,61 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				title: "Main Setting",
 				renderMethod: (content: HTMLElement) =>
 					this.renderMainSettings(content),
+				render: true,
 			},
 			{
 				title: "User Setting",
 				renderMethod: (content: HTMLElement) =>
 					this.renderUserSettings(content),
+				render: true,
 			},
 			{
 				title: "Airtable Settings",
 				renderMethod: (content: HTMLElement) =>
 					this.renderAirtableSettings(content),
+				render:
+					this.plugin.settings.updateIDs.obSyncAirtable.viewID !== "",
 			},
 			{
 				title: "Vika Settings",
 				renderMethod: (content: HTMLElement) =>
 					this.renderVikaSettings(content),
+				render: this.plugin.settings.updateIDs.obSyncVika.viewID !== "",
 			},
 			{
 				title: "Feishu Settings",
 				renderMethod: (content: HTMLElement) =>
 					this.renderFeishuSettings(content),
+				render:
+					this.plugin.settings.updateIDs.obSyncFeishu.viewID !== "",
 			},
 			{
 				title: "Lark Settings",
 				renderMethod: (content: HTMLElement) =>
 					this.renderLarkSettings(content),
+				render: this.plugin.settings.updateIDs.obSyncLark.viewID !== "",
 			},
 			{
 				title: "DingTalk Settings",
 				renderMethod: (content: HTMLElement) =>
 					this.renderDingSettings(content),
+				render: this.plugin.settings.updateIDs.obSyncDing.viewID !== "",
 			},
 			{
 				title: "WPS Settings",
 				renderMethod: (content: HTMLElement) =>
 					this.renderWPSettings(content),
+				render: this.plugin.settings.updateIDs.obSyncWPS.viewID !== "",
 			},
 		];
 
 		tabConfigs.forEach((config) => {
-			tabbedSettings.addTab(t(config.title as any), config.renderMethod);
+			if (config.render) {
+				tabbedSettings.addTab(
+					t(config.title as any),
+					config.renderMethod
+				);
+			}
 		});
 	}
 
