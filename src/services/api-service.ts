@@ -1,69 +1,56 @@
-import { OBSyncWithMDBSettings } from "../types";
-import { AIRTABLE_CONFIG, DEFAULT_UPDATE_IDS } from "../constants";
-
-declare function requestUrl(options: any): Promise<any>;
+import { OBSyncWithMDBSettings, DEFAULT_UPDATE_IDS } from "../types";
+import { AIRTABLE_CONFIG } from "src/airtable-config";
+import { requestUrl } from "obsidian";
+import { DEFAULT_SETTINGS } from "src/models/default-settings";
 
 export class ApiService {
-	private settings: OBSyncWithMDBSettings;
+	constructor(private settings: OBSyncWithMDBSettings) {}
 
-	constructor(settings: OBSyncWithMDBSettings) {
-		this.settings = settings;
-	}
-
-	async getUpdateIDs() {
+	async getUpdateIDs(): Promise<void> {
 		const userEmail = this.settings.userEmail.trim();
+		const config = AIRTABLE_CONFIG.GET_UPDATE_IDS;
 		const getUpdateIDsUrl = `https://api.airtable.com/v0/${
-			AIRTABLE_CONFIG.GET_UPDATE_IDS.BASE_ID
-		}/${
-			AIRTABLE_CONFIG.GET_UPDATE_IDS.TABLE_NAME
-		}?maxRecords=1&filterByFormula=${encodeURI(
+			config.BASE_ID
+		}/${config.TABLE_ID}?view=${
+			config.VIEW_ID
+		}&maxRecords=1&filterByFormula=${encodeURI(
 			"{Email} = '" + userEmail + "'"
-		)}&fields%5B%5D=${
-			AIRTABLE_CONFIG.GET_UPDATE_IDS.FIELDS.OB_SYNC_UPDATE_IDS
-		}`;
-		const getUpdateIDsToken = AIRTABLE_CONFIG.GET_UPDATE_IDS.TOKEN;
+		)}&fields%5B%5D=${config.FIELD_NAME}`;
 
 		const response = await requestUrl({
 			url: getUpdateIDsUrl,
 			method: "GET",
-			headers: { Authorization: "Bearer " + getUpdateIDsToken },
+			headers: { Authorization: "Bearer " + config.TOKEN },
 		});
 
 		if (
 			response.json.records.length &&
-			response.json.records[0].fields[
-				AIRTABLE_CONFIG.GET_UPDATE_IDS.FIELDS.OB_SYNC_UPDATE_IDS
-			]
+			response.json.records[0].fields[config.FIELD_NAME]
 		) {
 			this.settings.updateIDs = JSON.parse(
-				response.json.records[0].fields[
-					AIRTABLE_CONFIG.GET_UPDATE_IDS.FIELDS.OB_SYNC_UPDATE_IDS
-				].first()
+				response.json.records[0].fields[config.FIELD_NAME].first()
 			);
 			this.settings.userChecked = true;
 		} else {
-			this.settings.updateIDs = DEFAULT_UPDATE_IDS;
-			this.settings.userChecked = false;
+			this.settings.updateIDs = DEFAULT_SETTINGS.updateIDs;
+			this.settings.userChecked = DEFAULT_SETTINGS.userChecked;
 		}
-
-		return this.settings;
 	}
 
-	async checkApiKey() {
+	async checkApiKey(): Promise<void> {
 		const updateUUID = crypto.randomUUID();
-		const checkApiWebHookUrl = AIRTABLE_CONFIG.CHECK_API_KEY.WEBHOOK_URL;
+		const config = AIRTABLE_CONFIG.CHECK_API_KEY;
 		const checkApiValidUrl = `https://api.airtable.com/v0/${
-			AIRTABLE_CONFIG.CHECK_API_KEY.BASE_ID
-		}/${AIRTABLE_CONFIG.CHECK_API_KEY.TABLE_NAME}?maxRecords=1&view=${
-			AIRTABLE_CONFIG.CHECK_API_KEY.VIEW_ID
+			config.BASE_ID
+		}/${config.TABLE_ID}?maxRecords=1&view=${
+			config.VIEW_ID
 		}&filterByFormula=${encodeURI(
-			`{${AIRTABLE_CONFIG.CHECK_API_KEY.FIELDS.UUID}} = '${updateUUID}'`
-		)}&fields%5B%5D=${AIRTABLE_CONFIG.CHECK_API_KEY.FIELDS.MATCH}`;
-		const checkApiValidToken = AIRTABLE_CONFIG.CHECK_API_KEY.TOKEN;
+			"{UUID} = '" + updateUUID + "'"
+		)}&fields%5B%5D=${config.FIELD_NAME}`;
 		let validKey = 0;
 		try {
 			await requestUrl({
-				url: checkApiWebHookUrl,
+				url: config.WEBHOOK_URL,
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -78,12 +65,9 @@ export class ApiService {
 				const matchRes = await requestUrl({
 					url: checkApiValidUrl,
 					method: "GET",
-					headers: { Authorization: "Bearer " + checkApiValidToken },
+					headers: { Authorization: "Bearer " + config.TOKEN },
 				});
-				validKey =
-					matchRes.json.records[0].fields[
-						AIRTABLE_CONFIG.CHECK_API_KEY.FIELDS.MATCH
-					];
+				validKey = matchRes.json.records[0].fields[config.FIELD_NAME];
 			} catch (error) {
 				console.log(error);
 			}
@@ -96,7 +80,5 @@ export class ApiService {
 		} else {
 			this.settings.updateAPIKeyIsValid = false;
 		}
-
-		return this.settings;
 	}
 }

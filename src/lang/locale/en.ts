@@ -82,4 +82,6 @@ export default {
 	"Validating...": "Validating...",
 	"Valid API Key": "Valid API Key",
 	"Valid Email": "Valid Email",
+	Valid: "Valid",
+	"Reload OB": "Reload OB",
 };

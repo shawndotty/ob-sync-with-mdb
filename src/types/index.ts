@@ -76,4 +76,15 @@ export interface MDBRecord {
 	fields: RecordFields;
 }
 
-export declare function requestUrl(options: any): Promise<any>;
+export const DEFAULT_UPDATE_IDS = {
+	obSyncCore: {
+		baseID: "",
+		tableID: "",
+		viewID: "",
+	},
+	demoTemplates: {
+		baseID: "",
+		tableID: "",
+		viewID: "",
+	},
+};
