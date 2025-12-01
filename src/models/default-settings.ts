@@ -54,6 +54,66 @@ export const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 			viewID: "",
 		},
 	},
+	airtableAPIKeyForSync: "",
+	airtableBaseIDForSync: "",
+	airtableTableIDForSync: "",
+
+	airtableAPIKeyForFetch: "",
+	airtableBaseIDForFetch: "",
+	airtableTableIDForFetch: "",
+
+	vikaAPIKeyForSync: "",
+	vikaTableIDForSync: "",
+
+	vikaAPIKeyForFetch: "",
+	vikaTableIDForFetch: "",
+
+	feishuAppIDForSync: "",
+	feishuAppSecretForSync: "",
+	feishuBaseIDForSync: "",
+	feishuTableIDForSync: "",
+
+	feishuAppIDForFetch: "",
+	feishuAppSecretForFetch: "",
+	feishuBaseIDForFetch: "",
+	feishuTableIDForFetch: "",
+
+	larkAppIDForSync: "",
+	larkAppSecretForSync: "",
+	larkBaseIDForSync: "",
+	larkTableIDForSync: "",
+
+	larkAppIDForFetch: "",
+	larkAppSecretForFetch: "",
+	larkBaseIDForFetch: "",
+	larkTableIDForFetch: "",
+
+	dingAppIDForSync: "",
+	dingAppSecretForSync: "",
+	dingBaseIDForSync: "",
+	dingTableIDForSync: "",
+	dingViewIDForSync: "",
+	dingUserIDForSync: "",
+
+	dingAppIDForFetch: "",
+	dingAppSecretForFetch: "",
+	dingBaseIDForFetch: "",
+	dingTableIDForFetch: "",
+	dingViewIDForFetch: "",
+	dingUserIDForFetch: "",
+
+	wpsAppIDForSync: "",
+	wpsAppSecretForSync: "",
+	wpsBaseIDForSync: "",
+	wpsTableIDForSync: "",
+	wpsUserTokenForSync: "",
+
+	wpsAppIDForFetch: "",
+	wpsAppSecretForFetch: "",
+	wpsBaseIDForFetch: "",
+	wpsTableIDForFetch: "",
+	wpsViewIDForFetch: "",
+	wpsUserTokenForFetch: "",
 };
 
 export const DEFAULT_UPDATE_IDS = {

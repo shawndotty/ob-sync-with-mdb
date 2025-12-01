@@ -72,6 +72,67 @@ export interface OBSyncWithMDBSettings {
 			viewID: string;
 		};
 	};
+	// Sync Settings
+	airtableAPIKeyForSync: string;
+	airtableBaseIDForSync: string;
+	airtableTableIDForSync: string;
+
+	airtableAPIKeyForFetch: string;
+	airtableBaseIDForFetch: string;
+	airtableTableIDForFetch: string;
+
+	vikaAPIKeyForSync: string;
+	vikaTableIDForSync: string;
+
+	vikaAPIKeyForFetch: string;
+	vikaTableIDForFetch: string;
+
+	feishuAppIDForSync: string;
+	feishuAppSecretForSync: string;
+	feishuBaseIDForSync: string;
+	feishuTableIDForSync: string;
+
+	feishuAppIDForFetch: string;
+	feishuAppSecretForFetch: string;
+	feishuBaseIDForFetch: string;
+	feishuTableIDForFetch: string;
+
+	larkAppIDForSync: string;
+	larkAppSecretForSync: string;
+	larkBaseIDForSync: string;
+	larkTableIDForSync: string;
+
+	larkAppIDForFetch: string;
+	larkAppSecretForFetch: string;
+	larkBaseIDForFetch: string;
+	larkTableIDForFetch: string;
+
+	dingAppIDForSync: string;
+	dingAppSecretForSync: string;
+	dingBaseIDForSync: string;
+	dingTableIDForSync: string;
+	dingViewIDForSync: string;
+	dingUserIDForSync: string;
+
+	dingAppIDForFetch: string;
+	dingAppSecretForFetch: string;
+	dingBaseIDForFetch: string;
+	dingTableIDForFetch: string;
+	dingViewIDForFetch: string;
+	dingUserIDForFetch: string;
+
+	wpsAppIDForSync: string;
+	wpsAppSecretForSync: string;
+	wpsBaseIDForSync: string;
+	wpsTableIDForSync: string;
+	wpsUserTokenForSync: string;
+
+	wpsAppIDForFetch: string;
+	wpsAppSecretForFetch: string;
+	wpsBaseIDForFetch: string;
+	wpsTableIDForFetch: string;
+	wpsViewIDForFetch: string;
+	wpsUserTokenForFetch: string;
 }
 
 export interface NocoDBTable {
@@ -121,4 +182,37 @@ export interface DateFilterOption {
 	id: string;
 	name: string;
 	value: number;
+}
+
+export interface ThirdPartyServiceConfig {
+	serviceName: string;
+	serviceType: string;
+	apiKeySetting: string;
+	apiKeyHint: string;
+	baseIdSetting?: string;
+	baseIdHint?: string;
+	tableIdSetting: string;
+	tableIdHint: string;
+	appSecretSetting?: string;
+	appSecretHint?: string;
+	baseUrl: string;
+	templateUrl: string;
+	yourTableText: string;
+	templateText: string;
+	viewIdSetting?: string;
+	viewIdHint?: string;
+	userIDSetting?: string;
+	userIDHint?: string;
+	userTokenSetting?: string;
+	userTokenHint?: string;
+	apiExplorerUrl?: string;
+	apiExplorerHint?: string;
+}
+
+export interface SettingConfig {
+	name: string;
+	desc: string;
+	placeholder?: string;
+	value: any;
+	onChange: (value: any) => Promise<void>;
 }
