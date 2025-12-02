@@ -32,7 +32,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 
 		const tabConfigs = [
 			{
-				title: "Main Setting",
+				title: "Basic Setting",
 				renderMethod: (content: HTMLElement) =>
 					this.renderMainSettings(content),
 				render: true,
@@ -271,7 +271,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 
 		const baseLink = infoContainer.createEl("a", {
 			text: t("Sync Configration Generator"),
-			href: "https://airtable.com/appekNvvdLY7J8zsq/shrpqtEGVjz8bgw9N",
+			href: "https://airtable.com/app84J6QgVNsTUdPQ/shrJhhMFksy7XTrRb",
 		});
 		baseLink.setAttr("target", "_blank");
 		baseLink.setAttr("rel", "noopener noreferrer");

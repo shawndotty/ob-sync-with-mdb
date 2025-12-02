@@ -6,7 +6,7 @@ export default {
 	"Get The Latest Version Of Demo Sync Templates":
 		"獲取演示同步模板的最新版本",
 	"Get Your Personal Sync Templates": "獲取您的個人同步模板",
-	"Main Setting": "主要設置",
+	"Basic Setting": "基本設置",
 	"Sync Scripts Update API Key": "同步腳本更新 API 密鑰",
 	"Please enter a valid update API Key": "請輸入有效的更新 API 密鑰",
 	"Enter the API Key": "輸入API密鑰",

@@ -105,7 +105,7 @@ export default {
 	completed: "completed",
 	failed: "failed",
 	OBSyncWithMDBSetting: "Settings",
-	"Main Settings": "Main Settings",
+	"Basic Settings": "Basic Settings",
 	"Airtable Settings": "Airtable",
 	"Feishu Settings": "Feishu",
 	"Lark Settings": "Lark",
