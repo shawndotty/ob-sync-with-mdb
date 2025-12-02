@@ -15,7 +15,7 @@ export default class OBSyncWithMDB extends Plugin {
 	private templaterService: TemplaterService;
 	private apiService: ApiService;
 	private hotkeyService: HotkeyService;
-	private commandService: CommandService;
+	commandService: CommandService;
 	private services: ServiceContainer;
 	async onload() {
 		this.services = new ServiceContainer(this);
