@@ -215,4 +215,22 @@ export default {
 	HELP_DOCS_FOLDER: "幫助文件夾",
 	HELP_DOCS_FOLDER_HINT: "請輸入幫助文件夾的路徑",
 	HELP_DOCS_FOLDER_PLACEHOLDER: "輸入幫助文件夾的完整路徑",
+	"Templater plugin not found or not enabled":
+		"未找到或未啟用 Templater 插件",
+	Added: "已新增",
+	"template(s) to Templater hotkeys": "個範本到 Templater 快捷鍵",
+	"All templates already exist in Templater hotkeys":
+		"所有範本已存在於 Templater 快捷鍵中",
+	"Add hotkeys error:": "新增快捷鍵出錯：",
+	"Update hotkeys.json failed": "更新 hotkeys.json 失敗",
+	"Templates do not exist:": "以下範本不存在：",
+	"Successfully added": "成功新增",
+	"hotkeys to Obsidian": "個快捷鍵到 Obsidian",
+	"Read hotkeys.json error:": "讀取 hotkeys.json 出錯：",
+	"Write to hotkeys.json error:": "寫入 hotkeys.json 出錯：",
+	"Successfully removed %removedCount% OBSync hotkeys":
+		"已成功移除 %removedCount% 個 OBSync 快捷鍵",
+	"Reset hotkeys error:": "重設快捷鍵出錯：",
+	"Reset hotkeys failed": "重設快捷鍵失敗",
+	"Add OB Sync MDB Hotkeys": "新增 OB Sync MDB 快捷鍵",
 };

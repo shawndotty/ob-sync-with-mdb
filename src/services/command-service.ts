@@ -187,7 +187,6 @@ export class CommandService {
 			// 在 registerCommands 方法中的回调函数内添加错误处理
 			callback: async () => {
 				await this.executeWithReload(async () => {
-					console.dir(this.hotkeyService);
 					await this.hotkeyService.addOBSyncDBHotkeys();
 				});
 			},

@@ -138,7 +138,7 @@ export class NocoDBSync {
 
 				offset = data.offset || "";
 			} catch (error) {
-				console.dir(error);
+				console.error(error);
 			}
 		} while (offset !== "");
 

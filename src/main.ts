@@ -28,8 +28,6 @@ export default class OBSyncWithMDB extends Plugin {
 		this.hotkeyService = this.services.hotkeyService;
 		this.commandService = this.services.commandService;
 
-		console.dir(this.hotkeyService);
-
 		this.commandService.registerCommands();
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
