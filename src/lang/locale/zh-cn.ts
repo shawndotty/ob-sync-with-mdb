@@ -17,7 +17,8 @@ export default {
 	"Sync templates Folder": "同步模板文件夹",
 	"Please enter the path to the Sync templates folder":
 		"请输入同步模板文件夹的路径",
-	"Enter the path to the Sync templates folder": "输入同步模板文件夹的路径",
+	"Enter the full path to the Sync templates folder":
+		"输入同步模板文件夹的完整路径",
 	"User Setting": "用户设置",
 	"Your Airtable Personal Token": "你的 Airtable 个人令牌",
 	"Please enter your personal Aritable token for your sync setting base":

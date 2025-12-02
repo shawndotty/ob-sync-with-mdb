@@ -21,9 +21,9 @@ export default {
 		"Enter the full path to the Templater Scripts folder",
 	"Sync templates Folder": "Sync templates Folder",
 	"Please enter the path to the Sync templates folder":
-		"Please enter the path to the Sync templates folder",
-	"Enter the path to the Sync templates folder":
-		"Enter the path to the Sync templates folder",
+		"Please enter the full path to the Sync templates folder",
+	"Enter the full path to the Sync templates folder":
+		"Enter the full path to the Sync templates folder",
 	"User Setting": "User Setting",
 	"Your Airtable Personal Token": "Your Airtable Personal Token",
 	"Please enter your personal Aritable token for your sync setting base":
