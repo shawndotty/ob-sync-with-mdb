@@ -137,6 +137,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				onChange: async (newFolder: string, oldFolder: string) => {
 					this.plugin.settings.templaterScriptsFolder = newFolder;
 					await this.plugin.saveSettings();
+					this.plugin.commandService.registerCommands();
 				},
 			},
 			{
@@ -148,6 +149,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				onChange: async (newFolder: string, oldFolder: string) => {
 					this.plugin.settings.templaterTemplatesFolder = newFolder;
 					await this.plugin.saveSettings();
+					this.plugin.commandService.registerCommands();
 				},
 			},
 			{
@@ -158,6 +160,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				onChange: async (newFolder: string, oldFolder: string) => {
 					this.plugin.settings.obSyncHelpDocsFolder = newFolder;
 					await this.plugin.saveSettings();
+					this.plugin.commandService.registerCommands();
 				},
 			},
 		];

@@ -15,7 +15,7 @@ export default class OBSyncWithMDB extends Plugin {
 	private templaterService: TemplaterService;
 	private apiService: ApiService;
 	private hotkeyService: HotkeyService;
-	private commandService: CommandService;
+	commandService: CommandService;
 	private services: ServiceContainer;
 	async onload() {
 		this.services = new ServiceContainer(this);
@@ -27,8 +27,6 @@ export default class OBSyncWithMDB extends Plugin {
 		this.templaterService = this.services.templaterService;
 		this.hotkeyService = this.services.hotkeyService;
 		this.commandService = this.services.commandService;
-
-		console.dir(this.hotkeyService);
 
 		this.commandService.registerCommands();
 
