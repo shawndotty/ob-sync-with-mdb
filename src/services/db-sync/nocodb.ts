@@ -24,6 +24,7 @@ export class NocoDB {
 				content: "MDForOBSync",
 				subFolder: "SubFolderForOBSync",
 				extension: "Extension",
+				updatedIn: "UpdatedIn",
 			},
 			...(nocoDBSettings.syncSettings?.recordFieldsNames || {}),
 		};
