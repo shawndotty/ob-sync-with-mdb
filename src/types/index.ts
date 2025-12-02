@@ -9,6 +9,9 @@ declare module "obsidian" {
 				[key: string]: any;
 			};
 		};
+		dom: {
+			appContainerEl: HTMLElement;
+		};
 	}
 }
 
@@ -24,12 +27,14 @@ export interface OBSyncWithMDBSettings {
 	templaterScriptsFolder: string;
 	userSyncHelpDocsFolder: string;
 	obSyncRunningLanguage: string;
-	demoFolder: string;
+	templaterTemplatesFolder: string;
 	userEmail: string;
 	userChecked: boolean;
 	userAPIKey: string;
 	userSyncSettingUrl: string;
 	userSyncScriptsFolder: string;
+	useUserTemplate: boolean;
+	userTemplatePrefix: string;
 	updateIDs: {
 		obSyncCore: {
 			baseID: string;
@@ -140,6 +145,7 @@ export interface NocoDBTable {
 	baseID?: string;
 	tableID?: string;
 	targetFolderPath: string;
+	targetFolderPathForTemplates?: string;
 	intialSetup?: boolean;
 }
 

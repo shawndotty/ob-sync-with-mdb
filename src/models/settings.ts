@@ -23,7 +23,8 @@ export class SettingsManager {
 					templaterSettings.settings.user_scripts_folder,
 				userSyncScriptsFolder:
 					templaterSettings.settings.templates_folder,
-				demoFolder: templaterSettings.settings.templates_folder,
+				templaterTemplatesFolder:
+					templaterSettings.settings.templates_folder,
 			};
 		}
 		this.settings = Object.assign(

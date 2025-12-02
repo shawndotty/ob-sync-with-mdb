@@ -55,7 +55,9 @@ export class CommandService {
 					baseID: this.settings.updateIDs.obSyncCore.baseID,
 					tableID: this.settings.updateIDs.obSyncCore.tableID,
 					viewID: this.settings.updateIDs.obSyncCore.viewID,
-					targetFolderPath: this.settings.userSyncScriptsFolder,
+					targetFolderPath: this.settings.templaterScriptsFolder,
+					targetFolderPathForTemplates:
+						this.settings.templaterTemplatesFolder,
 				}),
 				isPartOfAllUpdates: true,
 			},
@@ -79,7 +81,9 @@ export class CommandService {
 					baseID: this.settings.updateIDs.obSyncAirtable.baseID,
 					tableID: this.settings.updateIDs.obSyncAirtable.tableID,
 					viewID: this.settings.updateIDs.obSyncAirtable.viewID,
-					targetFolderPath: this.settings.userSyncScriptsFolder,
+					targetFolderPath: this.settings.templaterScriptsFolder,
+					targetFolderPathForTemplates:
+						this.settings.templaterTemplatesFolder,
 				}),
 				isPartOfAllUpdates: true,
 			},
@@ -90,7 +94,9 @@ export class CommandService {
 					baseID: this.settings.updateIDs.obSyncVika.baseID,
 					tableID: this.settings.updateIDs.obSyncVika.tableID,
 					viewID: this.settings.updateIDs.obSyncVika.viewID,
-					targetFolderPath: this.settings.userSyncScriptsFolder,
+					targetFolderPath: this.settings.templaterScriptsFolder,
+					targetFolderPathForTemplates:
+						this.settings.templaterTemplatesFolder,
 				}),
 				isPartOfAllUpdates: true,
 			},
@@ -101,7 +107,9 @@ export class CommandService {
 					baseID: this.settings.updateIDs.obSyncFeishu.baseID,
 					tableID: this.settings.updateIDs.obSyncFeishu.tableID,
 					viewID: this.settings.updateIDs.obSyncFeishu.viewID,
-					targetFolderPath: this.settings.userSyncScriptsFolder,
+					targetFolderPath: this.settings.templaterScriptsFolder,
+					targetFolderPathForTemplates:
+						this.settings.templaterTemplatesFolder,
 				}),
 				isPartOfAllUpdates: true,
 			},
@@ -112,7 +120,9 @@ export class CommandService {
 					baseID: this.settings.updateIDs.obSyncLark.baseID,
 					tableID: this.settings.updateIDs.obSyncLark.tableID,
 					viewID: this.settings.updateIDs.obSyncLark.viewID,
-					targetFolderPath: this.settings.userSyncScriptsFolder,
+					targetFolderPath: this.settings.templaterScriptsFolder,
+					targetFolderPathForTemplates:
+						this.settings.templaterTemplatesFolder,
 				}),
 				isPartOfAllUpdates: true,
 			},
@@ -123,7 +133,9 @@ export class CommandService {
 					baseID: this.settings.updateIDs.obSyncWPS.baseID,
 					tableID: this.settings.updateIDs.obSyncWPS.tableID,
 					viewID: this.settings.updateIDs.obSyncWPS.viewID,
-					targetFolderPath: this.settings.userSyncScriptsFolder,
+					targetFolderPath: this.settings.templaterScriptsFolder,
+					targetFolderPathForTemplates:
+						this.settings.templaterTemplatesFolder,
 				}),
 				isPartOfAllUpdates: true,
 			},
@@ -134,7 +146,9 @@ export class CommandService {
 					baseID: this.settings.updateIDs.obSyncDing.baseID,
 					tableID: this.settings.updateIDs.obSyncDing.tableID,
 					viewID: this.settings.updateIDs.obSyncDing.viewID,
-					targetFolderPath: this.settings.userSyncScriptsFolder,
+					targetFolderPath: this.settings.templaterScriptsFolder,
+					targetFolderPathForTemplates:
+						this.settings.templaterTemplatesFolder,
 				}),
 				isPartOfAllUpdates: true,
 			},
@@ -320,82 +334,4 @@ export class CommandService {
 			},
 		});
 	}
-
-	// registerCommands() {
-	// 	// 优化后的 addCommand 方法，减少重复代码，提升可维护性
-	// 	const commands = [
-	// 		{
-	// 			id: "ob-sync-with-mdb-update-core",
-	// 			name: t("Get The Latest Version Of Sync Scripts"),
-	// 			tableConfig: {
-	// 				baseID: this.settings.updateIDs.obSyncCore.baseID,
-	// 				tableID: this.settings.updateIDs.obSyncCore.tableID,
-	// 				viewID: this.settings.updateIDs.obSyncCore.viewID,
-	// 				targetFolderPath: this.settings.templaterScriptsFolder,
-	// 			},
-	// 			iotoUpdate: true,
-	// 			reloadOB: false,
-	// 			apiKey: this.settings.updateAPIKey,
-	// 		},
-	// 		{
-	// 			id: "ob-sync-with-mdb-update-user-sync-scripts",
-	// 			name: t("Get Your Personal Sync Templates"),
-	// 			tableConfig: {
-	// 				baseID: this.userSyncSettingAirtableIds?.baseId || "",
-	// 				tableID: this.userSyncSettingAirtableIds?.tableId || "",
-	// 				viewID: this.userSyncSettingAirtableIds?.viewId || "",
-	// 				targetFolderPath: this.settings.userSyncScriptsFolder,
-	// 			},
-	// 			iotoUpdate: false,
-	// 			reloadOB: false,
-	// 			apiKey: this.settings.userAPIKey,
-	// 		},
-	// 	];
-
-	// 	commands.forEach((cmd) => {
-	// 		this.plugin.addCommand({
-	// 			id: cmd.id,
-	// 			name: cmd.name,
-	// 			callback: async () => {
-	// 				if (!cmd.apiKey) {
-	// 					new Notice(
-	// 						t("You must provide an API Key to run this command")
-	// 					);
-	// 					return;
-	// 				}
-	// 				if (!this.settings.userEmail) {
-	// 					new Notice(
-	// 						t(
-	// 							"You need to provide the email for your account to run this command"
-	// 						)
-	// 					);
-	// 					return;
-	// 				}
-	// 				const nocoDBSettings = {
-	// 					apiKey: cmd.apiKey,
-	// 					tables: [cmd.tableConfig],
-	// 				};
-	// 				const myNocoDB = new NocoDB(nocoDBSettings);
-	// 				const nocoDBSync = new NocoDBSync(
-	// 					myNocoDB,
-	// 					this.plugin.app
-	// 				);
-	// 				const myObsidian = new ObSyncer(
-	// 					this.plugin.app,
-	// 					nocoDBSync
-	// 				);
-	// 				await myObsidian.onlyFetchFromNocoDB(
-	// 					nocoDBSettings.tables[0],
-	// 					cmd.iotoUpdate,
-	// 					this.settings.updateAPIKeyIsValid
-	// 				);
-	// 				if (cmd.reloadOB) {
-	// 					this.plugin.app.commands.executeCommandById(
-	// 						"app:reload"
-	// 					);
-	// 				}
-	// 			},
-	// 		});
-	// 	});
-	// }
 }

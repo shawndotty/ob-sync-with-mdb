@@ -4,6 +4,7 @@ import { ApiService } from "../services/api-service";
 import { Utils } from "../utils";
 import { TabbedSettings } from "./tabbed-settings";
 import { ThirdPartyServiceConfig, SettingConfig } from "../types";
+import { FolderSuggest } from "./pickers/folder-picker";
 
 // 默认设置
 
@@ -125,40 +126,65 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			remoteValidator: () => this.apiService.getUpdateIDs(),
 		});
 
-		new Setting(containerEl)
-			.setName(t("Sync Scripts Folder"))
-			.setDesc(t("Please enter the path to the Templater Scripts Folder"))
-			.addText((text) =>
-				text
-					.setPlaceholder(
-						t("Enter the full path to the Templater Scripts folder")
-					)
-					.setValue(this.plugin.settings.templaterScriptsFolder)
-					.onChange(async (value) => {
-						this.plugin.settings.templaterScriptsFolder = value;
-						await this.plugin.saveSettings();
-					})
-			);
+		const folderSettings = [
+			{
+				nameKey: "Sync Scripts Folder",
+				descKey:
+					"Please enter the path to the Templater Scripts Folder",
+				placeholderKey:
+					"Enter the full path to the Templater Scripts folder",
+				value: this.plugin.settings.templaterScriptsFolder,
+				onChange: async (newFolder: string, oldFolder: string) => {
+					this.plugin.settings.templaterScriptsFolder = newFolder;
+					await this.plugin.saveSettings();
+				},
+			},
+			{
+				nameKey: "Sync templates Folder",
+				descKey: "Please enter the path to the Sync templates folder",
+				placeholderKey:
+					"Enter the full path to the Sync templates folder",
+				value: this.plugin.settings.templaterTemplatesFolder,
+				onChange: async (newFolder: string, oldFolder: string) => {
+					this.plugin.settings.templaterTemplatesFolder = newFolder;
+					await this.plugin.saveSettings();
+				},
+			},
+		];
 
-		new Setting(containerEl)
-			.setName(t("Demo Sync templates Folder"))
-			.setDesc(
-				t("Please enter the path to the demo sync templates folder")
-			)
-			.addText((text) =>
-				text
-					.setPlaceholder(
-						t("Enter the path to the demo sync templates folder")
-					)
-					.setValue(this.plugin.settings.demoFolder)
-					.onChange(async (value) => {
-						this.plugin.settings.demoFolder = value;
-						await this.plugin.saveSettings();
-					})
+		folderSettings.forEach((setting) => {
+			this.createFolderSetting(
+				containerEl,
+				setting.nameKey,
+				setting.descKey,
+				setting.placeholderKey,
+				setting.value,
+				setting.onChange
 			);
+		});
 	}
 
 	private renderUserSettings(containerEl: HTMLElement): void {
+		this.createToggleSetting(containerEl, {
+			name: "USE_USER_TEMPLATE",
+			desc: "TOGGLE_USE_USER_TEMPLATE",
+			value: this.plugin.settings.useUserTemplate,
+			onChange: async (value) => {
+				this.plugin.settings.useUserTemplate = value;
+				await this.plugin.saveSettings();
+			},
+		});
+
+		this.createTextSetting(containerEl, {
+			name: "USER_TEMPLATE_PREFIX",
+			desc: "SET_USER_TEMPLATE_PREFIX",
+			placeholder: "USER_TEMPLATE_PREFIX_HINT",
+			value: this.plugin.settings.userTemplatePrefix,
+			onChange: async (value) => {
+				this.plugin.settings.userTemplatePrefix = value;
+				await this.plugin.saveSettings();
+			},
+		});
 		new Setting(containerEl)
 			.setName(t("Your Airtable Personal Token"))
 			.setDesc(
@@ -189,20 +215,30 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					})
 			);
 
-		new Setting(containerEl)
-			.setName(t("Your Sync Templates Folder"))
-			.setDesc(t("Please enter the path to your sync templates folder"))
-			.addText((text) =>
-				text
-					.setPlaceholder(
-						t("Enter the path to your sync templates folder")
-					)
-					.setValue(this.plugin.settings.userSyncScriptsFolder)
-					.onChange(async (value) => {
-						this.plugin.settings.userSyncScriptsFolder = value;
-						await this.plugin.saveSettings();
-					})
+		const folderSettings = [
+			{
+				nameKey: "Your Sync Templates Folder",
+				descKey: "Please enter the path to your sync templates folder",
+				placeholderKey:
+					"Enter the full path to your sync templates folder",
+				value: this.plugin.settings.userSyncScriptsFolder,
+				onChange: async (newFolder: string, oldFolder: string) => {
+					this.plugin.settings.userSyncScriptsFolder = newFolder;
+					await this.plugin.saveSettings();
+				},
+			},
+		];
+
+		folderSettings.forEach((setting) => {
+			this.createFolderSetting(
+				containerEl,
+				setting.nameKey,
+				setting.descKey,
+				setting.placeholderKey,
+				setting.value,
+				setting.onChange
 			);
+		});
 
 		containerEl.createEl("hr");
 
@@ -802,6 +838,44 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					text.setPlaceholder(t(config.placeholder as any));
 				}
 				text.setValue(config.value).onChange(config.onChange);
+			});
+	}
+
+	// 通用方法：创建切换设置项
+	private createToggleSetting(
+		content: HTMLElement,
+		config: SettingConfig
+	): void {
+		new Setting(content)
+			.setName(t(config.name as any))
+			.setDesc(t(config.desc as any))
+			.addToggle((toggle) => {
+				toggle.setValue(config.value).onChange(config.onChange);
+			});
+	}
+
+	// 通用方法：创建文件夹设置项
+	private createFolderSetting(
+		content: HTMLElement,
+		nameKey: string,
+		descKey: string,
+		placeholderKey: string,
+		value: string,
+		onChange: (newFolder: string, oldFolder: string) => Promise<void>
+	): void {
+		new Setting(content)
+			.setName(t(nameKey as any))
+			.setDesc(t(descKey as any))
+			.addSearch((text) => {
+				new FolderSuggest(this.app, text.inputEl);
+				text.setPlaceholder(t(placeholderKey as any))
+					.setValue(value)
+					.onChange(async (newFolder) => {
+						const oldFolder = value;
+						if (newFolder) {
+							await onChange(newFolder, oldFolder);
+						}
+					});
 			});
 	}
 }

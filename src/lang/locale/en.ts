@@ -19,11 +19,11 @@ export default {
 		"Please enter the path to the Templater Scripts Folder",
 	"Enter the full path to the Templater Scripts folder":
 		"Enter the full path to the Templater Scripts folder",
-	"Demo Sync templates Folder": "Demo Sync templates Folder",
-	"Please enter the path to the demo sync templates folder":
-		"Please enter the path to the demo sync templates folder",
-	"Enter the path to the demo sync templates folder":
-		"Enter the path to the demo sync templates folder",
+	"Sync templates Folder": "Sync templates Folder",
+	"Please enter the path to the Sync templates folder":
+		"Please enter the path to the Sync templates folder",
+	"Enter the path to the Sync templates folder":
+		"Enter the path to the Sync templates folder",
 	"User Setting": "User Setting",
 	"Your Airtable Personal Token": "Your Airtable Personal Token",
 	"Please enter your personal Aritable token for your sync setting base":
@@ -221,4 +221,10 @@ export default {
 	WPSFetchTemplate: "WPS Fetch Template",
 	IOTO_WPS_API_EXPLORER_URL: "https://open.wps.cn/api-explorer/",
 	IOTO_WPS_API_EXPLORER_HINT: "Open WPS API Explorer",
+	TOGGLE_USE_USER_TEMPLATE:
+		"Toggle This On To Use Templates Created By Yourself When They Are Available. Toggle This Off To Use OBSyncrMDB Default Templates Only.",
+	USE_USER_TEMPLATE: "Use User Templates",
+	USER_TEMPLATE_PREFIX: "User Template Prefix",
+	SET_USER_TEMPLATE_PREFIX: "Set The Prefix For Your User Templates",
+	USER_TEMPLATE_PREFIX_HINT: "Input The Prefix For Your User Templates",
 };

@@ -165,11 +165,14 @@ export class NocoDBSync {
 
 		const directoryRootPath = sourceTable.targetFolderPath;
 
+		const templatesFolderPath =
+			sourceTable.targetFolderPathForTemplates || "";
+
+		const singleTargetFolderMode = templatesFolderPath === "";
+
 		let notesToCreateOrUpdate: RecordFields[] = (
 			await this.fetchRecordsFromSource(sourceTable, filterRecordsByDate)
 		).map((note: Record) => note.fields);
-
-		console.dir(notesToCreateOrUpdate);
 
 		if (sourceTable.intialSetup) {
 			// 处理 SubFolder 中的 MyIOTO 格式
@@ -202,15 +205,19 @@ export class NocoDBSync {
 				let validFileName = this.convertToValidFileName(
 					note.Title || ""
 				);
-				let folderPath =
-					directoryRootPath +
-					(note.SubFolderForOBSync
-						? `/${note.SubFolderForOBSync}`
-						: "");
-				await this.createPathIfNeeded(folderPath);
 				const noteExtension =
 					"Extension" in note ? note.Extension : "md";
+				const subPath = note.SubFolderForOBSync
+					? `/${note.SubFolderForOBSync}`
+					: "";
+				const folderPath = singleTargetFolderMode
+					? directoryRootPath + subPath
+					: (noteExtension === "js"
+							? directoryRootPath
+							: templatesFolderPath) + subPath;
+				await this.createPathIfNeeded(folderPath);
 				const notePath = `${folderPath}/${validFileName}.${noteExtension}`;
+
 				const noteExists = await vault.exists(notePath);
 				let noteContent = note.MDForOBSync ? note.MDForOBSync : "";
 				if (!noteExists) {

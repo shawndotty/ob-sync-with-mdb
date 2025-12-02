@@ -14,11 +14,10 @@ export default {
 		"请输入Templater脚本文件夹的路径",
 	"Enter the full path to the Templater Scripts folder":
 		"输入Templater脚本文件夹的完整路径",
-	"Demo Sync templates Folder": "演示同步模板文件夹",
-	"Please enter the path to the demo sync templates folder":
-		"请输入演示同步模板文件夹的路径",
-	"Enter the path to the demo sync templates folder":
-		"输入演示同步模板文件夹的路径",
+	"Sync templates Folder": "同步模板文件夹",
+	"Please enter the path to the Sync templates folder":
+		"请输入同步模板文件夹的路径",
+	"Enter the path to the Sync templates folder": "输入同步模板文件夹的路径",
 	"User Setting": "用户设置",
 	"Your Airtable Personal Token": "你的 Airtable 个人令牌",
 	"Please enter your personal Aritable token for your sync setting base":
@@ -206,4 +205,10 @@ export default {
 	WPSFetchTemplate: "WPS 获取模板",
 	IOTO_WPS_API_EXPLORER_URL: "https://open.wps.cn/api-explorer/",
 	IOTO_WPS_API_EXPLORER_HINT: "打开 WPS API 浏览器",
+	TOGGLE_USE_USER_TEMPLATE:
+		"当存在您自己创建的模板时，打开此开关可使用它们；关闭此开关则仅使用 OBSyncrMDB 默认模板。",
+	USE_USER_TEMPLATE: "使用用户模板",
+	USER_TEMPLATE_PREFIX: "用户模板前缀",
+	SET_USER_TEMPLATE_PREFIX: "设置您的用户模板前缀",
+	USER_TEMPLATE_PREFIX_HINT: "输入您的用户模板前缀",
 };

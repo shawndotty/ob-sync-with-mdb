@@ -6,12 +6,14 @@ export const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 	templaterScriptsFolder: "",
 	userSyncHelpDocsFolder: "",
 	obSyncRunningLanguage: "ob",
-	demoFolder: "",
+	templaterTemplatesFolder: "",
 	userEmail: "",
 	userChecked: false,
 	userAPIKey: "",
 	userSyncSettingUrl: "",
 	userSyncScriptsFolder: "",
+	useUserTemplate: true,
+	userTemplatePrefix: "My",
 	updateIDs: {
 		obSyncCore: {
 			baseID: "",
