@@ -227,4 +227,7 @@ export default {
 	USER_TEMPLATE_PREFIX: "User Template Prefix",
 	SET_USER_TEMPLATE_PREFIX: "Set The Prefix For Your User Templates",
 	USER_TEMPLATE_PREFIX_HINT: "Input The Prefix For Your User Templates",
+	HELP_DOCS_FOLDER: "Help Docs Folder",
+	HELP_DOCS_FOLDER_HINT: "Please enter the path to the Help Docs folder",
+	HELP_DOCS_FOLDER_PLACEHOLDER: "Enter the full path to the Help Docs folder",
 };

@@ -211,4 +211,7 @@ export default {
 	USER_TEMPLATE_PREFIX: "用户模板前缀",
 	SET_USER_TEMPLATE_PREFIX: "设置您的用户模板前缀",
 	USER_TEMPLATE_PREFIX_HINT: "输入您的用户模板前缀",
+	HELP_DOCS_FOLDER: "帮助文档文件夹",
+	HELP_DOCS_FOLDER_HINT: "请输入帮助文档文件夹的路径",
+	HELP_DOCS_FOLDER_PLACEHOLDER: "输入帮助文档文件夹的完整路径",
 };

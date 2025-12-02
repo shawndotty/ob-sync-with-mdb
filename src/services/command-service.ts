@@ -68,7 +68,7 @@ export class CommandService {
 					baseID: this.settings.updateIDs.obSyncHelpDocs.baseID,
 					tableID: this.settings.updateIDs.obSyncHelpDocs.tableID,
 					viewID: this.settings.updateIDs.obSyncHelpDocs.viewID,
-					targetFolderPath: this.settings.userSyncHelpDocsFolder,
+					targetFolderPath: this.settings.obSyncHelpDocsFolder,
 				}),
 				iotoUpdate: false,
 				filterRecordsByDate: true,

@@ -212,4 +212,7 @@ export default {
 	USER_TEMPLATE_PREFIX: "使用者範本前綴",
 	SET_USER_TEMPLATE_PREFIX: "設定您的使用者範本前綴",
 	USER_TEMPLATE_PREFIX_HINT: "輸入您的使用者範本前綴",
+	HELP_DOCS_FOLDER: "幫助文件夾",
+	HELP_DOCS_FOLDER_HINT: "請輸入幫助文件夾的路徑",
+	HELP_DOCS_FOLDER_PLACEHOLDER: "輸入幫助文件夾的完整路徑",
 };

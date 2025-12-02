@@ -150,6 +150,16 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					await this.plugin.saveSettings();
 				},
 			},
+			{
+				nameKey: "HELP_DOCS_FOLDER",
+				descKey: "HELP_DOCS_FOLDER_HINT",
+				placeholderKey: "HELP_DOCS_FOLDER_PLACEHOLDER",
+				value: this.plugin.settings.obSyncHelpDocsFolder,
+				onChange: async (newFolder: string, oldFolder: string) => {
+					this.plugin.settings.obSyncHelpDocsFolder = newFolder;
+					await this.plugin.saveSettings();
+				},
+			},
 		];
 
 		folderSettings.forEach((setting) => {

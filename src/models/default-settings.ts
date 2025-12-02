@@ -4,7 +4,7 @@ export const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 	updateAPIKey: "",
 	updateAPIKeyIsValid: false,
 	templaterScriptsFolder: "",
-	userSyncHelpDocsFolder: "",
+	obSyncHelpDocsFolder: "",
 	obSyncRunningLanguage: "ob",
 	templaterTemplatesFolder: "",
 	userEmail: "",

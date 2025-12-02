@@ -25,7 +25,7 @@ export interface OBSyncWithMDBSettings {
 	updateAPIKey: string;
 	updateAPIKeyIsValid: boolean;
 	templaterScriptsFolder: string;
-	userSyncHelpDocsFolder: string;
+	obSyncHelpDocsFolder: string;
 	obSyncRunningLanguage: string;
 	templaterTemplatesFolder: string;
 	userEmail: string;
