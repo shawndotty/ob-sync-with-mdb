@@ -39,7 +39,8 @@ export default {
 	"Your Sync Templates Folder": "你的同步模板文件夹",
 	"Please enter the path to your sync templates folder":
 		"请输入同步模板文件夹的路径",
-	"Enter the path to your sync templates folder": "输入同步模板文件夹的路径",
+	"Enter the full path to your sync templates folder":
+		"输入同步模板文件夹的完整路径",
 	"Updating, plese wait for a moment": "正在更新，请稍候",
 	"Your API Key was expired. Please get a new one.":
 		"你的API密钥已过期，请获取新的密钥",

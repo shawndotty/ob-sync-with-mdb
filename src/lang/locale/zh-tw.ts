@@ -39,8 +39,9 @@ export default {
 	"Enter the view id": "輸入視圖ID",
 	"Your Sync Templates Folder": "你的同步模板文件夾",
 	"Please enter the path to your sync templates folder":
-		"請輸入同步模板文件夾的路徑",
-	"Enter the path to your sync templates folder": "輸入同步模板文件夾的路徑",
+		"請輸入同步模板文件夾的完整路徑",
+	"Enter the full path to your sync templates folder":
+		"輸入同步模板文件夾的完整路徑",
 	"Updating, plese wait for a moment": "正在更新，請稍候",
 	"Your API Key was expired. Please get a new one.":
 		"你的API密鑰已過期，請獲取新的密鑰",

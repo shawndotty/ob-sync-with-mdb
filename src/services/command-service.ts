@@ -121,14 +121,12 @@ export class CommandService {
 				id: "get-lark-sync-scripts",
 				name: t("Update Lark Sync Scripts"),
 				tableConfig: () => ({
-					baseID: this.settings.updateIDs.obSyncLark.baseID,
-					tableID: this.settings.updateIDs.obSyncLark.tableID,
-					viewID: this.settings.updateIDs.obSyncLark.viewID,
-					targetFolderPath: this.settings.templaterScriptsFolder,
-					targetFolderPathForTemplates:
-						this.settings.templaterTemplatesFolder,
+					baseID: this.userSyncSettingAirtableIds?.baseId || "",
+					tableID: this.userSyncSettingAirtableIds?.tableId || "",
+					viewID: this.userSyncSettingAirtableIds?.viewId || "",
+					targetFolderPath: this.settings.userSyncScriptsFolder,
 				}),
-				isPartOfAllUpdates: true,
+				isPartOfAllUpdates: false,
 			},
 			{
 				id: "get-wps-sync-scripts",
@@ -155,6 +153,18 @@ export class CommandService {
 						this.settings.templaterTemplatesFolder,
 				}),
 				isPartOfAllUpdates: true,
+			},
+			{
+				id: "get-user-sync-tempates",
+				name: t("Get Your Personal Sync Templates"),
+				tableConfig: () => ({
+					baseID: this.userSyncSettingAirtableIds?.baseId || "",
+					tableID: this.userSyncSettingAirtableIds?.tableId || "",
+					viewID: this.userSyncSettingAirtableIds?.viewId || "",
+					targetFolderPath: this.settings.userSyncScriptsFolder,
+				}),
+				isPartOfAllUpdates: false,
+				apiKey: () => this.settings.userAPIKey,
 			},
 		];
 	}

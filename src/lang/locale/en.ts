@@ -44,8 +44,8 @@ export default {
 	"Your Sync Templates Folder": "Your Sync Templates Folder",
 	"Please enter the path to your sync templates folder":
 		"Please enter the path to your sync templates folder",
-	"Enter the path to your sync templates folder":
-		"Enter the path to your sync templates folder",
+	"Enter the full path to your sync templates folder":
+		"Enter the full path to your sync templates folder",
 	"Updating, plese wait for a moment": "Updating, plese wait for a moment",
 	"Your API Key was expired. Please get a new one.":
 		"Your API Key was expired. Please get a new one.",
