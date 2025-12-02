@@ -3,6 +3,7 @@ import { ApiService } from "./api-service";
 import { CommandService } from "./command-service";
 import { SettingsManager } from "../models/settings";
 import { TemplaterService } from "./templater-service";
+import { HotkeyService } from "./hotkey-services";
 
 export class ServiceContainer {
 	private _plugin: OBSyncWithMDB;
@@ -11,6 +12,7 @@ export class ServiceContainer {
 	private _apiService: ApiService;
 	private _templaterService: TemplaterService;
 	private _commandService: CommandService;
+	private _hotkeyService: HotkeyService;
 
 	constructor(plugin: OBSyncWithMDB) {
 		this._plugin = plugin;
@@ -41,13 +43,25 @@ export class ServiceContainer {
 		return this._templaterService;
 	}
 
+	public get hotkeyService(): HotkeyService {
+		if (!this._hotkeyService) {
+			this._hotkeyService = new HotkeyService(
+				this._plugin.app,
+				this._templaterService,
+				this._plugin.settings
+			);
+		}
+		return this._hotkeyService;
+	}
+
 	public get commandService(): CommandService {
 		if (!this._commandService) {
 			this._commandService = new CommandService(
 				this._plugin.app,
 				this._plugin.addCommand.bind(this._plugin),
 				this._plugin.settings,
-				this.templaterService
+				this._templaterService,
+				this._hotkeyService
 			);
 		}
 		return this._commandService;

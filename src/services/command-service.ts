@@ -11,6 +11,7 @@ import { ObsidianSyncer } from "./db-sync/ob-syncer";
 import { NocoDBSync } from "./db-sync/nocodb-sync";
 import { Utils } from "src/utils";
 import { TemplaterService } from "./templater-service";
+import { HotkeyService } from "./hotkey-services";
 
 interface CommandConfig {
 	id: string;
@@ -30,16 +31,19 @@ export class CommandService {
 	private settings: OBSyncWithMDBSettings;
 	private templaterService: TemplaterService;
 	private userSyncSettingAirtableIds: AirtableIds | null;
+	private hotkeyService: HotkeyService;
 
 	constructor(
 		app: App,
 		addCommand: (command: Command) => void,
 		settings: OBSyncWithMDBSettings,
-		templaterService: TemplaterService
+		templaterService: TemplaterService,
+		hotkeyService: HotkeyService
 	) {
 		this.app = app;
 		this.addCommand = addCommand;
 		this.settings = settings;
+		this.hotkeyService = hotkeyService;
 		this.templaterService = templaterService;
 		this.userSyncSettingAirtableIds = Utils.extractAirtableIds(
 			this.settings.userSyncSettingUrl
@@ -176,6 +180,18 @@ export class CommandService {
 		});
 
 		this.createRunAllUpdatesCommand(commandConfigs);
+
+		this.addCommand({
+			id: "add-templater-hotkeys",
+			name: t("Add OB Sync MDB Hotkeys"),
+			// 在 registerCommands 方法中的回调函数内添加错误处理
+			callback: async () => {
+				await this.executeWithReload(async () => {
+					console.dir(this.hotkeyService);
+					await this.hotkeyService.addOBSyncDBHotkeys();
+				});
+			},
+		});
 	}
 
 	async executeNocoDBCommand(
@@ -333,5 +349,14 @@ export class CommandService {
 				});
 			},
 		});
+	}
+
+	private async executeWithReload(
+		callback: () => Promise<void>
+	): Promise<void> {
+		await callback();
+		setTimeout(() => {
+			this.app.commands.executeCommandById("app:reload");
+		}, 1000);
 	}
 }

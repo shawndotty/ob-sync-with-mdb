@@ -7,12 +7,14 @@ import { TemplaterService } from "./services/templater-service";
 import { ApiService } from "./services/api-service";
 import { SettingsManager } from "./models/settings";
 import { ServiceContainer } from "./services/service-container";
+import { HotkeyService } from "./services/hotkey-services";
 
 export default class OBSyncWithMDB extends Plugin {
 	settings: OBSyncWithMDBSettings;
 	private settingsManager: SettingsManager;
 	private templaterService: TemplaterService;
 	private apiService: ApiService;
+	private hotkeyService: HotkeyService;
 	private commandService: CommandService;
 	private services: ServiceContainer;
 	async onload() {
@@ -23,7 +25,10 @@ export default class OBSyncWithMDB extends Plugin {
 
 		this.apiService = this.services.apiService;
 		this.templaterService = this.services.templaterService;
+		this.hotkeyService = this.services.hotkeyService;
 		this.commandService = this.services.commandService;
+
+		console.dir(this.hotkeyService);
 
 		this.commandService.registerCommands();
 

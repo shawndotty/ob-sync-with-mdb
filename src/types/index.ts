@@ -222,3 +222,15 @@ export interface SettingConfig {
 	value: any;
 	onChange: (value: any) => Promise<void>;
 }
+
+export interface HotkeyMapping {
+	templatePath: string;
+	hotkey: {
+		modifiers: string[];
+		key: string;
+	};
+}
+
+export interface HotkeyConfig {
+	[key: string]: Array<{ modifiers: string[]; key: string }>;
+}

@@ -6,24 +6,37 @@ import en from "./locale/en";
 import zhCN from "./locale/zh-cn";
 import zhTW from "./locale/zh-tw";
 
-
 const localeMap: { [k: string]: Partial<typeof en> } = {
-    en,
-    "zh-cn": zhCN,
-    "zh-tw": zhTW
+	en,
+	"zh-cn": zhCN,
+	"zh-tw": zhTW,
 };
 
 const locale = localeMap[moment.locale()];
 
+export function t(
+	str: keyof typeof en,
+	variables?: { [key: string]: string }
+): string {
+	if (!locale) {
+		console.dir({
+			where: "helpers.t",
+			message: "Error: Language file not found",
+			locale: locale,
+		});
+	}
 
-export function t(str: keyof typeof en): string {
-    if (!locale) {
-      console.dir({
-        where: "helpers.t",
-        message: "Error: Language file not found",
-        locale: moment.locale(),
-      });
-    }
-  
-    return (locale && locale[str]) || en[str];
+	let result = (locale && locale[str]) || en[str];
+
+	if (result && variables && Object.keys(variables).length > 0) {
+		Object.entries(variables).forEach(([varKey, value]) => {
+			// 支持两种占位符格式: {{varName}} 或 %varName%
+			result = result.replace(
+				new RegExp(`{{${varKey}}}|%${varKey}%`, "g"),
+				value
+			);
+		});
+	}
+
+	return result;
 }

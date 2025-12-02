@@ -230,4 +230,22 @@ export default {
 	HELP_DOCS_FOLDER: "Help Docs Folder",
 	HELP_DOCS_FOLDER_HINT: "Please enter the path to the Help Docs folder",
 	HELP_DOCS_FOLDER_PLACEHOLDER: "Enter the full path to the Help Docs folder",
+	"Templater plugin not found or not enabled":
+		"Templater plugin not found or not enabled",
+	Added: "Added",
+	"template(s) to Templater hotkeys": "template(s) to Templater hotkeys",
+	"All templates already exist in Templater hotkeys":
+		"All templates already exist in Templater hotkeys",
+	"Add hotkeys error:": "Add hotkeys error",
+	"Update hotkeys.json failed": "Update hotkeys.json failed",
+	"Templates do not exist:": "Templates do not exist:",
+	"Successfully added": "Successfully added",
+	"hotkeys to Obsidian": "hotkeys to Obsidian",
+	"Read hotkeys.json error:": "Read hotkeys.json error:",
+	"Write to hotkeys.json error:": "Write to hotkeys.json error:",
+	"Successfully removed %removedCount% OBSync hotkeys":
+		"Successfully removed %removedCount% OBSync hotkeys",
+	"Reset hotkeys error:": "Reset hotkeys error:",
+	"Reset hotkeys failed": "Reset hotkeys failed",
+	"Add OB Sync MDB Hotkeys": "Add OB Sync MDB Hotkeys",
 };

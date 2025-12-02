@@ -99,6 +99,19 @@ export class Utils {
 	}
 }
 
+export function getAppInstance(): App {
+	if (typeof window !== "undefined" && (window as any).obsidianApp) {
+		return (window as any).obsidianApp as App;
+	} else if (typeof window !== "undefined" && (window as any).app) {
+		// 兼容旧版本
+		return (window as any).app as App;
+	} else {
+		throw new Error(
+			"无法获取 Obsidian App 实例：window.obsidianApp 和 window.app 均未定义"
+		);
+	}
+}
+
 export function resolve_tfolder(app: App, folder_str: string): TFolder {
 	folder_str = normalizePath(folder_str);
 
