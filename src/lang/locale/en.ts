@@ -248,4 +248,8 @@ export default {
 	"Reset hotkeys error:": "Reset hotkeys error:",
 	"Reset hotkeys failed": "Reset hotkeys failed",
 	"Add OB Sync MDB Hotkeys": "Add OB Sync MDB Hotkeys",
+	"Update User Permissions": "Update User Permissions",
+	"Update User Permissions Success": "Update User Permissions Success",
+	"Update User Permissions Failed": "Update User Permissions Failed",
+	"Updating User Permissions ...": "Updating User Permissions ...",
 };

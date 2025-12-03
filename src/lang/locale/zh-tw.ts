@@ -235,4 +235,8 @@ export default {
 	"Reset hotkeys error:": "重設快捷鍵出錯：",
 	"Reset hotkeys failed": "重設快捷鍵失敗",
 	"Add OB Sync MDB Hotkeys": "新增 OB Sync MDB 快捷鍵",
+	"Update User Permissions": "更新用戶權限",
+	"Update User Permissions Success": "更新用戶權限成功",
+	"Update User Permissions Failed": "更新用戶權限失敗",
+	"Updating User Permissions ...": "正在更新用戶權限 ...",
 };

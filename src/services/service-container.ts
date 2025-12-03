@@ -61,7 +61,8 @@ export class ServiceContainer {
 				this._plugin.addCommand.bind(this._plugin),
 				this._plugin.settings,
 				this._templaterService,
-				this._hotkeyService
+				this._hotkeyService,
+				this._apiService
 			);
 		}
 		return this._commandService;

@@ -12,6 +12,7 @@ import { NocoDBSync } from "./db-sync/nocodb-sync";
 import { Utils } from "src/utils";
 import { TemplaterService } from "./templater-service";
 import { HotkeyService } from "./hotkey-services";
+import { ApiService } from "./api-service";
 
 interface CommandConfig {
 	id: string;
@@ -32,13 +33,15 @@ export class CommandService {
 	private templaterService: TemplaterService;
 	private userSyncSettingAirtableIds: AirtableIds | null;
 	private hotkeyService: HotkeyService;
+	private apiService: ApiService;
 
 	constructor(
 		app: App,
 		addCommand: (command: Command) => void,
 		settings: OBSyncWithMDBSettings,
 		templaterService: TemplaterService,
-		hotkeyService: HotkeyService
+		hotkeyService: HotkeyService,
+		apiService: ApiService
 	) {
 		this.app = app;
 		this.addCommand = addCommand;
@@ -48,6 +51,7 @@ export class CommandService {
 		this.userSyncSettingAirtableIds = Utils.extractAirtableIds(
 			this.settings.userSyncSettingUrl
 		);
+		this.apiService = apiService;
 	}
 
 	private getCommandConfigs(): CommandConfig[] {
@@ -201,6 +205,27 @@ export class CommandService {
 				});
 			},
 		});
+
+		if (
+			this.settings.userChecked &&
+			Utils.isValidEmail(this.settings.userEmail)
+		) {
+			this.addCommand({
+				id: "update-user-permissions",
+				name: t("Update User Permissions"),
+				callback: async () => {
+					new Notice(t("Updating User Permissions ..."));
+					await this.executeWithReload(async () => {
+						await this.apiService.getUpdateIDs();
+					});
+					if (this.settings.userChecked) {
+						new Notice(t("Update User Permissions Success"));
+					} else {
+						new Notice(t("Update User Permissions Failed"));
+					}
+				},
+			});
+		}
 	}
 
 	async executeNocoDBCommand(
