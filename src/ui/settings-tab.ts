@@ -212,6 +212,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.userAPIKey = value;
 						await this.plugin.saveSettings();
+						this.plugin.commandService.registerCommands();
 					})
 			);
 
@@ -225,6 +226,9 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.userSyncSettingUrl = value;
 						await this.plugin.saveSettings();
+						this.plugin.commandService.userSyncSettingAirtableIds =
+							Utils.extractAirtableIds(value);
+						this.plugin.commandService.registerCommands();
 					})
 			);
 
@@ -238,6 +242,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				onChange: async (newFolder: string, oldFolder: string) => {
 					this.plugin.settings.userSyncScriptsFolder = newFolder;
 					await this.plugin.saveSettings();
+					this.plugin.commandService.registerCommands();
 				},
 			},
 		];
