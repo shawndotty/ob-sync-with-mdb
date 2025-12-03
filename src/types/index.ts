@@ -35,6 +35,7 @@ export interface OBSyncWithMDBSettings {
 	userSyncScriptsFolder: string;
 	useUserTemplate: boolean;
 	userTemplatePrefix: string;
+	syncCurrentFileModeOn: boolean;
 	updateIDs: {
 		obSyncCore: {
 			baseID: string;

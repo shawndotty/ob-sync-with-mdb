@@ -252,4 +252,10 @@ export default {
 	"Update User Permissions Success": "Update User Permissions Success",
 	"Update User Permissions Failed": "Update User Permissions Failed",
 	"Updating User Permissions ...": "Updating User Permissions ...",
+	"Turn On Only Sync Current File Mode":
+		"Turn On Only Sync Current File Mode",
+	"Only Sync Current File Mode is On": "Only Sync Current File Mode is On",
+	"Turn Off Only Sync Current File Mode":
+		"Turn Off Only Sync Current File Mode",
+	"Only Sync Current File Mode is Off": "Only Sync Current File Mode is Off",
 };

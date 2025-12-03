@@ -230,6 +230,26 @@ export class CommandService {
 				},
 			});
 		}
+
+		this.plugin.addRibbonIcon(
+			"lock-open",
+			t("Turn On Only Sync Current File Mode"),
+			async () => {
+				this.settings.syncCurrentFileModeOn = true;
+				await this.plugin.saveSettings();
+				new Notice(t("Only Sync Current File Mode is On"));
+			}
+		);
+
+		this.plugin.addRibbonIcon(
+			"lock",
+			t("Turn Off Only Sync Current File Mode"),
+			async () => {
+				this.settings.syncCurrentFileModeOn = false;
+				await this.plugin.saveSettings();
+				new Notice(t("Only Sync Current File Mode is Off"));
+			}
+		);
 	}
 
 	async executeNocoDBCommand(

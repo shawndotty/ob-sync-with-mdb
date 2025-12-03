@@ -239,4 +239,8 @@ export default {
 	"Update User Permissions Success": "更新用戶權限成功",
 	"Update User Permissions Failed": "更新用戶權限失敗",
 	"Updating User Permissions ...": "正在更新用戶權限 ...",
+	"Turn On Only Sync Current File Mode": "開啟僅同步當前文件模式",
+	"Only Sync Current File Mode is On": "僅同步當前文件模式已開啟",
+	"Turn Off Only Sync Current File Mode": "關閉僅同步當前文件模式",
+	"Only Sync Current File Mode is Off": "僅同步當前文件模式已關閉",
 };
