@@ -1,5 +1,8 @@
 // Extract English https://regex101.com/r/e7htWd/1
 export default {
+	LicensePurchaseInfo:
+		"您需要購買許可證才能使用OB Sync With MDB的所有功能。請聯繫作者獲取更多資訊。",
+	AuthorWechatID: "作者微信ID: johnnylearns",
 	"You must provide an API Key to run this command":
 		"運行此命令必須提供 API 密鑰",
 	"Get The Latest Version Of Sync Scripts": "獲取同步腳本的最新版本",
@@ -96,12 +99,12 @@ export default {
 	failed: "失敗",
 	OBSyncWithMDBSetting: "設定",
 	"Main Settings": "主要設定",
-	"Airtable Settings": "Airtable設定",
-	"Feishu Settings": "飛書設定",
-	"Lark Settings": "Lark設定",
-	"DingTalk Settings": "釘釘設定",
-	"WPS Settings": "WPS設定",
-	"Vika Settings": "維格表設定",
+	"Airtable Settings": "Airtable",
+	"Feishu Settings": "飛書",
+	"Lark Settings": "Lark",
+	"DingTalk Settings": "釘釘AI表格",
+	"WPS Settings": "WPS",
+	"Vika Settings": "維格表",
 	IOTO_AIRTABLE_SYNC_SETTINGS: "Airtable同步設定",
 	IOTO_AIRTABLE_FETCH_SETTINGS: "Airtable資料擷取設定",
 	IOTO_AIRTABLE_API_KEY: "API Key",

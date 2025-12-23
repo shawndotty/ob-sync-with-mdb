@@ -47,3 +47,11 @@ input.invalid-input {
 .loading-text {
 	margin-left: 10px;
 }
+
+.obsync-license-container {
+    background-color: var(--background-secondary);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 20px 0;
+}

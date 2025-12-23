@@ -93,7 +93,29 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 		});
 	}
 
+	private renderLicensePurchaseInfo(containerEl: HTMLElement) {
+		const licenseContainer = containerEl.createDiv({
+			cls: "obsync-license-container",
+		});
+		licenseContainer.createEl("p", {
+			text: t("LicensePurchaseInfo"),
+		});
+		licenseContainer.createEl("p", {
+			text: t("AuthorWechatID"),
+		});
+	}
+
 	private renderMainSettings(containerEl: HTMLElement): void {
+		const { updateAPIKeyIsValid, userChecked, updateAPIKey, userEmail } =
+			this.plugin.settings;
+		if (
+			!updateAPIKeyIsValid ||
+			!userChecked ||
+			!updateAPIKey ||
+			!userEmail
+		) {
+			this.renderLicensePurchaseInfo(containerEl);
+		}
 		this.createValidatedInput({
 			containerEl,
 			name: t("Sync Scripts Update API Key"),
