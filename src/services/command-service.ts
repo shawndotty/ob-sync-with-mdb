@@ -179,6 +179,16 @@ export class CommandService {
 	}
 
 	registerCommands() {
+		if (
+			!this.settings.userChecked ||
+			!this.settings.updateAPIKeyIsValid ||
+			!this.settings.updateAPIKey ||
+			!this.settings.userEmail ||
+			!Utils.isValidEmail(this.settings.userEmail) ||
+			!Utils.isValidApiKey(this.settings.updateAPIKey)
+		) {
+			return;
+		}
 		const commandConfigs = this.getCommandConfigs();
 
 		commandConfigs.forEach((config) => {
