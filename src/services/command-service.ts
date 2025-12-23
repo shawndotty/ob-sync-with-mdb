@@ -128,10 +128,10 @@ export class CommandService {
 				id: "get-lark-sync-scripts",
 				name: t("Update Lark Sync Scripts"),
 				tableConfig: () => ({
-					baseID: this.userSyncSettingAirtableIds?.baseId || "",
-					tableID: this.userSyncSettingAirtableIds?.tableId || "",
-					viewID: this.userSyncSettingAirtableIds?.viewId || "",
-					targetFolderPath: this.settings.userSyncScriptsFolder,
+					baseID: this.settings.updateIDs.obSyncLark.baseID,
+					tableID: this.settings.updateIDs.obSyncLark.tableID,
+					viewID: this.settings.updateIDs.obSyncLark.viewID,
+					targetFolderPath: this.settings.templaterScriptsFolder,
 					targetFolderPathForTemplates:
 						this.settings.templaterTemplatesFolder,
 				}),
