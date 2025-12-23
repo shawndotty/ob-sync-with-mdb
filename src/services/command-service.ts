@@ -132,6 +132,8 @@ export class CommandService {
 					tableID: this.userSyncSettingAirtableIds?.tableId || "",
 					viewID: this.userSyncSettingAirtableIds?.viewId || "",
 					targetFolderPath: this.settings.userSyncScriptsFolder,
+					targetFolderPathForTemplates:
+						this.settings.templaterTemplatesFolder,
 				}),
 				isPartOfAllUpdates: false,
 			},
