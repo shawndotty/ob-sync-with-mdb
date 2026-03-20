@@ -27,6 +27,16 @@ export const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 			tableID: "",
 			viewID: "",
 		},
+		obSyncBaserow: {
+			baseID: "",
+			tableID: "",
+			viewID: "",
+		},
+		obSyncNocoDB: {
+			baseID: "",
+			tableID: "",
+			viewID: "",
+		},
 		obSyncVika: {
 			baseID: "",
 			tableID: "",
@@ -118,6 +128,25 @@ export const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 	wpsTableIDForFetch: "",
 	wpsViewIDForFetch: "",
 	wpsUserTokenForFetch: "",
+
+	baserowAPIKeyForSync: "",
+	baserowBaseIDForSync: "",
+	baserowTableIDForSync: "",
+	baserowUserEmailForSync: "",
+	baserowUserPasswordForSync: "",
+
+	baserowAPIKeyForFetch: "",
+	baserowBaseIDForFetch: "",
+	baserowTableIDForFetch: "",
+
+	nocodbAPIKeyForSync: "",
+	nocodbWorkspaceIDForSync: "",
+	nocodbBaseIDForSync: "",
+	nocodbTableIDForSync: "",
+
+	nocodbAPIKeyForFetch: "",
+	nocodbBaseIDForFetch: "",
+	nocodbTableIDForFetch: "",
 };
 
 export const DEFAULT_UPDATE_IDS = {

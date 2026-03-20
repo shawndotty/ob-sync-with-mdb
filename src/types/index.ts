@@ -48,6 +48,16 @@ export interface OBSyncWithMDBSettings {
 			tableID: string;
 			viewID: string;
 		};
+		obSyncBaserow: {
+			baseID: string;
+			tableID: string;
+			viewID: string;
+		};
+		obSyncNocoDB: {
+			baseID: string;
+			tableID: string;
+			viewID: string;
+		};
 		obSyncVika: {
 			baseID: string;
 			tableID: string;
@@ -140,6 +150,25 @@ export interface OBSyncWithMDBSettings {
 	wpsTableIDForFetch: string;
 	wpsViewIDForFetch: string;
 	wpsUserTokenForFetch: string;
+
+	baserowAPIKeyForSync: string;
+	baserowBaseIDForSync: string;
+	baserowTableIDForSync: string;
+	baserowUserEmailForSync: string;
+	baserowUserPasswordForSync: string;
+
+	baserowAPIKeyForFetch: string;
+	baserowBaseIDForFetch: string;
+	baserowTableIDForFetch: string;
+
+	nocodbAPIKeyForSync: string;
+	nocodbWorkspaceIDForSync: string;
+	nocodbBaseIDForSync: string;
+	nocodbTableIDForSync: string;
+
+	nocodbAPIKeyForFetch: string;
+	nocodbBaseIDForFetch: string;
+	nocodbTableIDForFetch: string;
 }
 
 export interface NocoDBTable {
@@ -203,6 +232,8 @@ export interface ThirdPartyServiceConfig {
 	tableIdHint: string;
 	appSecretSetting?: string;
 	appSecretHint?: string;
+	workspaceIDSetting?: string;
+	workspaceIDHint?: string;
 	baseUrl: string;
 	templateUrl: string;
 	yourTableText: string;

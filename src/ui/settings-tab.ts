@@ -53,6 +53,20 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					this.plugin.settings.updateIDs.obSyncAirtable.viewID !== "",
 			},
 			{
+				title: "Baserow Settings",
+				renderMethod: (content: HTMLElement) =>
+					this.renderBaserowSettings(content),
+				render:
+					this.plugin.settings.updateIDs.obSyncBaserow.viewID !== "",
+			},
+			{
+				title: "NocoDB Settings",
+				renderMethod: (content: HTMLElement) =>
+					this.renderNocoDBSettings(content),
+				render:
+					this.plugin.settings.updateIDs.obSyncNocoDB.viewID !== "",
+			},
+			{
 				title: "Vika Settings",
 				renderMethod: (content: HTMLElement) =>
 					this.renderVikaSettings(content),
@@ -460,6 +474,111 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				this.plugin.settings,
 			);
 		}); // 渲染Airtable设置内容
+	}
+
+	private renderBaserowSettings(containerEl: HTMLElement): void {
+		const services: ThirdPartyServiceConfig[] = [
+			{
+				serviceName: "Baserow",
+				serviceType: "sync",
+				apiKeySetting: "baserowAPIKeyForSync",
+				apiKeyHint: "IOTO_BASEROW_API_KEY_HINT",
+				baseIdSetting: "baserowBaseIDForSync",
+				baseIdHint: "IOTO_BASEROW_BASE_ID_HINT",
+				tableIdSetting: "baserowTableIDForSync",
+				tableIdHint: "IOTO_BASEROW_TABLE_ID_HINT",
+				baseUrl: "https://baserow.io/database/{baseId}/table/{tableId}",
+				templateUrl: "BaserowSyncTableTemplateURL",
+				yourTableText: "YourBaserowSyncTable",
+				templateText: "BaserowSyncTemplate",
+			},
+			{
+				serviceName: "Baserow",
+				serviceType: "fetch",
+				apiKeySetting: "baserowAPIKeyForFetch",
+				apiKeyHint: "IOTO_BASEROW_API_KEY_HINT",
+				baseIdSetting: "baserowBaseIDForFetch",
+				baseIdHint: "IOTO_BASEROW_BASE_ID_HINT",
+				tableIdSetting: "baserowTableIDForFetch",
+				tableIdHint: "IOTO_BASEROW_TABLE_ID_HINT",
+				baseUrl: "https://baserow.io/database/{baseId}/table/{tableId}",
+				templateUrl: "BaserowFetchTableTemplateURL",
+				yourTableText: "YourBaserowFetchTable",
+				templateText: "BaserowFetchTemplate",
+			},
+		];
+
+		this.createTextSetting(containerEl, {
+			name: "IOTO_BASEROW_USER_EMAIL",
+			desc: "IOTO_BASEROW_USER_EMAIL_HINT",
+			value: this.plugin.settings.baserowUserEmailForSync,
+			onChange: async (value) => {
+				this.plugin.settings.baserowUserEmailForSync = value;
+				await this.plugin.saveSettings();
+			},
+		});
+
+		this.createPasswordSetting(containerEl, {
+			name: "IOTO_BASEROW_USER_PASSWORD",
+			desc: "IOTO_BASEROW_USER_PASSWORD_HINT",
+			value: this.plugin.settings.baserowUserPasswordForSync,
+			onChange: async (value) => {
+				this.plugin.settings.baserowUserPasswordForSync = value;
+				await this.plugin.saveSettings();
+			},
+		});
+
+		services.forEach((service) => {
+			this.createThirdPartyServiceSettings(
+				containerEl,
+				service,
+				this.plugin.settings,
+			);
+		});
+	}
+
+	private renderNocoDBSettings(containerEl: HTMLElement): void {
+		const services: ThirdPartyServiceConfig[] = [
+			{
+				serviceName: "NocoDB",
+				serviceType: "sync",
+				apiKeySetting: "nocodbAPIKeyForSync",
+				apiKeyHint: "IOTO_NOCODB_API_KEY_HINT",
+				workspaceIDSetting: "nocodbWorkspaceIDForSync",
+				workspaceIDHint: "IOTO_NOCODB_WORKSPACE_ID_HINT",
+				baseIdSetting: "nocodbBaseIDForSync",
+				baseIdHint: "IOTO_NOCODB_BASE_ID_HINT",
+				tableIdSetting: "nocodbTableIDForSync",
+				tableIdHint: "IOTO_NOCODB_TABLE_ID_HINT",
+				baseUrl:
+					"https://app.nocodb.com/{workspaceID}/{baseId}/{tableId}",
+				templateUrl: "NocoDBSyncTableTemplateURL",
+				yourTableText: "YourNocoDBSyncTable",
+				templateText: "NocoDBSyncTemplate",
+			},
+			{
+				serviceName: "NocoDB",
+				serviceType: "fetch",
+				apiKeySetting: "nocodbAPIKeyForFetch",
+				apiKeyHint: "IOTO_NOCODB_API_KEY_HINT",
+				baseIdSetting: "nocodbBaseIDForFetch",
+				baseIdHint: "IOTO_NOCODB_BASE_ID_HINT",
+				tableIdSetting: "nocodbTableIDForFetch",
+				tableIdHint: "IOTO_NOCODB_TABLE_ID_HINT",
+				baseUrl: "https://app.nocodb.com",
+				templateUrl: "NocoDBFetchTableTemplateURL",
+				yourTableText: "YourNocoDBFetchTable",
+				templateText: "NocoDBFetchTemplate",
+			},
+		];
+
+		services.forEach((service) => {
+			this.createThirdPartyServiceSettings(
+				containerEl,
+				service,
+				this.plugin.settings,
+			);
+		});
 	}
 
 	private renderFeishuSettings(containerEl: HTMLElement): void {
@@ -977,6 +1096,22 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			.setName(t(config.name as any))
 			.setDesc(t(config.desc as any))
 			.addText((text) => {
+				if (config.placeholder) {
+					text.setPlaceholder(t(config.placeholder as any));
+				}
+				text.setValue(config.value).onChange(config.onChange);
+			});
+	}
+
+	private createPasswordSetting(
+		content: HTMLElement,
+		config: SettingConfig,
+	): void {
+		new Setting(content)
+			.setName(t(config.name as any))
+			.setDesc(t(config.desc as any))
+			.addText((text) => {
+				text.inputEl.type = "password";
 				if (config.placeholder) {
 					text.setPlaceholder(t(config.placeholder as any));
 				}
