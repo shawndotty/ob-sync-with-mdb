@@ -163,7 +163,7 @@ export class CommandService {
 					targetFolderPathForTemplates:
 						this.settings.templaterTemplatesFolder,
 				}),
-				isPartOfAllUpdates: false,
+				isPartOfAllUpdates: true,
 			},
 			{
 				id: "get-wps-sync-scripts",
