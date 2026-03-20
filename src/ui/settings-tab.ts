@@ -1,7 +1,9 @@
-import { PluginSettingTab, Setting, App } from "obsidian";
+import { PluginSettingTab, Setting, App, Notice } from "obsidian";
 import { t } from "../lang/helpers";
 import { ApiService } from "../services/api-service";
 import { Utils } from "../utils";
+import { GithubService } from "../services/github-service";
+import { GiteeService } from "../services/gitee-service";
 import { TabbedSettings } from "./tabbed-settings";
 import { ThirdPartyServiceConfig, SettingConfig } from "../types";
 import { FolderSuggest } from "./pickers/folder-picker";
@@ -87,7 +89,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			if (config.render) {
 				tabbedSettings.addTab(
 					t(config.title as any),
-					config.renderMethod
+					config.renderMethod,
 				);
 			}
 		});
@@ -116,6 +118,106 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 		) {
 			this.renderLicensePurchaseInfo(containerEl);
 		}
+
+		const currentVersion = this.plugin.manifest.version;
+		const source = this.plugin.settings.pluginDownloadSource || "github";
+		const repoUrl =
+			source === "github"
+				? "https://github.com/shawndotty/ob-sync-with-mdb"
+				: "https://gitee.com/johnnylearns/ob-sync-with-mdb";
+
+		const versionSetting = new Setting(containerEl)
+			.setName(`${t("Current Version")}: ${currentVersion}`)
+			.setDesc(t("Check for Updates"))
+			.addButton((button) => {
+				button
+					.setButtonText(t("Check for Updates"))
+					.onClick(async () => {
+						button.setButtonText(t("Checking..."));
+						button.setDisabled(true);
+
+						const latestVersion =
+							source === "github"
+								? await GithubService.getLatestPluginVersion(
+										repoUrl,
+									)
+								: await GiteeService.getLatestPluginVersion(
+										repoUrl,
+									);
+
+						button.setDisabled(false);
+
+						if (!latestVersion) {
+							button.setButtonText(t("Check for Updates"));
+							new Notice(t("Failed to check for updates"));
+							return;
+						}
+
+						const cmp = Utils.compareVersions(
+							currentVersion,
+							latestVersion,
+						);
+
+						if (cmp === 0) {
+							versionSetting.setDesc(t("Already up to date"));
+							button.setButtonText(t("Check for Updates"));
+						} else if (cmp < 0) {
+							versionSetting.setDesc(
+								`${t("Update available")}: ${latestVersion}`,
+							);
+							versionSetting.controlEl.empty();
+							versionSetting.addButton((b) => {
+								b.setButtonText(t("Start Update"))
+									.setCta()
+									.onClick(async () => {
+										b.setButtonText(t("Updating..."));
+										b.setDisabled(true);
+										if (source === "github") {
+											await GithubService.installPluginFrom(
+												this.app,
+												repoUrl,
+											);
+										} else {
+											await GiteeService.installPluginFrom(
+												this.app,
+												repoUrl,
+											);
+										}
+										b.setButtonText(t("Updated"));
+										b.setDisabled(false);
+										new Notice(
+											t(
+												"Restart Obsidian to apply changes",
+											),
+										);
+									});
+							});
+						} else {
+							versionSetting.setDesc(
+								t("You are using a development version"),
+							);
+							button.setButtonText(t("Check for Updates"));
+						}
+					});
+			});
+
+		new Setting(containerEl)
+			.setName(t("Plugin Download Source"))
+			.setDesc(t("Choose where to download and update plugins"))
+			.addDropdown((dropdown) => {
+				dropdown
+					.addOption("github", t("GitHub"))
+					.addOption("gitee", t("Gitee"))
+					.setValue(
+						this.plugin.settings.pluginDownloadSource || "github",
+					)
+					.onChange(async (value) => {
+						this.plugin.settings.pluginDownloadSource =
+							value as any;
+						await this.plugin.saveSettings();
+					});
+			});
+
 		this.createValidatedInput({
 			containerEl,
 			name: t("Sync Scripts Update API Key"),
@@ -135,7 +237,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			containerEl,
 			name: t("Your Email Address"),
 			description: t(
-				"Please enter the email you provided when you purchase this product"
+				"Please enter the email you provided when you purchase this product",
 			),
 			placeholder: t("Enter your email"),
 			reload: true,
@@ -194,7 +296,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				setting.descKey,
 				setting.placeholderKey,
 				setting.value,
-				setting.onChange
+				setting.onChange,
 			);
 		});
 	}
@@ -224,8 +326,8 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			.setName(t("Your Airtable Personal Token"))
 			.setDesc(
 				t(
-					"Please enter your personal Aritable token for your sync setting base"
-				)
+					"Please enter your personal Aritable token for your sync setting base",
+				),
 			)
 			.addText((text) =>
 				text
@@ -235,7 +337,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 						this.plugin.settings.userAPIKey = value;
 						await this.plugin.saveSettings();
 						this.plugin.commandService.registerCommands();
-					})
+					}),
 			);
 
 		new Setting(containerEl)
@@ -251,7 +353,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 						this.plugin.commandService.userSyncSettingAirtableIds =
 							Utils.extractAirtableIds(value);
 						this.plugin.commandService.registerCommands();
-					})
+					}),
 			);
 
 		const folderSettings = [
@@ -276,7 +378,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				setting.descKey,
 				setting.placeholderKey,
 				setting.value,
-				setting.onChange
+				setting.onChange,
 			);
 		});
 
@@ -286,13 +388,13 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 
 		infoContainer.createEl("p", {
 			text: t(
-				"When you use the sync with online database feature of IOTO, the sync configration generater I built could help you a lot."
+				"When you use the sync with online database feature of IOTO, the sync configration generater I built could help you a lot.",
 			),
 		});
 
 		infoContainer.createEl("p", {
 			text: t(
-				"You can use the following link to open the shared base and save it to your own Airtable workspace."
+				"You can use the following link to open the shared base and save it to your own Airtable workspace.",
 			),
 		});
 
@@ -305,7 +407,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 
 		infoContainer.createEl("p", {
 			text: t(
-				"In order to help you to learn how to use the sync with online database feature, I will keep posting instructions and videos to the following link."
+				"In order to help you to learn how to use the sync with online database feature, I will keep posting instructions and videos to the following link.",
 			),
 		});
 
@@ -354,7 +456,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			this.createThirdPartyServiceSettings(
 				containerEl,
 				service,
-				this.plugin.settings
+				this.plugin.settings,
 			);
 		}); // 渲染Airtable设置内容
 	}
@@ -400,7 +502,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			this.createThirdPartyServiceSettings(
 				containerEl,
 				service,
-				this.plugin.settings
+				this.plugin.settings,
 			);
 		});
 	}
@@ -446,7 +548,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			this.createThirdPartyServiceSettings(
 				containerEl,
 				service,
-				this.plugin.settings
+				this.plugin.settings,
 			);
 		});
 	}
@@ -502,7 +604,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			this.createThirdPartyServiceSettings(
 				containerEl,
 				service,
-				this.plugin.settings
+				this.plugin.settings,
 			);
 		});
 	}
@@ -555,7 +657,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			this.createThirdPartyServiceSettings(
 				containerEl,
 				service,
-				this.plugin.settings
+				this.plugin.settings,
 			);
 		});
 	}
@@ -593,7 +695,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			this.createThirdPartyServiceSettings(
 				containerEl,
 				service,
-				this.plugin.settings
+				this.plugin.settings,
 			);
 		});
 	}
@@ -619,13 +721,13 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				let statusEl: HTMLElement | null = null;
 
 				const updateVisualState = (
-					state: "valid" | "invalid" | "loading" | "idle"
+					state: "valid" | "invalid" | "loading" | "idle",
 				) => {
 					// Clear previous state
 					statusEl?.remove();
 					text.inputEl.classList.remove(
 						"valid-input",
-						"invalid-input"
+						"invalid-input",
 					);
 
 					switch (state) {
@@ -684,7 +786,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					try {
 						await options.remoteValidator();
 						updateVisualState(
-							options.getIsValid() ? "valid" : "invalid"
+							options.getIsValid() ? "valid" : "invalid",
 						);
 					} catch (error) {
 						console.error("Validation error:", error);
@@ -716,11 +818,11 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 	private createThirdPartyServiceSettings(
 		content: HTMLElement,
 		config: ThirdPartyServiceConfig,
-		settings: any
+		settings: any,
 	): void {
 		content.createEl("h6", {
 			text: t(
-				`IOTO_${config.serviceName.toUpperCase()}_${config.serviceType.toUpperCase()}_SETTINGS` as any
+				`IOTO_${config.serviceName.toUpperCase()}_${config.serviceType.toUpperCase()}_SETTINGS` as any,
 			),
 		});
 
@@ -818,7 +920,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 	private createServiceLinks(
 		content: HTMLElement,
 		config: ThirdPartyServiceConfig,
-		settings: any
+		settings: any,
 	): void {
 		const serviceInfo = content.createEl("div");
 
@@ -827,13 +929,13 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 		if (config.baseIdSetting && settings[config.baseIdSetting]) {
 			linkUrl = linkUrl.replace(
 				"{baseId}",
-				settings[config.baseIdSetting]
+				settings[config.baseIdSetting],
 			);
 		}
 		if (settings[config.tableIdSetting]) {
 			linkUrl = linkUrl.replace(
 				"{tableId}",
-				settings[config.tableIdSetting]
+				settings[config.tableIdSetting],
 			);
 		}
 
@@ -868,7 +970,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 	// 通用方法：创建文本设置项
 	private createTextSetting(
 		content: HTMLElement,
-		config: SettingConfig
+		config: SettingConfig,
 	): void {
 		new Setting(content)
 			.setName(t(config.name as any))
@@ -884,7 +986,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 	// 通用方法：创建切换设置项
 	private createToggleSetting(
 		content: HTMLElement,
-		config: SettingConfig
+		config: SettingConfig,
 	): void {
 		new Setting(content)
 			.setName(t(config.name as any))
@@ -901,7 +1003,7 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 		descKey: string,
 		placeholderKey: string,
 		value: string,
-		onChange: (newFolder: string, oldFolder: string) => Promise<void>
+		onChange: (newFolder: string, oldFolder: string) => Promise<void>,
 	): void {
 		new Setting(content)
 			.setName(t(nameKey as any))

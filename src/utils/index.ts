@@ -13,9 +13,9 @@ export class Utils {
 	static isValidApiKey(apiKey: string): boolean {
 		return Boolean(
 			apiKey &&
-				apiKey.length >= 82 &&
-				apiKey.includes("pat") &&
-				apiKey.includes(".")
+			apiKey.length >= 82 &&
+			apiKey.includes("pat") &&
+			apiKey.includes("."),
 		);
 	}
 
@@ -56,7 +56,7 @@ export class Utils {
 
 	static buildFieldNames(
 		forceDefaultFetchFields: boolean = false,
-		iotoRunningLanguage = "ob"
+		iotoRunningLanguage = "ob",
 	) {
 		if (forceDefaultFetchFields) {
 			return {
@@ -97,6 +97,23 @@ export class Utils {
 			return fieldNamesMap[iotoRunningLanguage] || fieldNamesMap["en"];
 		}
 	}
+
+	static compareVersions(v1: string, v2: string): number {
+		// -1 if v1 < v2
+		// 0 if v1 == v2
+		// 1 if v1 > v2
+		const v1Parts = v1.split(".").map(Number);
+		const v2Parts = v2.split(".").map(Number);
+
+		for (let i = 0; i < Math.max(v1Parts.length, v2Parts.length); i++) {
+			const part1 = v1Parts[i] || 0;
+			const part2 = v2Parts[i] || 0;
+
+			if (part1 > part2) return 1;
+			if (part1 < part2) return -1;
+		}
+		return 0;
+	}
 }
 
 export function getAppInstance(): App {
@@ -107,7 +124,7 @@ export function getAppInstance(): App {
 		return (window as any).app as App;
 	} else {
 		throw new Error(
-			"无法获取 Obsidian App 实例：window.obsidianApp 和 window.app 均未定义"
+			"无法获取 Obsidian App 实例：window.obsidianApp 和 window.app 均未定义",
 		);
 	}
 }
@@ -128,7 +145,7 @@ export function resolve_tfolder(app: App, folder_str: string): TFolder {
 
 export function get_tfiles_from_folder(
 	app: App,
-	folder_str: string
+	folder_str: string,
 ): Array<TFile> {
 	const folder = resolve_tfolder(app, folder_str);
 

@@ -36,6 +36,7 @@ export interface OBSyncWithMDBSettings {
 	useUserTemplate: boolean;
 	userTemplatePrefix: string;
 	syncCurrentFileModeOn: boolean;
+	pluginDownloadSource?: "github" | "gitee";
 	updateIDs: {
 		obSyncCore: {
 			baseID: string;

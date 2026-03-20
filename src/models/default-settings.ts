@@ -14,6 +14,7 @@ export const DEFAULT_SETTINGS: OBSyncWithMDBSettings = {
 	userSyncScriptsFolder: "",
 	useUserTemplate: true,
 	userTemplatePrefix: "My",
+	pluginDownloadSource: "gitee",
 	syncCurrentFileModeOn: false,
 	updateIDs: {
 		obSyncCore: {
