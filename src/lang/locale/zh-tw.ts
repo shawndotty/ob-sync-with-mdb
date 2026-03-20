@@ -83,6 +83,8 @@ export default {
 	"Update Core Files": "更新核心檔案",
 	"Update Help Docs": "更新說明文件",
 	"Update Airtable Sync Scripts": "更新Airtable同步腳本",
+	"Update Baserow Sync Scripts": "更新Baserow同步腳本",
+	"Update NocoDB Sync Scripts": "更新NocoDB同步腳本",
 	"Update Vika Sync Scripts": "更新維格表同步腳本",
 	"Update Feishu Sync Scripts": "更新飛書同步腳本",
 	"Update Lark Sync Scripts": "更新Lark同步腳本",

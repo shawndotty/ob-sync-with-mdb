@@ -90,6 +90,8 @@ export default {
 	"Update Core Files": "Update Core Files",
 	"Update Help Docs": "Update Help Docs",
 	"Update Airtable Sync Scripts": "Update Airtable Sync Scripts",
+	"Update Baserow Sync Scripts": "Update Baserow Sync Scripts",
+	"Update NocoDB Sync Scripts": "Update NocoDB Sync Scripts",
 	"Update Vika Sync Scripts": "Update Vika Sync Scripts",
 	"Update Feishu Sync Scripts": "Update Feishu Sync Scripts",
 	"Update Lark Sync Scripts": "Update Lark Sync Scripts",

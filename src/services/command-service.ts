@@ -43,7 +43,7 @@ export class CommandService {
 		settings: OBSyncWithMDBSettings,
 		templaterService: TemplaterService,
 		hotkeyService: HotkeyService,
-		apiService: ApiService
+		apiService: ApiService,
 	) {
 		this.app = app;
 		this.plugin = plugin;
@@ -52,7 +52,7 @@ export class CommandService {
 		this.hotkeyService = hotkeyService;
 		this.templaterService = templaterService;
 		this.userSyncSettingAirtableIds = Utils.extractAirtableIds(
-			this.settings.userSyncSettingUrl
+			this.settings.userSyncSettingUrl,
 		);
 		this.apiService = apiService;
 	}
@@ -92,6 +92,32 @@ export class CommandService {
 					baseID: this.settings.updateIDs.obSyncAirtable.baseID,
 					tableID: this.settings.updateIDs.obSyncAirtable.tableID,
 					viewID: this.settings.updateIDs.obSyncAirtable.viewID,
+					targetFolderPath: this.settings.templaterScriptsFolder,
+					targetFolderPathForTemplates:
+						this.settings.templaterTemplatesFolder,
+				}),
+				isPartOfAllUpdates: true,
+			},
+			{
+				id: "get-baserow-sync-scripts",
+				name: t("Update Baserow Sync Scripts"),
+				tableConfig: () => ({
+					baseID: this.settings.updateIDs.obSyncBaserow.baseID,
+					tableID: this.settings.updateIDs.obSyncBaserow.tableID,
+					viewID: this.settings.updateIDs.obSyncBaserow.viewID,
+					targetFolderPath: this.settings.templaterScriptsFolder,
+					targetFolderPathForTemplates:
+						this.settings.templaterTemplatesFolder,
+				}),
+				isPartOfAllUpdates: true,
+			},
+			{
+				id: "get-nocodb-sync-scripts",
+				name: t("Update NocoDB Sync Scripts"),
+				tableConfig: () => ({
+					baseID: this.settings.updateIDs.obSyncNocoDB.baseID,
+					tableID: this.settings.updateIDs.obSyncNocoDB.tableID,
+					viewID: this.settings.updateIDs.obSyncNocoDB.viewID,
 					targetFolderPath: this.settings.templaterScriptsFolder,
 					targetFolderPathForTemplates:
 						this.settings.templaterTemplatesFolder,
@@ -203,7 +229,7 @@ export class CommandService {
 					config.apiKey
 						? config.apiKey()
 						: this.settings.updateAPIKey,
-					config.forceEnSyncFields
+					config.forceEnSyncFields,
 				);
 			}
 		});
@@ -250,7 +276,7 @@ export class CommandService {
 				this.settings.syncCurrentFileModeOn = true;
 				await this.plugin.saveSettings();
 				new Notice(t("Only Sync Current File Mode is On"));
-			}
+			},
 		);
 
 		this.plugin.addRibbonIcon(
@@ -260,7 +286,7 @@ export class CommandService {
 				this.settings.syncCurrentFileModeOn = false;
 				await this.plugin.saveSettings();
 				new Notice(t("Only Sync Current File Mode is Off"));
-			}
+			},
 		);
 	}
 
@@ -269,11 +295,11 @@ export class CommandService {
 		iotoUpdate: boolean = true,
 		filterRecordsByDate: boolean = false,
 		apiKey: string = this.settings.updateAPIKey,
-		forceDefaultFetchFields: boolean = false
+		forceDefaultFetchFields: boolean = false,
 	) {
 		const fieldNames = Utils.buildFieldNames(
 			forceDefaultFetchFields,
-			this.settings.obSyncRunningLanguage
+			this.settings.obSyncRunningLanguage,
 		);
 		const nocoDBSettings: NocoDBSettings = {
 			apiKey: apiKey,
@@ -290,21 +316,21 @@ export class CommandService {
 			tableConfig,
 			iotoUpdate,
 			this.settings.updateAPIKeyIsValid,
-			filterRecordsByDate
+			filterRecordsByDate,
 		);
 	}
 
 	private async withDisabledTemplaterTrigger(
-		action: () => Promise<void>
+		action: () => Promise<void>,
 	): Promise<void> {
 		const templaterTrigerAtCreate = this.templaterService.getPluginSetting(
-			"trigger_on_file_creation"
+			"trigger_on_file_creation",
 		);
 		try {
 			if (templaterTrigerAtCreate) {
 				await this.templaterService.setTemplaterSetting(
 					"trigger_on_file_creation",
-					false
+					false,
 				);
 			}
 			await action();
@@ -312,7 +338,7 @@ export class CommandService {
 			if (templaterTrigerAtCreate) {
 				await this.templaterService.setTemplaterSetting(
 					"trigger_on_file_creation",
-					true
+					true,
 				);
 			}
 		}
@@ -326,7 +352,7 @@ export class CommandService {
 		iotoUpdate: boolean = true,
 		filterRecordsByDate: boolean = false,
 		apiKey: string = this.settings.updateAPIKey,
-		forceEnSyncFields: boolean = false
+		forceEnSyncFields: boolean = false,
 	) {
 		this.addCommand({
 			id,
@@ -339,7 +365,7 @@ export class CommandService {
 							iotoUpdate,
 							filterRecordsByDate,
 							apiKey,
-							forceEnSyncFields
+							forceEnSyncFields,
 						);
 					});
 				} catch (error) {
@@ -365,7 +391,7 @@ export class CommandService {
 					.filter(
 						(config) =>
 							config.isPartOfAllUpdates &&
-							config.tableConfig().viewID
+							config.tableConfig().viewID,
 					)
 					.map((config) => ({
 						id: config.id,
@@ -386,7 +412,7 @@ export class CommandService {
 									task.tableConfig.intialSetup = true;
 								}
 								await this.executeNocoDBCommand(
-									task.tableConfig
+									task.tableConfig,
 								);
 								new Notice(`${task.name} ${t("completed")}`);
 								return {
@@ -397,7 +423,7 @@ export class CommandService {
 								new Notice(
 									`${task.name} ${t("failed")}: ${
 										error.message
-									}`
+									}`,
 								);
 								return {
 									status: "rejected",
@@ -410,7 +436,7 @@ export class CommandService {
 
 					const results = await Promise.allSettled(updatePromises);
 					const successfulUpdates = results.filter(
-						(r) => r.status === "fulfilled"
+						(r) => r.status === "fulfilled",
 					).length;
 
 					if (successfulUpdates === updateTasks.length) {
@@ -422,7 +448,7 @@ export class CommandService {
 	}
 
 	private async executeWithReload(
-		callback: () => Promise<void>
+		callback: () => Promise<void>,
 	): Promise<void> {
 		await callback();
 		setTimeout(() => {
