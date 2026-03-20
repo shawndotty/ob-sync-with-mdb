@@ -983,6 +983,18 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 			});
 		}
 
+		if (config.workspaceIDSetting && config.workspaceIDHint) {
+			this.createTextSetting(content, {
+				name: `IOTO_${config.serviceName.toUpperCase()}_WORKSPACE_ID`,
+				desc: config.workspaceIDHint,
+				value: settings[config.workspaceIDSetting],
+				onChange: async (value) => {
+					(settings as any)[config.workspaceIDSetting!] = value;
+					await this.plugin.saveSettings();
+				},
+			});
+		}
+
 		// Base ID 设置（如果存在）
 		if (config.baseIdSetting && config.baseIdHint) {
 			this.createTextSetting(content, {
