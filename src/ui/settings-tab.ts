@@ -120,11 +120,6 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 		}
 
 		const currentVersion = this.plugin.manifest.version;
-		const source = this.plugin.settings.pluginDownloadSource || "github";
-		const repoUrl =
-			source === "github"
-				? "https://github.com/shawndotty/ob-sync-with-mdb"
-				: "https://gitee.com/johnnylearns/ob-sync-with-mdb";
 
 		const versionSetting = new Setting(containerEl)
 			.setName(`${t("Current Version")}: ${currentVersion}`)
@@ -135,7 +130,13 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 					.onClick(async () => {
 						button.setButtonText(t("Checking..."));
 						button.setDisabled(true);
-
+						const source =
+							this.plugin.settings.pluginDownloadSource ||
+							"github";
+						const repoUrl =
+							source === "github"
+								? "https://github.com/shawndotty/ob-sync-with-mdb"
+								: "https://gitee.com/johnnylearns/ob-sync-with-mdb";
 						const latestVersion =
 							source === "github"
 								? await GithubService.getLatestPluginVersion(
