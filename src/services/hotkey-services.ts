@@ -19,7 +19,8 @@ interface SyncServiceConfig {
 }
 
 export class HotkeyService {
-	private readonly HOTKEYS_PATH = ".obsidian/hotkeys.json";
+	private readonly HOTKEYS_FILE = "hotkeys.json";
+	private hotkeyFilePath: string;
 	private readonly OBSYNCDB_TEMPLATE_PREFIX = "/OBSyncDB/";
 
 	// 热键配置数据
@@ -35,6 +36,7 @@ export class HotkeyService {
 	) {
 		this.settings = settings;
 		this.OBSyncTemplateRootFolder = this.settings.templaterTemplatesFolder;
+		this.hotkeyFilePath = `${this.app.vault.configDir}/${this.HOTKEYS_FILE}`;
 		// 在构造函数中初始化热键配置数据
 		this.HOTKEY_DEFINITIONS = [
 			// 同步服务热键
@@ -55,8 +57,8 @@ export class HotkeyService {
 			{ id: "obSyncLark", name: "Lark", key: "L" },
 			{ id: "obSyncDing", name: "Ding", key: "D" },
 			{ id: "obSyncWPS", name: "WPS", key: "W" },
-			{ name: "Baserow", key: "B" },
-			{ name: "NocoDB", key: "N" },
+			{ id: "obSyncBaserow", name: "Baserow", key: "B" },
+			{ id: "obSyncNocoDB", name: "NocoDB", key: "N" },
 		];
 
 		for (const { id, name, key } of syncConfigChecks) {
@@ -108,6 +110,8 @@ export class HotkeyService {
 		try {
 			// 验证模板存在性
 			await this.validateTemplates();
+
+			await this.resetHotkeys();
 
 			// 添加Templater热键
 			await this.addTemplaterHotkeys();
@@ -168,7 +172,7 @@ export class HotkeyService {
 	private async loadHotkeysConfig(): Promise<HotkeyConfig> {
 		try {
 			const content = await this.app.vault.adapter.read(
-				this.HOTKEYS_PATH,
+				this.hotkeyFilePath,
 			);
 			return JSON.parse(content || "{}");
 		} catch (error) {
@@ -183,7 +187,7 @@ export class HotkeyService {
 	private async saveHotkeysConfig(hotkeys: HotkeyConfig): Promise<void> {
 		try {
 			await this.app.vault.adapter.write(
-				this.HOTKEYS_PATH,
+				this.hotkeyFilePath,
 				JSON.stringify(hotkeys, null, 2),
 			);
 		} catch (error) {
@@ -239,10 +243,10 @@ export class HotkeyService {
 	/**
 	 * 重置IOTO热键
 	 */
-	async resetIOTOHotkeys(): Promise<void> {
+	async resetHotkeys(): Promise<void> {
 		try {
 			const currentHotkeys = await this.loadHotkeysConfig();
-			const removedCount = this.removeIOTOHotkeys(currentHotkeys);
+			const removedCount = this.removeHotkeys(currentHotkeys);
 			await this.saveHotkeysConfig(currentHotkeys);
 
 			new Notice(
@@ -259,7 +263,7 @@ export class HotkeyService {
 	/**
 	 * 移除IOTO热键
 	 */
-	private removeIOTOHotkeys(currentHotkeys: HotkeyConfig): number {
+	private removeHotkeys(currentHotkeys: HotkeyConfig): number {
 		const iotoCommandIds = Object.keys(currentHotkeys).filter(
 			(id) =>
 				id.includes("templater-obsidian:") &&
