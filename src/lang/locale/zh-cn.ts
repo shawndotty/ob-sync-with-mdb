@@ -320,4 +320,5 @@ export default {
 	"Choose where to download and update plugins": "选择插件下载和更新的源",
 	GitHub: "GitHub",
 	Gitee: "Gitee",
+	"Install Sync Scripts Generator": "安装同步脚本生成器",
 };

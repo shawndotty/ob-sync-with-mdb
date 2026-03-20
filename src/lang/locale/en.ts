@@ -335,4 +335,5 @@ export default {
 		"Choose where to download and update plugins",
 	GitHub: "GitHub",
 	Gitee: "Gitee",
+	"Install Sync Scripts Generator": "Install Sync Scripts Generator",
 };

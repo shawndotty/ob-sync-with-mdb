@@ -13,6 +13,8 @@ import { Utils } from "src/utils";
 import { TemplaterService } from "./templater-service";
 import { HotkeyService } from "./hotkey-services";
 import { ApiService } from "./api-service";
+import { GithubService } from "./github-service";
+import { GiteeService } from "./gitee-service";
 
 interface CommandConfig {
 	id: string;
@@ -244,6 +246,23 @@ export class CommandService {
 				await this.executeWithReload(async () => {
 					await this.hotkeyService.addOBSyncDBHotkeys();
 				});
+			},
+		});
+
+		this.addCommand({
+			id: "install-ssg-from-github",
+			name: t("Install Sync Scripts Generator") + t("PluginIndicator"),
+			callback: async () => {
+				const source = this.settings.pluginDownloadSource || "github";
+				const repoUrl =
+					source === "github"
+						? "https://github.com/shawndotty/sync-script-generator"
+						: "https://gitee.com/johnnylearns/sync-script-generator";
+				if (source === "github") {
+					await GithubService.installPluginFrom(this.app, repoUrl);
+				} else {
+					await GiteeService.installPluginFrom(this.app, repoUrl);
+				}
 			},
 		});
 

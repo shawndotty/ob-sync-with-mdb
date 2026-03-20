@@ -31,7 +31,7 @@ export class HotkeyService {
 	constructor(
 		private app: App,
 		private templaterService: TemplaterService,
-		settings: OBSyncWithMDBSettings
+		settings: OBSyncWithMDBSettings,
 	) {
 		this.settings = settings;
 		this.OBSyncTemplateRootFolder = this.settings.templaterTemplatesFolder;
@@ -55,6 +55,8 @@ export class HotkeyService {
 			{ id: "obSyncLark", name: "Lark", key: "L" },
 			{ id: "obSyncDing", name: "Ding", key: "D" },
 			{ id: "obSyncWPS", name: "WPS", key: "W" },
+			{ name: "Baserow", key: "B" },
+			{ name: "NocoDB", key: "N" },
 		];
 
 		for (const { id, name, key } of syncConfigChecks) {
@@ -123,14 +125,14 @@ export class HotkeyService {
 	 */
 	private async validateTemplates(): Promise<void> {
 		const missingTemplates = this.HOTKEY_DEFINITIONS.map(
-			(def) => def.templatePath
+			(def) => def.templatePath,
 		).filter((path) => !this.templateExists(path));
 
 		if (missingTemplates.length > 0) {
 			throw new Error(
 				`${t("Templates do not exist:")}\n${missingTemplates.join(
-					"\n"
-				)}`
+					"\n",
+				)}`,
 			);
 		}
 	}
@@ -140,7 +142,7 @@ export class HotkeyService {
 	 */
 	private async addTemplaterHotkeys(): Promise<void> {
 		const templatePaths = this.HOTKEY_DEFINITIONS.map(
-			(def) => def.templatePath
+			(def) => def.templatePath,
 		);
 		await this.templaterService.addTemplaterHotkeys(templatePaths);
 	}
@@ -155,8 +157,8 @@ export class HotkeyService {
 
 		new Notice(
 			`${t("Successfully added")} ${addedCount} ${t(
-				"hotkeys to Obsidian"
-			)}`
+				"hotkeys to Obsidian",
+			)}`,
 		);
 	}
 
@@ -166,7 +168,7 @@ export class HotkeyService {
 	private async loadHotkeysConfig(): Promise<HotkeyConfig> {
 		try {
 			const content = await this.app.vault.adapter.read(
-				this.HOTKEYS_PATH
+				this.HOTKEYS_PATH,
 			);
 			return JSON.parse(content || "{}");
 		} catch (error) {
@@ -182,7 +184,7 @@ export class HotkeyService {
 		try {
 			await this.app.vault.adapter.write(
 				this.HOTKEYS_PATH,
-				JSON.stringify(hotkeys, null, 2)
+				JSON.stringify(hotkeys, null, 2),
 			);
 		} catch (error) {
 			console.error(t("Write to hotkeys.json error:"), error);
@@ -222,7 +224,7 @@ export class HotkeyService {
 			(existing) =>
 				existing.key === newHotkey.key &&
 				JSON.stringify(existing.modifiers.sort()) ===
-					JSON.stringify(newHotkey.modifiers.sort())
+					JSON.stringify(newHotkey.modifiers.sort()),
 		);
 	}
 
@@ -246,7 +248,7 @@ export class HotkeyService {
 			new Notice(
 				`${t("Successfully removed %removedCount% OBSync hotkeys", {
 					removedCount: removedCount.toString(),
-				})}`
+				})}`,
 			);
 		} catch (error) {
 			console.error(t("Reset hotkeys error:"), error);
@@ -261,7 +263,7 @@ export class HotkeyService {
 		const iotoCommandIds = Object.keys(currentHotkeys).filter(
 			(id) =>
 				id.includes("templater-obsidian:") &&
-				id.includes(this.OBSYNCDB_TEMPLATE_PREFIX)
+				id.includes(this.OBSYNCDB_TEMPLATE_PREFIX),
 		);
 
 		let removedCount = 0;
@@ -290,7 +292,7 @@ export class HotkeyService {
 				conflicts.push(
 					`${hotkeyString}: ${hotkeyMap.get(hotkeyString)} 和 ${
 						mapping.templatePath
-					}`
+					}`,
 				);
 			} else {
 				hotkeyMap.set(hotkeyString, mapping.templatePath);
