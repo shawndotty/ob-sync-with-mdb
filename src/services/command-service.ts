@@ -458,6 +458,8 @@ export class CommandService {
 						(r) => r.status === "fulfilled",
 					).length;
 
+					await this.hotkeyService.addOBSyncDBHotkeys();
+
 					if (successfulUpdates === updateTasks.length) {
 						this.app.commands.executeCommandById("app:reload");
 					}
