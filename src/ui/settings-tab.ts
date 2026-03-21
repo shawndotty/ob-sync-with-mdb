@@ -337,88 +337,10 @@ export class OBSyncWithMDBSettingTab extends PluginSettingTab {
 				await this.plugin.saveSettings();
 			},
 		});
-		new Setting(containerEl)
-			.setName(t("Your Airtable Personal Token"))
-			.setDesc(
-				t(
-					"Please enter your personal Aritable token for your sync setting base",
-				),
-			)
-			.addText((text) =>
-				text
-					.setPlaceholder(t("Enter your personal Airtble token"))
-					.setValue(this.plugin.settings.userAPIKey)
-					.onChange(async (value) => {
-						this.plugin.settings.userAPIKey = value;
-						await this.plugin.saveSettings();
-						this.plugin.commandService.registerCommands();
-					}),
-			);
-
-		new Setting(containerEl)
-			.setName(t("Your Sync Setting URL"))
-			.setDesc(t("Please enter the url of your sync setting table"))
-			.addText((text) =>
-				text
-					.setPlaceholder(t("Enter the url"))
-					.setValue(this.plugin.settings.userSyncSettingUrl)
-					.onChange(async (value) => {
-						this.plugin.settings.userSyncSettingUrl = value;
-						await this.plugin.saveSettings();
-						this.plugin.commandService.userSyncSettingAirtableIds =
-							Utils.extractAirtableIds(value);
-						this.plugin.commandService.registerCommands();
-					}),
-			);
-
-		const folderSettings = [
-			{
-				nameKey: "Your Sync Templates Folder",
-				descKey: "Please enter the path to your sync templates folder",
-				placeholderKey:
-					"Enter the full path to your sync templates folder",
-				value: this.plugin.settings.userSyncScriptsFolder,
-				onChange: async (newFolder: string, oldFolder: string) => {
-					this.plugin.settings.userSyncScriptsFolder = newFolder;
-					await this.plugin.saveSettings();
-					this.plugin.commandService.registerCommands();
-				},
-			},
-		];
-
-		folderSettings.forEach((setting) => {
-			this.createFolderSetting(
-				containerEl,
-				setting.nameKey,
-				setting.descKey,
-				setting.placeholderKey,
-				setting.value,
-				setting.onChange,
-			);
-		});
 
 		containerEl.createEl("hr");
 
 		const infoContainer = containerEl.createDiv();
-
-		infoContainer.createEl("p", {
-			text: t(
-				"When you use the sync with online database feature of IOTO, the sync configration generater I built could help you a lot.",
-			),
-		});
-
-		infoContainer.createEl("p", {
-			text: t(
-				"You can use the following link to open the shared base and save it to your own Airtable workspace.",
-			),
-		});
-
-		const baseLink = infoContainer.createEl("a", {
-			text: t("Sync Configration Generator"),
-			href: "https://airtable.com/app84J6QgVNsTUdPQ/shrJhhMFksy7XTrRb",
-		});
-		baseLink.setAttr("target", "_blank");
-		baseLink.setAttr("rel", "noopener noreferrer");
 
 		infoContainer.createEl("p", {
 			text: t(
