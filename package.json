@@ -1,7 +1,7 @@
 {
 	"name": "ob-sync-with-mdb",
 	"version": "2.0.4",
-	"description": "This is a plugin for syncing obsidian notes with Airtable, Vika or Feishu",
+	"description": "This is a plugin for syncing obsidian notes with Airtable, Vika, Feishu, DingDing AI Table, WPS, NocoDB and Baserow",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",

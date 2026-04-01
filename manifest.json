@@ -3,7 +3,7 @@
 	"name": "Sync with MDB",
 	"version": "2.0.4",
 	"minAppVersion": "0.15.0",
-	"description": "Sync Obsidian with Airtable, Vika and Feishu",
+	"description": "Sync Obsidian with Airtable, Vika, Feishu, DingDing AI Table, WPS, NocoDB and Baserow",
 	"author": "Johnny",
 	"authorUrl": "https://github.com/shawndotty/ob-sync-with-mdb",
 	"fundingUrl": "https://space.bilibili.com/432408734",
