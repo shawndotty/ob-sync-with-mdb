@@ -1,7 +1,7 @@
 {
 	"id": "ob-sync-with-mdb",
 	"name": "Sync with MDB",
-	"version": "2.0.4",
+	"version": "2.0.6",
 	"minAppVersion": "0.15.0",
 	"description": "Sync Obsidian with Airtable, Vika, Feishu, DingDing AI Table, WPS, NocoDB and Baserow",
 	"author": "Johnny",
